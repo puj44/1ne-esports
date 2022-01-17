@@ -1,0 +1,32 @@
+.image{
+    position:fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.logo{
+    margin:0px;
+    position:fixed;
+    z-index: 2;
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.tab{ 
+z-index:2;
+position:fixed !important;
+margin-left:800px;
+margin-top:30px;
+
+}
+.inlinetab{ 
+    
+    height: 30px;
+    position: relative;
+    margin-left:60px;
+    width: 100px;
+    display: inline-block;
+    background-color: #000;
+}
