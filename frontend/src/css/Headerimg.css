@@ -17,16 +17,31 @@
 .tab{ 
 z-index:2;
 position:fixed !important;
-margin-left:800px;
-margin-top:30px;
-
+margin-left:40%;
+width:80%;
+margin-top:2%
 }
 .inlinetab{ 
     
-    height: 30px;
+    height: 15%;
     position: relative;
-    margin-left:60px;
-    width: 100px;
+    width: fit-content;
+    block-size: fit-content;
     display: inline-block;
-    background-color: #000;
+    margin-left:3%;
+    font-size:26px;
+    font-family: "bourgeois";
+    color:#fff;
+    
+
+}
+.font{
+    font-size:26px;
+    font-family: "bourgeois";
+    color:#fff;
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+
+
 }
