@@ -17,7 +17,7 @@
 .tab{ 
 z-index:2;
 position:fixed !important;
-margin-left:40%;
+margin-left:33%;
 width:80%;
 margin-top:2%
 }
@@ -29,19 +29,17 @@ margin-top:2%
     block-size: fit-content;
     display: inline-block;
     margin-left:3%;
-    font-size:26px;
-    font-family: "bourgeois";
+    font-style:bold;
     color:#fff;
     
 
 }
-.font{
-    font-size:26px;
+button{
+    font-size:30px;
     font-family: "bourgeois";
+    font-style:"bold";
     color:#fff;
     background-color: transparent;
     border-color: transparent;
     box-shadow: none;
-
-
 }
