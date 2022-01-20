@@ -1,19 +1,19 @@
 import React from 'react'
 import headerImage from "../assets/header.png";
-import logo from "../assets/logo1.png";
+import logo from "../assets/logo.png";
 import '../css/Headerimg.css';
 import '../fonts/style.css';
 export default function Header(){
     return (
-        <div>
+        <div style={{'height': 'auto'}}>
             
             <div className="image">
-                <img src={headerImage}>
+                <img src={headerImage} style={{'height':'auto'}}>
                 </img> 
             </div> 
             
-            <div className="logo">
-                <img src={logo}></img>
+            <div className="logo" >
+                <img src={logo} ></img>
             </div>
             <div className="tab">
                 <div className="inlinetab"><button onClick={{Header}}>1<span style={{'color':'yellow'}}>N</span>E EVENTS</button></div>

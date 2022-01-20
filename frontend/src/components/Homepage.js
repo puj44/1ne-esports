@@ -4,7 +4,7 @@ import '../css/Homepage.css';
 export default function Homepage() {
     return (
         <div ClassName="homepage">
-            <img ClassName="backgroundimg" src={backgroundImg}></img>
+            <img src={backgroundImg} style={{'margin-top':'2.5%'}} width="100%" height="100%"></img>
         </div>
     )
 }

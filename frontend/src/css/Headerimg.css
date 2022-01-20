@@ -4,22 +4,23 @@
     left: 0;
     right: 0;
     z-index: 1;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
 }
 
 .logo{
     margin:0px;
     position:fixed;
     z-index: 2;
-    max-width: 100px;
-    max-height: 100px;
 }
 
 .tab{ 
-z-index:2;
-position:fixed !important;
-margin-left:33%;
-width:80%;
-margin-top:2%
+    z-index:2;
+    position:fixed ;
+    margin-left:33%;
+    width:80%;
+    margin-top:1.5%
 }
 .inlinetab{ 
     
@@ -28,14 +29,13 @@ margin-top:2%
     width: fit-content;
     block-size: fit-content;
     display: inline-block;
-    margin-left:3%;
+    margin-left:2%;
     font-style:bold;
     color:#fff;
-    
-
+    border-top:3px solid rgb(255, 255, 255);
 }
 button{
-    font-size:30px;
+    font-size:33px;
     font-family: "bourgeois";
     font-style:"bold";
     color:#fff;
