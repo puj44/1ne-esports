@@ -5,21 +5,24 @@
     right: 0;
     z-index: 1;
 }
-
+@media only screen and (max-width: 1920px){
+    img{
+        width: 100%;
+    }
+}
 .logo{
     margin:0px;
     position:fixed;
     z-index: 2;
-    max-width: 100px;
-    max-height: 100px;
 }
 
 .tab{ 
-z-index:2;
-position:fixed !important;
-margin-left:40%;
-width:80%;
-margin-top:2%
+    z-index:2;
+    position:fixed ;
+    margin-left:33%;
+    width:80%;
+    margin-top:1.5%;
+    background-color:black;
 }
 .inlinetab{ 
     
@@ -28,20 +31,19 @@ margin-top:2%
     width: fit-content;
     block-size: fit-content;
     display: inline-block;
-    margin-left:3%;
-    font-size:26px;
-    font-family: "bourgeois";
+    margin-left:2%;
+    font-style:bold;
     color:#fff;
-    
-
+    background-color:black;
+    justify-content: center;
+    border-top:3px solid rgb(255, 255, 255);
 }
-.font{
-    font-size:26px;
+button{
+    font-size:33px;
     font-family: "bourgeois";
+    font-style:"bold";
     color:#fff;
     background-color: transparent;
     border-color: transparent;
     box-shadow: none;
-
-
 }
