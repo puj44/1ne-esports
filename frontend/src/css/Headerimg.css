@@ -4,11 +4,12 @@
     left: 0;
     right: 0;
     z-index: 1;
-    width: 100%;
-    max-width: 400px;
-    height: auto;
 }
-
+@media only screen and (max-width: 1920px){
+    img{
+        width: 100%;
+    }
+}
 .logo{
     margin:0px;
     position:fixed;
@@ -20,7 +21,8 @@
     position:fixed ;
     margin-left:33%;
     width:80%;
-    margin-top:1.5%
+    margin-top:1.5%;
+    background-color:black;
 }
 .inlinetab{ 
     
@@ -32,6 +34,8 @@
     margin-left:2%;
     font-style:bold;
     color:#fff;
+    background-color:black;
+    justify-content: center;
     border-top:3px solid rgb(255, 255, 255);
 }
 button{
