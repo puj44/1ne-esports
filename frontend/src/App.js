@@ -1,14 +1,16 @@
-import logo from './logo.svg';
+import React from "react";
 import './App.css';
 import Header from "./components/Header";
-import Homepage from "./components/Homepage";
+import MainRouter from "./components/MainRouter"
 
 
 function App() {
   return (
     <div>
-      <Header />
-      <Homepage />
+     <div className="App" style={{'minHeight':'100vh','height':'100%'}}>
+        <Header />
+        <MainRouter/>  	      
+    </div>
     </div>
   );
 }
