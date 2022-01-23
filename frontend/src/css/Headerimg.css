@@ -1,49 +1,25 @@
-.image{
-    position:fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
-}
-@media only screen and (max-width: 1920px){
-    img{
-        width: 100%;
-    }
-}
+
+
 .logo{
-    margin:0px;
+    
     position:fixed;
-    z-index: 2;
+    z-index:2;
+    width:5%;
+    height:8%;
 }
 
-.tab{ 
-    z-index:2;
-    position:fixed ;
-    margin-left:33%;
-    width:80%;
-    margin-top:1.5%;
-    background-color:black;
-}
+
 .inlinetab{ 
     
-    height: 15%;
+    height: 5%;
     position: relative;
     width: fit-content;
     block-size: fit-content;
-    display: inline-block;
-    margin-left:2%;
+    margin-left:1%;
+    padding-left:2%;
     font-style:bold;
-    color:#fff;
+    color:#fff !important;
     background-color:black;
-    justify-content: center;
-    border-top:3px solid rgb(255, 255, 255);
-}
-button{
-    font-size:33px;
-    font-family: "bourgeois";
-    font-style:"bold";
-    color:#fff;
-    background-color: transparent;
-    border-color: transparent;
-    box-shadow: none;
+    border-left:3px solid #fff;
+    justify-content:center;
 }
