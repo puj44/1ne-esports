@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route,Routes } from 'react-router-dom';
+import {Routes, Route } from 'react-router-dom';
 import Homepage from './Homepage';
 import Events from './Events';
 import PlayersBio from './PlayersBio';
@@ -12,13 +12,13 @@ function MainRouter() {
   return (
   <div>
           <Routes>
-            <Route path="/" exact component={<Homepage/>}/>
-            <Route path="/events" component={<Events/>}/>
-            <Route path="/playersbio" component={<PlayersBio/>}/>
-            <Route path="/teamsbio" component={<TeamsBio/>}/>
-            <Route path="/rankings" component={<Rankings/>}/>
-            <Route path="/community" component={<Community/>}/>
-            <Route path="/about" component={<About/>}/>
+            <Route path="/" exact element={<Homepage/>}/>
+            <Route path="/events" element={<Events/>}/>
+            <Route path="/playersbio" element={<PlayersBio/>}/>
+            <Route path="/teamsbio" element={<TeamsBio/>}/>
+            <Route path="/rankings" element={<Rankings/>}/>
+            <Route path="/community" element={<Community/>}/>
+            <Route path="/about" element={<About/>}/>
           </Routes>
         </div>);
 }

@@ -11,10 +11,7 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={ <App /> }>
-        </Route>
-      </Routes>
+      <App/>
     </BrowserRouter>
   </React.StrictMode>,
     
