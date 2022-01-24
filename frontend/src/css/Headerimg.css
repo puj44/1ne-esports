@@ -1,25 +1,26 @@
 
-
 .logo{
     
     position:fixed;
-    z-index:2;
+    z-index:1;
     width:5%;
     height:8%;
 }
-
-
 .inlinetab{ 
-    
-    height: 5%;
+    height: 2%;
     position: relative;
-    width: fit-content;
-    block-size: fit-content;
-    margin-left:1%;
-    padding-left:2%;
+    margin-left:4%;
     font-style:bold;
     color:#fff !important;
     background-color:black;
     border-left:3px solid #fff;
-    justify-content:center;
+    float:left;
+    margin-top:0.3%;
+    height:fit-content;
+}
+.fonts{
+    font-size:30px;
+    font-family:bourgeois;
+    width:73%;
+    float:left;
 }
