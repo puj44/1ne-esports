@@ -7,11 +7,12 @@ import TeamsBio from './TeamsBio';
 import Rankings from './Rankings';
 import Community from './Community';
 import About from './About';
-
+import Header from "./Header";
 function MainRouter() {
   return (
-  <div>
+        <div>
           <Routes>
+          
             <Route path="/" exact element={<Homepage/>}/>
             <Route path="/events" element={<Events/>}/>
             <Route path="/playersbio" element={<PlayersBio/>}/>

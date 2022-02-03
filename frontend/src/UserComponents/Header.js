@@ -8,12 +8,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import backgroundImg from "../assets/background.png";
 import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 export default function Header(){
+    if(window.location.pathname ==='/admin'){
+        return null;
+    }
+    else{
     return (
         <div>
             <div className="position-relative">
             <div style={{'borderBottom':'3px solid #fff'}} className="fixed-top">
-            
-                
                         <Navbar bg="black" variant="dark" expand="lg" sticky="top"  >
                         <a className='navbar-brand' href='/'><img src={logo} /></a>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -43,10 +45,8 @@ export default function Header(){
                         
             </div>
             </div>
-            <div className="position-relative">
-            <img src={backgroundImg} width="100%" height="fit-content"></img>
-        </div>
         </div>
     )
+    }
 }
 
