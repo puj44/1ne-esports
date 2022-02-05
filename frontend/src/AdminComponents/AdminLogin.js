@@ -39,7 +39,8 @@ export default function AdminLogin() {
                     }
               });
         }
-    return(<div >
+    return(
+        <div >
             <div className="modal-dialog modal-fullscreen-sm-down" >
                 <div className="modal-content" style={{'backgroundColor':'black','border':'3px solid white'}}>
                     <div className="modal-header" style={{'backgroundColor':'black','color':'white'}}>
@@ -65,5 +66,6 @@ export default function AdminLogin() {
                     </div>
                 </div>
             </div>
-  </div>);
+  </div>
+  );
 }

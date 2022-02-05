@@ -5,7 +5,6 @@ import '../fonts/style.css';
 import {Link} from 'react-router-dom';
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import backgroundImg from "../assets/background.png";
 import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 export default function Header(){
     if(window.location.pathname ==='/admin'){
@@ -46,7 +45,7 @@ export default function Header(){
             </div>
             </div>
         </div>
-    )
+    );
     }
 }
 

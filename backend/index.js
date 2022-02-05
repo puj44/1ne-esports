@@ -22,4 +22,4 @@ const corsOptions = {
   app.use(cookieParser());
   app.set('trust proxy', 1);
   app.use("/auth",authRouter);
-  app.listen( 3000 || 5000, "localhost" || '::');
+  app.listen( 3000 , "localhost");

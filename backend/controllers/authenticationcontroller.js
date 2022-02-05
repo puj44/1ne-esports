@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { MongoClient, ObjectId } = require("mongodb");
+
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
@@ -23,40 +23,78 @@ app.use(bodyParser.json());
  * @apiError Wrong password The provided password was wrong.
  * @apiError UserNotFound   The <code>id</code> of the User was not found.
 */
-const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
+
+const { MongoClient } = require('mongodb');
+
 exports.authenticate=function(req, res) {
-        
-    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+
+    const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority";
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    client.connect(err => {
         if (err) throw err
-        const db = client.db('esports_1ne');
-        const username=req.body.username;
-        const password=req.body.password;
-        (async ()=>{
-            const user =await  db.collection('admin').find({'username':username}).toArray();
-            if(user[0]){
-                bcrypt.compare(password,user[0]['password'],(err,hash_result)=>{
-                    if(err)
-                        return res.status(401).send(err);           
-                    if(hash_result===false){
-                        return res.status(401).send('Wrong password');
-                    }
-                    if( user.length > 0){
-                        const payload = {'username':username}
-                        let token = jwt.sign(payload, key,{expiresIn: '72h'});
-                        res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,secure:true,sameSite:'none'})
-                        return res.send({
-                            'links':[{title:'dashboard', path: `/dashboard` }]
-                        });
-                    }else{
-                        return res.status(404).send('not found');
-                    }
-                })
-            }
-          else{
-              return res.status(404).send('not found');
-          }
-    });
-    });
+            const collection = client.db("esports_1ne").collection("admin");
+            const username=req.body.username;
+            const password=req.body.password;
+            (async ()=>{
+                const user =await  collection.find({'username':username}).toArray();
+                if(user[0]){
+                    bcrypt.compare(password,user[0]['password'],(err,hash_result)=>{
+                        if(err)
+                            return res.status(401).send("error");           
+                        if(hash_result===false){
+                            return res.status(401).send('Wrong password');
+                        }
+                        if( user.length > 0){
+                            const payload = {'username':username}
+                            let token = jwt.sign(payload, key,{expiresIn: '72h'});
+                            res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,secure:true,sameSite:'none'})
+                            return res.send({
+                                'links':[{title:'dashboard', path: `/dashboard` }]
+                            });
+                        }else{
+                            return res.status(404).send('not found');
+                        }
+                    })
+                }
+                else{
+                    return res.status(404).send('not found 1');
+                }
+            });
+            client.close();
+        });
+        
+    // MongoClient.connect(uri,{useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) {
+    //     if (err) throw err
+    //     const db = client.db('esports_1ne');
+    //     const username=req.body.username;
+    //     const password=req.body.password;
+    //     (async ()=>{
+    //         const user =await  db.collection('admin').find({'username':username}).toArray();
+    //         if(user[0]){
+    //             bcrypt.compare(password,user[0]['password'],(err,hash_result)=>{
+    //                 if(err)
+    //                     return res.status(401).send(err);           
+    //                 if(hash_result===false){
+    //                     return res.status(401).send('Wrong password');
+    //                 }
+    //                 if( user.length > 0){
+    //                     const payload = {'username':username}
+    //                     let token = jwt.sign(payload, key,{expiresIn: '72h'});
+    //                     res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,secure:true,sameSite:'none'})
+    //                     return res.send({
+    //                         'links':[{title:'dashboard', path: `/dashboard` }]
+    //                     });
+    //                 }else{
+    //                     return res.status(404).send('not found');
+    //                 }
+    //             })
+    //         }
+    //       else{
+    //           return res.status(404).send('not found 1');
+    //       }
+    // });
+    // });
 }
 exports.signout = function(req, res) {
     res.clearCookie('token',{httpOnly:true, sameSite:'none',secure:true});
