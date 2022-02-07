@@ -5,7 +5,7 @@ import '../fonts/style.css';
 import {Link} from 'react-router-dom';
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 export default function Header(){
     if(window.location.pathname ==='/admin'){
         return null;
@@ -16,7 +16,7 @@ export default function Header(){
             <div className="position-relative">
             <div style={{'borderBottom':'3px solid #fff'}} className="fixed-top">
                         <Navbar bg="black" variant="dark" expand="lg" sticky="top"  >
-                        <a className='navbar-brand' href='/'><img src={logo} /></a>
+                        <a className='navbar-brand' href='/'><img src={logo} alt="logo" /></a>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav" >
                                 <Nav className="ms-auto fonts " >
