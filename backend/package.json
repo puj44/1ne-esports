@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
-    
   },
   "author": "",
   "license": "ISC",
@@ -17,8 +16,11 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "jwtoken": "0.0.0",
     "mongodb": "^3.7.3",
+    "mongoose": "^6.2.0",
     "multer": "^1.4.4",
+    "node-codein": "^1.0.8",
     "xhr": "^2.6.0",
     "xhr2": "^0.2.1"
   }

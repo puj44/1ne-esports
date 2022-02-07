@@ -4,5 +4,6 @@ const auth = require('../controllers/authenticationcontroller');
 const verifyToken = require('./verifyToken');
 
 router.get("/signout",verifyToken,auth.signout);
-router.post("/signin",auth.authenticate);
+router.get("/signin/:username/:password",auth.authenticate);
+
 module.exports= router;

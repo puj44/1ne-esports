@@ -15,19 +15,25 @@ export default function AdminLogin() {
             setPasswordShown(passwordShown ? false : true);
           };
           const submitValueLog = (e) => {
+            console.log(logusername);
+            console.log(logpassword);
             e.preventDefault();
             axios({
-                method: 'POST',
-                url: 'https://localhost:3000/auth/signin',
-                data: {
-                    'username' : logusername,
-                    'password' : logpassword,
+                method: 'GET',
+                url: 'http://localhost:8080/auth/signin/'+logusername+'/'+logpassword,
+                headers: { 
+                    'Content-Type': 'application/json'
                 },
+             
                 withCredentials: true,
               }).then((response) => {
-                    window.location='localhost:3000/admin/dashboard';
+                console.log("matched");
+                    // if(response.status === 200)
+                    window.location='http://localhost:3000/admin/dashboard';
               }, (error) => {
+                
                     if(error.response!==undefined){
+                        console.log("error23");
                         if(error.response.status===404){
                             setloginerror('Username or password is wrong');
                         }
