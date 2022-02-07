@@ -1,14 +1,16 @@
 import React from "react";
 import './App.css';
 import Header from "./UserComponents/Header";
-import MainRouter from "./MainRouter";
+import AdminRouter from './AdminComponents/AdminRouter';
+import UserRouter from './UserComponents/UserRouter';
 
 function App() {
   return (
     <div>
      <div className="App" style={{'minHeight':'100vh','height':'100%'}}> 
         <Header/>
-        <MainRouter/>    
+        <UserRouter />
+        <AdminRouter/>   
     </div>
     </div>
   );
