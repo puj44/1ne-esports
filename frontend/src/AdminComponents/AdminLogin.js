@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import axios from 'axios';
+
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Alert from './Alert';
 import '../css/bgimg.css';
+const axios = require('axios');
 const eye = <FontAwesomeIcon icon={faEye} />;
 
 export default function AdminLogin() {
@@ -21,10 +22,6 @@ export default function AdminLogin() {
             axios({
                 method: 'GET',
                 url: 'http://localhost:8080/auth/signin/'+logusername+'/'+logpassword,
-                headers: { 
-                    'Content-Type': 'application/json'
-                },
-             
                 withCredentials: true,
               }).then((response) => {
                 console.log("matched");
