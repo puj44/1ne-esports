@@ -28,4 +28,4 @@ res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, O
   app.use(cookieParser());
   app.set('trust proxy', 1);
   app.use("/auth",authRouter);
-  app.listen( 8080 , 'localhost');
+  app.listen(process.env.PORT || 5000, process.env.HOST || '::');
