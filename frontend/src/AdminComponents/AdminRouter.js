@@ -6,7 +6,7 @@ import AdminLogin from './AdminLogin';
 export default function AdminRouter() {
   return (<div>
         <Routes>
-            <Route path="/admin" exact element={<AdminLogin/>}/>
+            <Route path="/" exact element={<AdminLogin/>}/>
             
               <Route path="/dashboard/" exact element={<AdminDashboard/>}/>
             
