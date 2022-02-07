@@ -21,12 +21,12 @@ export default function AdminLogin() {
             e.preventDefault();
             axios({
                 method: 'GET',
-                url: 'http://localhost:8080/auth/signin/'+logusername+'/'+logpassword,
+                url: 'https://1ne-esports-backend.netlify.app/auth/signin/'+logusername+'/'+logpassword,
                 withCredentials: true,
               }).then((response) => {
                 console.log("matched");
                     // if(response.status === 200)
-                    window.location='http://localhost:3000/admin/dashboard';
+                    window.location='https://1ne-esports-backend.netlify.app/admin/dashboard';
               }, (error) => {
                 
                     if(error.response!==undefined){

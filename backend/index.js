@@ -8,9 +8,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 const corsOptions = {
     origin: [
-      "http://localhost:8080/auth/signin",
-      "http://127.0.0.1",
-      "http://localhost:8080",
+      "https://1ne-esports-backend.netlify.app/auth/signin",
       
     ],
     credentials: true,
