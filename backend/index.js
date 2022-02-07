@@ -2,7 +2,7 @@ const express = require('express');
 const app=express();
 const cors=require('cors');
 const cookieParser=require('cookie-parser');
-const authRouter = require('./routes/authenticationroutess');
+const authRouter = require('./routes/authenticationroutes');
 const bodyParser = require('body-parser');
 app.use(express.json());
 app.use(bodyParser.json());
