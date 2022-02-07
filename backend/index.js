@@ -9,6 +9,9 @@ app.use(bodyParser.json());
 const corsOptions = {
     origin: [
       "https://esports-1ne.herokuapp.com/auth/signin",
+      "https://1ne-esports.netlify.app",
+      "http://localhost:3000",
+      "http://127.0.0.1",
       
     ],
     credentials: true,
