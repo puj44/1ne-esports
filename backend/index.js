@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 const corsOptions = {
     origin: [
-      "https://esports-1ne.herokuapp.com/auth/signin",
+      "https://esports-1ne.herokuapp.com",
       "https://1ne-esports.netlify.app",
       "http://localhost:3000",
       "http://127.0.0.1",
@@ -27,7 +27,7 @@ res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, O
  });
   app.use(bodyParser.json());
   app.use(express.urlencoded({extended:false}));
- app.use(cors());
+ app.use(cors(corsOptions));
   app.use(cookieParser());
   app.set('trust proxy', 1);
   app.use("/auth",authRouter);
