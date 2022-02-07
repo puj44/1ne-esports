@@ -2,13 +2,13 @@ const express = require('express');
 const app=express();
 const cors=require('cors');
 const cookieParser=require('cookie-parser');
-const authRouter = require('../routes/authenticationroutess');
+const authRouter = require('./routes/authenticationroutess');
 const bodyParser = require('body-parser');
 app.use(express.json());
 app.use(bodyParser.json());
 const corsOptions = {
     origin: [
-      "https://1ne-esports-backend.netlify.app/auth/signin",
+      "https://esports-1ne.herokuapp.com/auth/signin",
       
     ],
     credentials: true,
