@@ -74,11 +74,11 @@ exports.authenticate=function(req, res) {
         if (err) 
             console.log(err);
         
-        const db1 = client.db('esports_1ne');
+        const collection = client.db("esports_1ne").collection("admin");
         const username=req.params.username;
         const password=req.params.password;
         (async ()=>{
-            const user =await  db1.collection('admin').find({'username':username}).toArray();
+            const user =await  collection.find({'username':username}).toArray();
             console.log("username found");
             if(user[0]){
                 bcrypt.compare(password,user[0]['password'],(err,hash_result)=>{
