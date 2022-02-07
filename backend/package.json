@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "build": "react-scripts build"
+    "start": "./node_modules/.bin/netlify-lambda serve index.js",
+    "build": "./node_modules/.bin/netlify-lambda build index.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "mongodb": "^3.7.3",
     "mongoose": "^6.2.0",
     "multer": "^1.4.4",
+    "netlify-lambda": "^2.0.15",
     "node-codein": "^1.0.8",
     "xhr": "^2.6.0",
     "xhr2": "^0.2.1"
