@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line no-unused-vars
 import {Routes, Route } from 'react-router-dom';
 import Homepage from './Homepage';
 import Events from './Events';
@@ -7,8 +8,8 @@ import TeamsBio from './TeamsBio';
 import Rankings from './Rankings';
 import Community from './Community';
 import About from './About';
-import Header from "./Header";
-function MainRouter() {
+
+function UserRouter() {
   return (
         <div>
           <Routes>
@@ -24,5 +25,5 @@ function MainRouter() {
         </div>);
 }
 
-export default MainRouter;
+export default UserRouter;
 
