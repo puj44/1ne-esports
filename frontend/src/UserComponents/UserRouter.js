@@ -8,8 +8,8 @@ import TeamsBio from './TeamsBio';
 import Rankings from './Rankings';
 import Community from './Community';
 import About from './About';
-import AdminDashboard from './AdminDashboard';
-import AdminLogin from './AdminLogin';
+import AdminDashboard from '../AdminComponents/AdminDashboard';
+import AdminLogin from '../AdminComponents/AdminLogin';
 function UserRouter() {
   return (
         <div>
