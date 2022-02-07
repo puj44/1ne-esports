@@ -67,7 +67,7 @@ exports.authenticate=function(req, res) {
            
     //         client.close();
     //     });
-    const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority";
+    const uri = process.env.mongo_url;
    
     const client = MongoClient.connect(uri,{ useNewUrlParser: true,useUnifiedTopology: true }, function (err) {
         console.log("connected");
