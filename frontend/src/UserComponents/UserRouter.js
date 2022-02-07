@@ -8,13 +8,17 @@ import TeamsBio from './TeamsBio';
 import Rankings from './Rankings';
 import Community from './Community';
 import About from './About';
-
+import AdminDashboard from './AdminDashboard';
+import AdminLogin from './AdminLogin';
 function UserRouter() {
   return (
         <div>
           <Routes>
           
             <Route path="/" exact element={<Homepage/>}/>
+            <Route path="/admin" exact element={<AdminLogin/>}/>
+            <Route path="/dashboard/" exact element={<AdminDashboard/>}/>
+
             <Route path="/events" element={<Events/>}/>
             <Route path="/playersbio" element={<PlayersBio/>}/>
             <Route path="/teamsbio" element={<TeamsBio/>}/>
