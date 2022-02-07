@@ -9,7 +9,7 @@ import Rankings from './Rankings';
 import Community from './Community';
 import About from './About';
 
-function MainRouter() {
+function UserRouter() {
   return (
         <div>
           <Routes>
@@ -25,5 +25,5 @@ function MainRouter() {
         </div>);
 }
 
-export default MainRouter;
+export default UserRouter;
 
