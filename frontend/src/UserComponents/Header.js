@@ -37,7 +37,7 @@ export default function Header(){
           });
         };
         let responseData = await response();
-        setUser(responseData.data.user);
+        setUser(responseData.data);
       })();
 	},[]);
 
