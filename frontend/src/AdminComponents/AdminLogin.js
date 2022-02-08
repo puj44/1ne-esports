@@ -23,7 +23,7 @@ export default function AdminLogin() {
                 withCredentials: true,
               }).then((response) => {
                  if(response.status === 200)
-                    window.location='https://1ne-esports.netlify.app/admin/dashboard';
+                    window.location='https://1ne-esports.netlify.app/dashboard';
               }, (error) => {
                 
                     if(error.response!==undefined){
