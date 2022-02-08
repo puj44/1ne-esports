@@ -69,12 +69,10 @@ exports.authenticate=function(req, res) {
     //     });
     const uri = process.env.mongo_url;
    
-    const client = MongoClient.connect(uri,{ useNewUrlParser: true,useUnifiedTopology: true }, function (err) {
+    MongoClient.connect(process.env.mongo_url,{ useUnifiedTopology: true }, function (err, client) {
         console.log("connected");
-        if (err) 
-            console.log(err);
-        
-        const collection = client.db("esports_1ne").collection("admin");
+        if (err) throw err
+        const db = client.db("esports_1ne").collection("admin");
         const username=req.params.username;
         const password=req.params.password;
         (async ()=>{
