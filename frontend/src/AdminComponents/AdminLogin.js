@@ -16,8 +16,6 @@ export default function AdminLogin() {
             setPasswordShown(passwordShown ? false : true);
           };
           const submitValueLog = (e) => {
-            console.log(logusername);
-            console.log(logpassword);
             e.preventDefault();
             axios({
                 method: 'GET',
@@ -25,7 +23,7 @@ export default function AdminLogin() {
                 withCredentials: true,
               }).then((response) => {
                  if(response.status === 200)
-                    window.location='https://esports-1ne.herokuapp.com/admin/dashboard';
+                    window.location='https://1ne-esports.netlify.app/admin/dashboard';
               }, (error) => {
                 
                     if(error.response!==undefined){
