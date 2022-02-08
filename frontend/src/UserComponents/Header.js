@@ -37,8 +37,9 @@ export default function Header(){
           });
         };
         let responseData = await response();
-        console.log(responseData.message);
+        console.log(responseData.data.title);
         setUser(responseData.data);
+        console.log(user);
       })();
 	},[]);
 
