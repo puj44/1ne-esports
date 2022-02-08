@@ -1,7 +1,7 @@
 import React,{ useEffect, useState } from 'react'
 import logo from "../assets/logo.png";
 import '../css/Headerimg.css';
-import axios from 'axios';
+//import axios from 'axios';
 import '../fonts/style.css';
 import {Link} from 'react-router-dom';
 import '../App.css';
@@ -11,21 +11,34 @@ export default function Header(){
     const [user,setUser]=useState([{title:'user'}]);
     
         useEffect(()=>{
-            (async ()=>{
-		axios({
-			method:'GET',
-			url:'https://esports-1ne.herokuapp.com/auth/getstatus',
-			withCredentials:true,
-            headers: {
-                'Access-Control-Allow-Origin' : '*',
-                'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-            }
-		}).then((response)=>{
-			setUser(response.data.user);
-		}).catch((error)=>{
-			console.log(error);
-		})
-    })();
+    //         (async ()=>{
+	// 	axios({
+	// 		method:'GET',
+	// 		url:'https://esports-1ne.herokuapp.com/auth/getstatus',
+	// 		withCredentials:true,
+    //         headers: {
+    //             'Access-Control-Allow-Origin' : '*',
+    //             'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+    //         }
+	// 	}).then((response)=>{
+	// 		setUser(response.data.user);
+	// 	}).catch((error)=>{
+	// 		console.log(error);
+	// 	})
+    // })();
+    (async ()=>{
+        let response = () => {
+          return new Promise(function(resolve, reject) {
+            fetch('https://esports-1ne.herokuapp.com/auth/getstatus', {
+                withCredentials:true,
+            }).then(response => {
+              resolve(response);
+            });
+          });
+        };
+        let responseData = await response();
+        setUser(responseData.data.user);
+      })();
 	},[]);
 
     if(window.location.pathname ==='/admin' || user==="admin"){
