@@ -9,7 +9,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav } from 'react-bootstrap';
 export default function Header(){
     const [user,setUser]=useState([{title:'user'}]);
-    useEffect(()=>{
+    
+        useEffect(()=>{
+            (async ()=>{
 		axios({
 			method:'GET',
 			url:'https://esports-1ne.herokuapp.com/auth/getstatus',
@@ -19,7 +21,9 @@ export default function Header(){
 		}).catch((error)=>{
 			console.log(error);
 		})
+    })();
 	},[]);
+
     if(window.location.pathname ==='/admin' || user==="admin"){
         return null;
     }
