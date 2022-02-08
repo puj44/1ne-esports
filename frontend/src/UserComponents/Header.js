@@ -8,7 +8,7 @@ import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav } from 'react-bootstrap';
 export default function Header(){
-    const [user,setUser]=useState([]);
+    const [user,setUser]=useState(0);
     
         useEffect(()=>{
     //         (async ()=>{
@@ -37,13 +37,15 @@ export default function Header(){
           });
         };
         let responseData = await response();
-        console.log(responseData.data.title);
-        setUser(responseData.data);
-        console.log(user);
+        console.log(responseData.status);
+        if(responseData.status === 200) 
+            setUser(1);
+        
+
       })();
 	},[]);
-
-    if(window.location.pathname ==='/admin' || user.title==="admin"){
+    console.log(user);
+    if(window.location.pathname ==='/admin' || user===1){
         return null;
     }
     else{
