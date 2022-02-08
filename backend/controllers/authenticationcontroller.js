@@ -100,9 +100,9 @@ exports.authenticate=function(req, res) {
           else{
               return res.status(404).send('not found 1');
           }
-          
+          client.close();
         })();
-        client.close();
+        
     });
 }
 exports.signout = function(req, res) {
