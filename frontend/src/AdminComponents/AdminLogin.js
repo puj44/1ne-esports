@@ -22,7 +22,7 @@ export default function AdminLogin() {
                 url: 'https://esports-1ne.herokuapp.com/auth/signin/'+logusername+'/'+logpassword,
                 withCredentials: true,
               }).then((response) => {
-                 if(response===200)
+                 if(response.status===200)
                     window.location='https://1ne-esports.netlify.app/admin/dashboard';
               }, (error) => {
                 
