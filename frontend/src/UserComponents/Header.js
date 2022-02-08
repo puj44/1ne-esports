@@ -17,7 +17,7 @@ export default function Header(){
 		}).then((response)=>{
 			setUser(response.data.links);
 		}).catch((error)=>{
-			setUser(error.response.links);
+			setUser(error.response.data.links);
 		})
 	},[]);
     if(window.location.pathname ==='/admin' || user.title==="admin"){
