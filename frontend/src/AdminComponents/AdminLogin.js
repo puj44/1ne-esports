@@ -24,8 +24,7 @@ export default function AdminLogin() {
                 url: 'https://esports-1ne.herokuapp.com/auth/signin/'+logusername+'/'+logpassword,
                 withCredentials: true,
               }).then((response) => {
-                console.log("matched");
-                    // if(response.status === 200)
+                 if(response.status === 200)
                     window.location='https://esports-1ne.herokuapp.com/admin/dashboard';
               }, (error) => {
                 
