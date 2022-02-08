@@ -1,26 +1,26 @@
-import React from 'react'
+import React,{ useEffect, useState } from 'react'
 import logo from "../assets/logo.png";
 import '../css/Headerimg.css';
-//import axios from 'axios';
+import axios from 'axios';
 import '../fonts/style.css';
 import {Link} from 'react-router-dom';
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav } from 'react-bootstrap';
 export default function Header(){
-    // const [user,setUser]=useState([{title:'user'}]);
-    // useEffect(()=>{
-	// 	axios({
-	// 		method:'GET',
-	// 		url:'https://esports-1ne.herokuapp.com/auth/getstatus',
-	// 		withCredentials:true
-	// 	}).then((response)=>{
-	// 		setUser(response.links);
-	// 	}).catch((error)=>{
-	// 		console.log(error);
-	// 	})
-	// },[]);
-    if(window.location.pathname ==='/admin/*'){
+    const [user,setUser]=useState([{title:'user'}]);
+    useEffect(()=>{
+		axios({
+			method:'GET',
+			url:'https://esports-1ne.herokuapp.com/auth/getstatus',
+			withCredentials:true
+		}).then((response)=>{
+			setUser(response.data.user);
+		}).catch((error)=>{
+			console.log(error);
+		})
+	},[]);
+    if(window.location.pathname ==='/admin' || user==="admin"){
         return null;
     }
     else{

@@ -8,8 +8,9 @@ app.use(express.json());
 app.use(bodyParser.json());
 const corsOptions = {
     origin: [
-      "https://esports-1ne.herokuapp.com",
-      "https://1ne-esports.netlify.app",
+      "https://esports-1ne.herokuapp.com/",
+      "https://1ne-esports.netlify.app/",
+      "https://1ne-esports.netlify.app/admin/dashboard",
       "http://localhost:3000",
       "http://127.0.0.1",
       
