@@ -37,11 +37,11 @@ export default function Header(){
           });
         };
         let responseData = await response();
-        setUser(responseData.data.user);
+        setUser(responseData.data);
       })();
 	},[]);
 
-    if(window.location.pathname ==='/admin' || user==="admin"){
+    if(window.location.pathname ==='/admin' || user.title==="admin"){
         return null;
     }
     else{

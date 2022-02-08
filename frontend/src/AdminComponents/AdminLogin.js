@@ -26,7 +26,7 @@ export default function AdminLogin() {
                     'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
                 }
               }).then((response) => {
-                 if(response.status === 200)
+                 
                     window.location='https://1ne-esports.netlify.app/admin/dashboard';
               }, (error) => {
                 
