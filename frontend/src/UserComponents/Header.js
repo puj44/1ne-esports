@@ -41,7 +41,7 @@ export default function Header(){
       })();
 	},[]);
 
-    if(window.location.pathname ==='/admin' || user==="admin"){
+    if(window.location.pathname ==='/admin' || user.title==="admin"){
         return null;
     }
     else{
