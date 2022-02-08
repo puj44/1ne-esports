@@ -46,7 +46,7 @@ exports.authenticate=function(req, res) {
                         return res.status(401).send('Wrong password');
                     }
                     if( user.length > 0){
-                        const payload = {'username':username}
+                        const payload = {'type':'admin'};
                         let token = jwt.sign(payload, key,{expiresIn: '72h'});
                         res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,secure:true,sameSite:'none'})
                         return res.status(200).send("logged");
@@ -62,6 +62,21 @@ exports.authenticate=function(req, res) {
         })();
         
     });
+}
+exports.checkstatus=function(req, res) {
+    const token = req.cookies.token;
+    if(token === null || token === undefined) return res.status(201).send({title:'user'});
+    jwt.verify(token, key, (error,result)=>{
+        if(error){
+            return res.status(500).send(result);
+        }
+        if(result['type'] === "admin"){
+            return res.status(200).send({
+                title:'admin'
+            });
+        }
+      
+    }) 
 }
 exports.signout = function(req, res) {
     res.clearCookie('token',{httpOnly:true, sameSite:'none',secure:true});

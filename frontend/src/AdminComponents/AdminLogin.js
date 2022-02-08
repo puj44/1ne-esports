@@ -16,20 +16,17 @@ export default function AdminLogin() {
             setPasswordShown(passwordShown ? false : true);
           };
           const submitValueLog = (e) => {
-            console.log(logusername);
-            console.log(logpassword);
             e.preventDefault();
             axios({
                 method: 'GET',
                 url: 'https://esports-1ne.herokuapp.com/auth/signin/'+logusername+'/'+logpassword,
                 withCredentials: true,
               }).then((response) => {
-                 if(response.status === 200)
-                    window.location='https://esports-1ne.herokuapp.com/admin/dashboard';
+                 if(response.status===200)
+                    window.location='https://1ne-esports.netlify.app/admin/dashboard';
               }, (error) => {
                 
                     if(error.response!==undefined){
-                        console.log("error23");
                         if(error.response.status===404){
                             setloginerror('Username or password is wrong');
                         }

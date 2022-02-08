@@ -8,7 +8,11 @@ export default function AdminRouter() {
         <Routes>
             <Route path="/" exact element={<AdminLogin/>}/>
             
+<<<<<<< HEAD
               <Route path="/dashboard"  element={<AdminDashboard/>}/>
+=======
+              <Route path="/dashboard/" element={<AdminDashboard/>}/>
+>>>>>>> 03d2449a61d5593416cdac8581b7fa146f581cf9
             
         </Routes>
   </div>);
