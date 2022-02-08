@@ -15,12 +15,12 @@ export default function Header(){
 			url:'https://esports-1ne.herokuapp.com/auth/getstatus',
 			withCredentials:true
 		}).then((response)=>{
-			setUser(response.data.links);
+			setUser(response.data.user);
 		}).catch((error)=>{
-			setUser(error.response.data.links);
+			console.log(error);
 		})
 	},[]);
-    if(window.location.pathname ==='/admin' || user.title==="admin"){
+    if(window.location.pathname ==='/admin' || user==="admin"){
         return null;
     }
     else{
