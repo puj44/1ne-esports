@@ -15,7 +15,11 @@ export default function Header(){
 		axios({
 			method:'GET',
 			url:'https://esports-1ne.herokuapp.com/auth/getstatus',
-			withCredentials:true
+			withCredentials:true,
+            headers: {
+                'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+            }
 		}).then((response)=>{
 			setUser(response.data.user);
 		}).catch((error)=>{
