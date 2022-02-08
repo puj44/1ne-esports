@@ -72,11 +72,11 @@ exports.authenticate=function(req, res) {
     MongoClient.connect(process.env.mongo_url,{ useUnifiedTopology: true }, function (err, client) {
         console.log("connected");
         if (err) throw err
-        const db = client.db("esports_1ne").collection("admin");
+        const db = client.db("esports_1ne");
         const username=req.params.username;
         const password=req.params.password;
         (async ()=>{
-            const user =await  collection.find({'username':username}).toArray();
+            const user =await  db.collection("admin").find({'username':username}).toArray();
             console.log("username found");
             if(user[0]){
                 bcrypt.compare(password,user[0]['password'],(err,hash_result)=>{
