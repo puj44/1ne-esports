@@ -7,7 +7,7 @@ import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav } from 'react-bootstrap';
 export default function Header(){
-    if(window.location.pathname ==='/admin'){
+    if(window.location.pathname ==='/admin/' || window.location.pathname === '/admin/dashboard/'){
         return null;
     }
     else{
