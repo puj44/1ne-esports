@@ -21,17 +21,12 @@ export default function AdminLogin() {
                 method: 'GET',
                 url: 'https://esports-1ne.herokuapp.com/auth/signin/'+logusername+'/'+logpassword,
                 withCredentials: true,
-                headers: {
-                    'Access-Control-Allow-Origin' : '*',
-                    'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-                }
               }).then((response) => {
-                 
+                 if(response===200)
                     window.location='https://1ne-esports.netlify.app/admin/dashboard';
               }, (error) => {
                 
                     if(error.response!==undefined){
-                        console.log("error23");
                         if(error.response.status===404){
                             setloginerror('Username or password is wrong');
                         }
