@@ -8,11 +8,11 @@ import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav } from 'react-bootstrap';
 export default function Header(){
-    const [user,setUser]=useState([]);
+    const [user,setUser]=useState([{title:'user'}]);
     useEffect(()=>{
 		axios({
 			method:'GET',
-			url:'https://esports-1ne.herokuapp.com.com/auth/getstatus',
+			url:'https://esports-1ne.herokuapp.com/auth/getstatus',
 			withCredentials:true
 		}).then((response)=>{
 			setUser(response.data.links);
