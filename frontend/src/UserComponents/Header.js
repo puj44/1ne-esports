@@ -8,7 +8,7 @@ import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav } from 'react-bootstrap';
 export default function Header(){
-    const [user,setUser]=useState([{title:'user'}]);
+    const [user,setUser]=useState([]);
     useEffect(()=>{
 		axios({
 			method:'GET',
