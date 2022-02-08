@@ -15,7 +15,7 @@ export default function Header(){
 			url:'https://esports-1ne.herokuapp.com/auth/getstatus',
 			withCredentials:true
 		}).then((response)=>{
-			setUser(response.links);
+			setUser(response.data.links);
 		}).catch((error)=>{
 			setUser(error.response.links);
 		})
