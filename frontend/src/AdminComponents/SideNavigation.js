@@ -35,7 +35,7 @@ const SideNavigation = () => {
     sidebartitle:{
       fontSize:'200%',
       fontFamily:'bourgeois',
-      marginLeft: '4%',
+      marginLeft: '2%',
       marginBottom: '4%',
     },
   };
@@ -45,18 +45,19 @@ const SideNavigation = () => {
   return (
     <ProSidebar style={styles.sideBarHeight} collapsed={collapsed}>
       <SidebarHeader className="sideheader" style={{'marginTop':'5%'}}>
-        <div className="inline" style={{'marginTop':'10px','marginBottom':'5px'}}>
-        {/* <img style={{'height':'40px','width':'40px','marginBottom':'5px'}} src={logo} alt="error"></img> */}
-        {collapsed 
-        ?
-        undefined
-        :
-        <span style={styles.sidebartitle}><span style={{'color':'white'}}>1</span><span style={{'color':'#F6BE00'}}>N</span><span style={{'color':'white'}}>E ESPORTS</span> </span>
-        }
-        <div className="menu center" id="menu1" style={styles.menuIcon} onClick={onClickMenuIcon}>
-          <AiOutlineMenu id="outlineMenu" style={{'color':'white','height':'25px','width':'20px','marginTop':'2%'}}/>
-        </div>
-        </div>
+          {collapsed 
+          ?
+          <div className="menu" style={{'marginLeft':'35%','marginBottom':'15%'}} onClick={onClickMenuIcon}>
+          <AiOutlineMenu id="outlineMenu" style={{'color':'white','height':'25px','width':'20px','marginTop':'2%','align':'center'}}/>
+          </div>
+          :
+          <div className="inline">
+            <span style={styles.sidebartitle}><span style={{'color':'white'}}>1</span><span style={{'color':'#F6BE00'}}>N</span><span style={{'color':'white'}}>E ESPORTS</span> </span>
+            <div className="menu" style={styles.menuIcon} onClick={onClickMenuIcon}>
+              <AiOutlineMenu id="outlineMenu" style={{'color':'white','height':'25px','width':'20px','marginTop':'2%'}}/>
+            </div>
+          </div>
+          }
       </SidebarHeader>
       <Menu iconShape="square">
         <MenuItem style={styles.menuitem} icon={<BsFillCalendar2CheckFill  style={{'color':'white','height':'25px','width':'20px'}} />}><span style={{'color':'white'}}>Events</span></MenuItem>
