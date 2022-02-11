@@ -6,7 +6,6 @@ import { BsFillCalendar2CheckFill } from "react-icons/bs";
 import {RiCommunityLine} from "react-icons/ri"
 import {TiGroup} from "react-icons/ti"
 import {MdLogout} from "react-icons/md"
-import logo from "../assets/logo.png";
 import '../css/sidebar.css';
 import {
   Menu,
