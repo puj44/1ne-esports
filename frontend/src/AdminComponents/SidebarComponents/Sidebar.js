@@ -6,6 +6,8 @@ import { BsFillCalendar2CheckFill } from "react-icons/bs";
 import {RiCommunityLine} from "react-icons/ri"
 import {TiGroup} from "react-icons/ti"
 import {MdLogout} from "react-icons/md"
+import {Link} from 'react-router-dom';
+import '../../css/sidebar.css';
 import {
   Menu,
   MenuItem,
@@ -30,6 +32,7 @@ const SideNavigation = () => {
       marginLeft: "2%",
       marginTop: "4%",
       fontcolor: "white",
+      fill : "yellow"
     },
     sidebartitle:{
       fontSize:'200%',
@@ -58,16 +61,38 @@ const SideNavigation = () => {
           </div>
           }
       </SidebarHeader>
-      <Menu iconShape="square">
-        <MenuItem style={styles.menuitem} icon={<BsFillCalendar2CheckFill  style={{'color':'white','height':'25px','width':'20px'}} />}><span style={{'color':'white'}}>Events</span></MenuItem>
-        <MenuItem style={styles.menuitem} icon={<FaJedi style={{'color':'white','height':'25px','width':'20px'}} />}> <span style={{'color':'white'}}>Rankings</span></MenuItem>
-        <MenuItem style={styles.menuitem} icon={<FaHeadset  style={{'color':'white','height':'25px','width':'20px'}}/>}><span style={{'color':'white'}}>Players</span>  </MenuItem>
-        <MenuItem style={styles.menuitem}  icon={<TiGroup style={{'color':'white','height':'25px','width':'20px'}}/>}> <span style={{'color':'white'}}>Teams</span> </MenuItem>
-        <MenuItem style={styles.menuitem} icon={<RiCommunityLine  style={{'color':'white','height':'25px','width':'20px'}}/>}> <span style={{'color':'white'}}>Communities</span>  </MenuItem>
+      <Menu iconShape="square" className="menu1">
+        <MenuItem style={styles.menuitem} icon={<BsFillCalendar2CheckFill  style={{'color':'white','height':'25px','width':'20px'}} />}>
+          <Link to='events'>
+            <span style={{'color':'white'}}>Events</span>
+            </Link>
+        </MenuItem>
+        <MenuItem style={styles.menuitem} icon={<FaJedi style={{'color':'white','height':'25px','width':'20px'}} />}> 
+          <Link to='rankings'>
+            <span style={{'color':'white'}}>Rankings</span>
+          </Link>
+        </MenuItem>
+        <MenuItem style={styles.menuitem} icon={<FaHeadset  style={{'color':'white','height':'25px','width':'20px'}}/>}>
+          <Link to='players'> 
+            <span style={{'color':'white'}}>Players</span>
+          </Link>
+        </MenuItem>
+        <MenuItem style={styles.menuitem}  icon={<TiGroup style={{'color':'white','height':'25px','width':'20px'}}/>}>
+          <Link to='teams'>
+            <span style={{'color':'white'}}>Teams</span>
+          </Link> 
+        </MenuItem>
+        <MenuItem style={styles.menuitem} icon={<RiCommunityLine  style={{'color':'white','height':'25px','width':'20px'}}/>}> 
+          <Link to='game-night'> 
+            <span style={{'color':'white'}}>Community Game Night</span>
+          </Link>
+        </MenuItem>
       </Menu>
       <SidebarFooter style={{'marginTop':'60%'}}>
         <Menu iconShape="square">
-          <MenuItem style={styles.menuitem} icon={<MdLogout  style={{'color':'white','height':'25px','width':'20px'}}/>}> <span style={{'color':'white'}}>Logout</span>  </MenuItem>
+          <MenuItem style={styles.menuitem} icon={<MdLogout  style={{'color':'white','height':'25px','width':'20px'}}/>}>
+            <span style={{'color':'white'}}>Logout</span>  
+          </MenuItem>
         </Menu>
       </SidebarFooter>
     </ProSidebar>
