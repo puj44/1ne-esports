@@ -65,6 +65,7 @@ exports.authenticate=function(req, res) {
 }
 exports.checkstatus=function(req, res) {
     let token = req.cookies.token;
+    console.log(req);
     if(token === null || token === undefined) return res.status(201).send({title:'user'});
      else{
                 return res.status(200).send({
