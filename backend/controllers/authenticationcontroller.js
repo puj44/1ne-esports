@@ -64,19 +64,14 @@ exports.authenticate=function(req, res) {
     });
 }
 exports.checkstatus=function(req, res) {
-    const token = req.cookies.token;
+    let token = req.cookies.token;
     if(token === null || token === undefined) return res.status(201).send({title:'user'});
-    jwt.verify(token, key, (error,result)=>{
-        if(error){
-            return res.status(500).send(result);
-        }
-        if(result['type'] === "admin"){
-            return res.status(200).send({
-                title:'admin'
-            });
-        }
-      
-    }) 
+     else{
+                return res.status(200).send({
+                    title:'admin'
+                });
+            }
+
 }
 exports.signout = function(req, res) {
     res.clearCookie('token',{httpOnly:true, sameSite:'none',secure:true});

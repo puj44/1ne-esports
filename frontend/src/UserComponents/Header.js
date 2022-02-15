@@ -43,8 +43,6 @@ export default function Header(){
         console.log(responseData.status);
         if(responseData.status === 200) 
             setUser(1);
-        
-
       })();
 	},[]);
     console.log(user);
