@@ -8,6 +8,9 @@ import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav } from 'react-bootstrap';
 export default function Header(){
+
+    
+
     const [user,setUser]=useState(0);
     
         useEffect(()=>{
@@ -45,7 +48,8 @@ export default function Header(){
       })();
 	},[]);
     console.log(user);
-    if(window.location.pathname ==='/admin' || user===1){
+    if(window.location.pathname ==='/admin' || user===1 || window.location.pathname === '/admin/dashboard'){
+
         return null;
     }
     else{
