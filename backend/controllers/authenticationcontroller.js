@@ -31,7 +31,7 @@ const { MongoClient } = require('mongodb');
 exports.authenticate=function(req, res) {
     const uri = process.env.mongo_url;
    
-    MongoClient.connect(process.env.mongo_url,{ useUnifiedTopology: true }, function (err, client) {
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db("esports_1ne");
         const username=req.params.username;
@@ -65,7 +65,7 @@ exports.authenticate=function(req, res) {
 }
 exports.checkstatus=function(req, res) {
     let token = req.cookies.token;
-    console.log(req);
+    console.log(req.cookies);
     if(token === null || token === undefined) return res.status(201).send({title:'user'});
      else{
                 return res.status(200).send({

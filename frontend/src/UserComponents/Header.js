@@ -46,7 +46,7 @@ export default function Header(){
       })();
 	},[]);
     console.log(user);
-    if(window.location.pathname ==='/admin' || user===1 || window.location.pathname === '/admin/dashboard'){
+    if(window.location.pathname ==='/admin' || user===1 ){
 
         return null;
     }
