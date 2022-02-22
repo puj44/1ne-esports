@@ -32,8 +32,9 @@ export default function Header(){
     (async ()=>{
         let response = () => {
           return new Promise(function(resolve, reject) {
-            fetch('https://esports-1ne.herokuapp.com/auth/getstatus', {
+            fetch('http://localhost:3000/auth/getstatus', {
                 withCredentials:true,
+                credentials:"include"
             }).then(response => {
               resolve(response);
             });
@@ -46,7 +47,7 @@ export default function Header(){
       })();
 	},[]);
     console.log(user);
-    if(window.location.pathname ==='/admin' || user===1 ){
+    if(window.location.pathname ==='/admin' || user===1 || window.location.pathname !=='/user'){
 
         return null;
     }

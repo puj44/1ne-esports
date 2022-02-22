@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 const { MongoClient } = require('mongodb');
 
 exports.authenticate=function(req, res) {
-    const uri = process.env.mongo_url;
+    const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority";
    
     MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
@@ -46,9 +46,8 @@ exports.authenticate=function(req, res) {
                         return res.status(401).send('Wrong password');
                     }
                     if( user.length > 0){
-                        const payload = {'type':'admin'};
-                        let token = jwt.sign(payload, key,{expiresIn: '72h'});
-                        res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,secure:true,sameSite:'none'})
+                        let token = jwt.sign({_id:"1",type:'admin'}, key,{expiresIn: '72h'});
+                        res.cookie('token1', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,secure:true,sameSite:'none'});
                         return res.status(200).send("logged");
                     }else{
                         return res.status(404).send('not found');
@@ -64,15 +63,24 @@ exports.authenticate=function(req, res) {
     });
 }
 exports.checkstatus=function(req, res) {
-    let token = req.cookies.token;
-    console.log(req.cookies);
-    if(token === null || token === undefined) return res.status(201).send({title:'user'});
-     else{
+    const token = req.cookies.token1;
+    console.log(token);
+    jwt.verify(token, key, (error,result)=>{ 
+        console.log(result);
+        if(error){
+            console.log(error.message);
+            return res.status(500).send(result);
+        }
+        if(result['type']!=="admin")
+        {
+         return res.status(401).send({title:'user'});
+        }
+        else{
                 return res.status(200).send({
                     title:'admin'
                 });
             }
-
+    });
 }
 exports.signout = function(req, res) {
     res.clearCookie('token',{httpOnly:true, sameSite:'none',secure:true});
