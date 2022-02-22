@@ -1,1 +1,3 @@
-.menustyle-hover { background-color: "yellow" }
+.menu1 MenuItem:hover{
+    background-color : yellow
+}
