@@ -32,7 +32,7 @@ export default function Header(){
     (async ()=>{
         let response = () => {
           return new Promise(function(resolve, reject) {
-            fetch('http://localhost:3000/auth/getstatus', {
+            fetch('https://esports-1ne.herokuapp.com/auth/getstatus', {
                 withCredentials:true,
                 credentials:"include"
             }).then(response => {
