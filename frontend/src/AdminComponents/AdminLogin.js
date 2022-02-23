@@ -31,7 +31,7 @@ export default function AdminLogin() {
                             setloginerror('Username or password is wrong');
                         }
                         if(error.response.status===401){
-                            setloginerror('Username or password is wrong');
+                            setloginerror('Password is wrong');
                         }
                     }else{
                         setloginerror('something went wrong');

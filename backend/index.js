@@ -11,6 +11,7 @@ const corsOptions = {
       "https://esports-1ne.herokuapp.com",
       "https://1ne-esports.netlify.app",
       "http://localhost:3000",
+      "http://localhost:3001",
       "http://127.0.0.1",
       
     ],
@@ -22,4 +23,4 @@ const corsOptions = {
   app.use(cookieParser());
   app.set('trust proxy', 1);
   app.use("/auth",authRouter);
-  app.listen(process.env.PORT || 5000, process.env.HOST || '::');
+  app.listen(3000, "localhost");
