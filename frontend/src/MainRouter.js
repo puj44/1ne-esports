@@ -6,8 +6,8 @@ export default function MainRouter() {
   return (
     <div>
         <Routes>
-            <Route path="/" element={<UserRouter/>}/>
-            <Route path="/admin/*"  element={<AdminRouter/>}/>
+            <Route path="/" exact element={<UserRouter/>}/>
+            <Route path="/admin/*"  exact element={<AdminRouter/>}/>
         </Routes>
     </div>
   );
