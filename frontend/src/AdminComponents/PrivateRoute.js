@@ -16,9 +16,7 @@ export default function PrivateRoute() {
             setUser(true);
             setisFetched(true);
         }).catch((error)=>{
-            if(error.response.status===500){
-                alert('Login first!');
-            }
+            alert('Login first!');
             setUser(false);
             setisFetched(true);
         });
