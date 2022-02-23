@@ -19,7 +19,7 @@ export default function AdminLogin() {
             e.preventDefault();
             axios({
                 method: 'GET',
-                url: 'https://1ne-esports.netlify.app/auth/signin/'+logusername+'/'+logpassword,
+                url: 'https://esports-1ne.herokuapp.com/auth/signin/'+logusername+'/'+logpassword,
                 withCredentials: true,
               }).then((response) => {
                  if(response.status===200)
@@ -31,7 +31,7 @@ export default function AdminLogin() {
                             setloginerror('Username or password is wrong');
                         }
                         if(error.response.status===401){
-                            setloginerror('Username or password is wrong');
+                            setloginerror('Password is wrong');
                         }
                     }else{
                         setloginerror('something went wrong');

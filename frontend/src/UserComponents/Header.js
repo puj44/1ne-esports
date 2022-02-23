@@ -1,4 +1,3 @@
-import React,{ useEffect, useState } from 'react'
 import logo from "../assets/logo.png";
 import '../css/Headerimg.css';
 //import axios from 'axios';
@@ -11,46 +10,11 @@ export default function Header(){
 
     
 
-    const [user,setUser]=useState(0);
-    
-        useEffect(()=>{
-    //         (async ()=>{
-	// 	axios({
-	// 		method:'GET',
-	// 		url:'https://esports-1ne.herokuapp.com/auth/getstatus',
-	// 		withCredentials:true,
-    //         headers: {
-    //             'Access-Control-Allow-Origin' : '*',
-    //             'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-    //         }
-	// 	}).then((response)=>{
-	// 		setUser(response.data.user);
-	// 	}).catch((error)=>{
-	// 		console.log(error);
-	// 	})
-    // })();
-    (async ()=>{
-        let response = () => {
-          return new Promise(function(resolve, reject) {
-            fetch('https://esports-1ne.herokuapp.com/auth/getstatus', {
-                withCredentials:true,
-                credentials:"include"
-            }).then(response => {
-              resolve(response);
-            });
-          });
-        };
-        let responseData = await response();
-        console.log(responseData.status);
-        if(responseData.status === 200) 
-            setUser(1);
-      })();
-	},[]);
-    console.log(user);
-    if(window.location.pathname ==='/admin' || user===1 || window.location.pathname !=='/user'){
-
+ 
+    if(window.location.pathname.indexOf("admin") !== -1){ 
         return null;
     }
+
     else{
     return (
         <div>

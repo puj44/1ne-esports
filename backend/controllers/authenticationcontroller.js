@@ -46,7 +46,7 @@ exports.authenticate=function(req, res) {
                         return res.status(401).send('Wrong password');
                     }
                     if( user.length > 0){
-                        let token = jwt.sign({_id:"1",type:'admin'}, key,{expiresIn: '72h'});
+                        let token = jwt.sign({type:'admin'}, key,{expiresIn: '72h'});
                         res.cookie('token1', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,secure:true,sameSite:'none'});
                         return res.status(200).send("logged");
                     }else{
@@ -64,16 +64,9 @@ exports.authenticate=function(req, res) {
 }
 exports.checkstatus=function(req, res) {
     const token = req.cookies.token1;
-    console.log(token);
     jwt.verify(token, key, (error,result)=>{ 
-        console.log(result);
         if(error){
-            console.log(error.message);
             return res.status(500).send(result);
-        }
-        if(result['type']!=="admin")
-        {
-         return res.status(401).send({title:'user'});
         }
         else{
                 return res.status(200).send({
