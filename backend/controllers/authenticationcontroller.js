@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 const { MongoClient } = require('mongodb');
 
 exports.authenticate=function(req, res) {
-    const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority";
+    const uri = proces.env.mongo_url;
    
     MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
