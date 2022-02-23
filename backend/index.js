@@ -23,4 +23,4 @@ const corsOptions = {
   app.use(cookieParser());
   app.set('trust proxy', 1);
   app.use("/auth",authRouter);
-  app.listen(3000, "localhost");
+  app.listen(process.env.PORT || 5000, process.env.HOST || '::');
