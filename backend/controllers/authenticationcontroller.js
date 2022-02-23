@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 const { MongoClient } = require('mongodb');
 
 exports.authenticate=function(req, res) {
-    const uri = proces.env.mongo_url;
+    const uri = process.env.mongo_url;
    
     MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
