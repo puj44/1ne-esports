@@ -21,7 +21,7 @@ export default function Header(){
             <div className="position-relative">
             <div style={{'borderBottom':'3px solid #fff'}} className="fixed-top">
                         <Navbar bg="black" variant="dark" expand="lg" sticky="top"  >
-                        <a className='navbar-brand' href='/'><img src={logo} alt="logo" /></a>
+                        <a className='navbar-brand logo' href='/'><img  width="90%" height="100%" position="fixed" src={logo} alt="logo"/></a>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav" >
                                 <Nav className="ms-auto fonts " >

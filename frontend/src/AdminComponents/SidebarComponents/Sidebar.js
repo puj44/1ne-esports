@@ -44,6 +44,9 @@ const SideNavigation = () => {
   const onClickMenuIcon = () => {
     setCollapsed(!collapsed);
   };
+  const Logout=()=>{
+    window.location="https://esports-1ne.herokuapp.com/auth/signout";
+  }
   return (
     <ProSidebar style={styles.sideBarHeight} collapsed={collapsed}>
       <SidebarHeader className="sideheader" style={{'marginTop':'5%'}}>
@@ -91,7 +94,7 @@ const SideNavigation = () => {
       <SidebarFooter style={{'marginTop':'60%'}}>
         <Menu iconShape="square">
           <MenuItem style={styles.menuitem} icon={<MdLogout  style={{'color':'white','height':'25px','width':'20px'}}/>}>
-            <span style={{'color':'white'}}>Logout</span>  
+            <span style={{'color':'white'}} onClick={Logout}>Logout</span>  
           </MenuItem>
         </Menu>
       </SidebarFooter>

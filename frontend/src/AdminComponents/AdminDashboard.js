@@ -20,7 +20,7 @@ function AdminDashboard() {
           <Routes>
             <Route path="/*" element={<SidebarRouter/>}/>
           </Routes>
-          <h1 style={{ padding: "20%" }}>This is Content Area</h1>
+          
         </div>
       </div>
     </div>
