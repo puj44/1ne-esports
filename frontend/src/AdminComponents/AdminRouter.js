@@ -2,7 +2,7 @@ import React from 'react';
 import {Routes, Route } from 'react-router-dom';
 import AdminDashboard from './AdminDashboard'
 import AdminLogin from './AdminLogin';
-//import PrivateRoute from './PrivateRoute';
+import PrivateRoute from './PrivateRoute';
 export default function AdminRouter() {
   return (
   <div>

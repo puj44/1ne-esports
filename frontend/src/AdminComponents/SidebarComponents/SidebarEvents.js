@@ -14,13 +14,17 @@ export default function SidebarEvents() {
 
   }
   return (
-    
-    <div className="Container" style={{"width":"100%"}}>
-        <div className="input-group pl-2 mt-4 " style={{"fontSize":"22px","paddingLeft":"4%"}}>
-          <input placeholder='Search...' type="text" onChange={e => setsearchvalue(e.target.value)}/>
-          <i className="btn btn-primary shadow p-2" onClick={clickSearch} ><ImSearch/></i>  &nbsp; &nbsp; &nbsp;
-          <span style={{"backgroundColor":"black","width":"5%","color":"white"}} onClick={Add}><BiUserPlus style={{"width":"100%","height":"10%"}}/></span>
-        </div>
+    <div>
+      <div className="Container" style={{"width":"100%"}}>
+          <div className="input-group pl-2 mt-4 " style={{"fontSize":"22px","paddingLeft":"4%"}}>
+            <input placeholder='Search...' type="text" onChange={e => setsearchvalue(e.target.value)}/>
+            <i className="btn shadow p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={clickSearch} ><ImSearch/></i> 
+            <i className="btn" style={{"backgroundColor":"#343a40","color":"white","marginLeft":"30%","width":"4%"}} onClick={Add}><BiUserPlus /></i>
+          </div> 
+          
+          
+      </div>
+      
     </div>
   )
 }
