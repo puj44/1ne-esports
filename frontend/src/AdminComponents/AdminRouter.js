@@ -8,9 +8,9 @@ export default function AdminRouter() {
   <div>
     <Routes>
       <Route path="/" exact element={<AdminLogin/>}/>
-      <Route  path='/dashboard/*' exact element={<PrivateRoute/>}>
+      {/* <Route  path='/dashboard/*' exact element={<PrivateRoute/>}> */}
         <Route  path='/dashboard/*' exact element={<AdminDashboard/>}/>
-      </Route>
+      {/* </Route> */}
       
     </Routes>
   </div>
