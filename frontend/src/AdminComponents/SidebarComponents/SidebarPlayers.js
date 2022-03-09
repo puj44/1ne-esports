@@ -21,7 +21,7 @@ export default function SidebarPlayers() {
 
   // const Add=()=>{
     
-  //   return <AddPlayerModal  id={null} name={null} desc={null}/>
+    
   // }
   // const Update=(_id,pname,pdesc)=>{
   //    return <AddPlayerModal tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id={_id} name={pname} desc={pdesc}/>
@@ -57,7 +57,7 @@ export default function SidebarPlayers() {
           <div className="input-group pl-2 mt-4 " style={{"fontSize":"22px","paddingLeft":"15%"}}>
             <input placeholder='Search...' type="text" onChange={e => setsearchvalue(e.target.value)}/>
             <i className="btn shadow p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={Search} ><ImSearch/></i> 
-            <AddPlayerModal><span  className="btn" style={{"backgroundColor":"#343a40","color":"white","marginLeft":"36%","width":"4%"}} aria-hidden="true"> <BiUserPlus  /></span></AddPlayerModal>
+            <span  className="btn" style={{"backgroundColor":"#343a40","color":"white","marginLeft":"36%","width":"4%"}} aria-hidden="true" onClick={<AddPlayerModal id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"  id1={null} name={null} desc={null}/>}> <BiUserPlus  /></span>
           </div> 
           <div className="pl-2 mt-4 ml-2" style={{"width":"62%","marginLeft":"14.9%"}}>
           

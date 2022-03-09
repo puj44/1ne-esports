@@ -7,7 +7,7 @@ export default function AddPlayerModal(props) {
     const [playerdesc,setplayerdesc]=useState('');
     const [inputerror,setinputerror]=useState('');
     
-    setobjectid(props.id);
+    setobjectid(props.id1);
     setplayername(props.name);
     setplayerdesc(props.desc);
     const close = () => {
