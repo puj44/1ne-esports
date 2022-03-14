@@ -1,23 +1,56 @@
-const app= require('express');
-const {MongoClient}= require('mongodb');
+const express = require('express');
+const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser');
-const bcrypt = require('bcryptjs');
 
-// get config consts
-const key='09f26e402586e2faa8da4c98a35f1b20d6b033c6097befa8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611';
+const cookieParser = require('cookie-parser');
 
 app.use(cookieParser);
 app.use(cors());
 app.use(bodyParser.json());
+/**
+ * @apiVersion 0.2.0
+ * @api {post} /auth/signin signin or authenticate a user.
+ * @apiSuccess {cookie} Token containing id and type of user details.
+ * @apiSuccess {String} userType type of user.
+ * @apiSuccess {Object[]} Links Available links for user.
+ * @apiError Wrong password The provided password was wrong.
+ * @apiError UserNotFound   The <code>id</code> of the User was not found.
+*/
 
+
+
+const { MongoClient , ObjectId} = require('mongodb');
+exports.displayAll=function(req,res){
+    
+    const token = req.cookies.token1;
+    const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority";
+    if(token===null || token===undefined)
+    return res.status(403).send(result);
+    
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+        if (err) throw err
+        const db = client.db('esports_1ne');
+        (async ()=>{
+            
+                const result = await db.collection('players').find({}).toArray();
+                if(result.length>0){
+                res.status(200).send(result);
+                }
+                else
+                res.status(400).send("n");
+                client.close();
+            })();
+            
+        });
+        
+}
 exports.addPlayer=function(req,res){
     const token = req.cookies.token1;
-    if(token===null || token===undefined) res.satus(400).send('Not authed');
-        MongoClient.connect(process.env.mongo_url,{ useUnifiedTopology: true }, function (err, client) {
+    if(token===null || token===undefined)
+    return res.status(403).send(result);
+        MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
             if (err) throw err
             const name=req.body.name;
             const desc=req.body.desc;
@@ -39,17 +72,17 @@ exports.addPlayer=function(req,res){
 }
 exports.delPlayer=function(req,res){
     const token = req.cookies.token1;
-    if(token===null || token===undefined) res.satus(400).send('Not authed');
-    MongoClient.connect(process.env.mongo_url,{ useUnifiedTopology: true }, function (err, client) {
+    if(token===null || token===undefined)
+    return res.status(403).send(result);
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const id=req.body.id;
         const db = client.db('esports_1ne');
         (async ()=>{
             await  db.collection.findOneAndDelete(
-                find({ '_id': id}),
-                {
-                    
-                }
+                find({ '_id': ObjectId(id)}),
+                {}
+                
              )
         })();
        
@@ -57,8 +90,9 @@ exports.delPlayer=function(req,res){
 }
 exports.updatePlayer=function(req,res){
     const token = req.cookies.token1;
-    if(token===null || token===undefined) res.satus(400).send('Not authed');
-    MongoClient.connect(process.env.mongo_url,{ useUnifiedTopology: true }, function (err, client) {
+    if(token===null || token===undefined)
+    return res.status(403).send(result);
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const id=req.body._id;
         const name=req.body.name;
@@ -67,7 +101,7 @@ exports.updatePlayer=function(req,res){
             const db = client.db('esports_1ne');
             (async ()=>{
                 await db.collection('players').updateOne(
-                    { '_id': id },
+                    { '_id': ObjectId(id) },
                     {
                       $set: { 'name': name, 'description': desc },
                       $currentDate: { lastModified: true }
@@ -82,31 +116,21 @@ exports.updatePlayer=function(req,res){
     });
    
 }
-exports.displayAll=function(req,res){
-    const token = req.cookies.token1;
-    if(token===null || token===undefined) res.satus(400).send('Not authed');
-    const db = client.db('esports_1ne');
-    MongoClient.connect(process.env.mongo_url,{ useUnifiedTopology: true }, function (err, client) {
-        if (err) throw err
-        (async ()=>{
-            
-                const result = await db.collection('players').find({}).toArray();
-                res.status(200).send(result);
-            });
-            client.close();
-        })();
-}
+
 exports.disPlayer=function(req,res){
     const token = req.cookies.token1;
-    if(token===null || token===undefined) res.satus(400).send('Not authed');
+     if(token===null || token===undefined)
+    return res.status(403).send(result);
     const pName=req.params.name;
-    const db = client.db('esports_1ne');
-    MongoClient.connect(process.env.mongo_url,{ useUnifiedTopology: true }, function (err, client) {
+    
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
+        const db = client.db('esports_1ne');
+
         (async ()=>{
             
                 const result = await db.collection('players').find({name: pName}).toArray();
-                res.status(200).send(result);
+                
             });
             client.close();
         })();

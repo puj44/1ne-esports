@@ -2,6 +2,7 @@ import React from "react";
 import {Routes, Route } from 'react-router-dom';
 import SidebarRouter from './SidebarComponents/SidebarRouter'
 import Sidebar from './SidebarComponents/Sidebar'
+
 function AdminDashboard() {
   const styles = {
     contentDiv: {
@@ -18,7 +19,9 @@ function AdminDashboard() {
         <Sidebar></Sidebar>
         <div style={styles.contentMargin}>
           <Routes>
+            
             <Route path="/*" element={<SidebarRouter/>}/>
+            
           </Routes>
           
         </div>

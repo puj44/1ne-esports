@@ -19,11 +19,11 @@ export default function AdminLogin() {
             e.preventDefault();
             axios({
                 method: 'GET',
-                url: 'https://esports-1ne.herokuapp.com/auth/signin/'+logusername+'/'+logpassword,
+                url: 'http://localhost:3000/auth/signin/'+logusername+'/'+logpassword,
                 withCredentials: true,
               }).then((response) => {
                  if(response.status===200)
-                    window.location='https://1ne-esports.netlify.app/admin/dashboard';
+                    window.location='http://localhost:3001/admin/dashboard';
               }, (error) => {
                 
                     if(error.response!==undefined){
