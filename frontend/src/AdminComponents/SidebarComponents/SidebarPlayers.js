@@ -1,55 +1,53 @@
-import React,{useState,useEffect,useMemo} from 'react';
+import React,{useState} from 'react';
 import '../../css/fonts1.css';
 import '../../css/Container.css';
-import {ImSearch} from 'react-icons/im';
 import {BiUserPlus} from 'react-icons/bi';
 import {MdDelete} from 'react-icons/md';
 import {FaUserEdit} from 'react-icons/fa';
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal'
 import Alert from '../Alert';
+//import Loadingspinner from '../Loadingspinner';
 export default function SidebarPlayers() {
   const [show, setShow] = useState(false);
   
   
   const [show2, setShow2] = useState(false);
   
-  const [searchvalue,setsearchvalue]=useState('');
+  
   
   const [newname,setnewname]=useState(null);
   const [newdesc,setnewdesc]=useState(null);
   const [newid,setnewid]=useState(null);
   const [inputerror,setinputerror]=useState('');
-  let playerdetails=useMemo(() => [], []);
-  const handleShow = (id,name,desc) => {
-    if(id!==null && name !==null && desc!==null){
-      setShow(true);
-      setnewid(id);
-      setnewname(name);
-      setnewdesc(desc);
-    }
-    else if(id!==null){
-      setShow2(true);
-      setnewid(id);
-    }
-    else{
-      setShow(true);
-    }
+  const [players,setplayers]=useState('');
+  
+  const [isfetched,setfetched]=useState(false);
+  const  Search=(e) => {
       
+      if(e===''){fetch();}
+      else if(e.length>=2){
+      axios({
+        method: 'GET',
+        url: 'http://localhost:3000/admin/players/'+e,
+        withCredentials: true,
+        credentials: "include",
+      }).then((response) => {
+        if(response.status===200)
+            {
+              setplayers(response.data);
+            }
+      }, (error) => {
+          if(error.response.status===400){
+            setinputerror('Could not load');
+          }
+          else{
+            setinputerror(error.response.message);
+          }
+    });
   }
-  const handleClose = () => 
-  {
-    setnewid(null);
-    setnewname(null);
-    setnewdesc(null);
-    setShow(false);
-    setShow2(false);
   }
-  const  Search=() => {
-    // console.log(searchvalue);
-  }
-  useEffect(()=>{
-   
+ const fetch=()=>{
     axios({
         method: 'GET',
         url: 'http://localhost:3000/admin/players/all',
@@ -58,24 +56,22 @@ export default function SidebarPlayers() {
       }).then((response) => {
         if(response.status===200)
             {
-              for(var i=0;i<response.data.length;i++){
-                playerdetails.push(response.data[i]);
-              }
-              
+              setplayers(response.data);
             }
       }, (error) => {
-        
           if(error.response.status===400){
             setinputerror('Could not load');
           }
           else{
             setinputerror(error.response.message);
           }
-        
     });
+ 
+    setfetched(true);
   
-    
-  },[playerdetails]);
+  }
+  if(isfetched===false)
+  fetch();
   const submitValue=(e)=>{
     e.preventDefault();
     if(show===true && newid===null)
@@ -107,7 +103,6 @@ export default function SidebarPlayers() {
         });
     }
     else{
-      
         axios({
             method: 'POST',
             url: 'http://localhost:3000/admin/updateplayer',
@@ -133,9 +128,36 @@ export default function SidebarPlayers() {
    
   } 
 }
-
-  const Confirm=()=>{
+const handleShow = (id,name,desc) => {
+  if(id!==null && name!==null && desc!==null){
+    setnewid(id);
+    setnewname(name);
+    setnewdesc(desc);
+    setShow(true);
     
+  }
+  else if(id!==null){
+    setnewid(id);
+    setShow2(true);
+    
+  }
+  else{
+    setShow(true);
+  }
+    
+}
+const handleClose = () => 
+{
+  setnewid(null);
+  setnewname(null);
+  setnewdesc(null);
+  setShow(false);
+  setShow2(false);
+  fetch();
+  
+}
+  const Confirm=(e)=>{
+    e.preventDefault();
     axios({
             method: 'DELETE',
             url: 'http://localhost:3000/admin/delplayer',
@@ -145,39 +167,41 @@ export default function SidebarPlayers() {
             withCredentials: true,
             credentials: "include",
         }).then((response) => {
+          console.log(response);
+          if(response.status===200)
                 handleClose();
         }, (error) => {
-                if(error.response!==undefined){
-                  
-                }
+                console.log(error);
         });
       
   }
   
   
   
-    
     return (
       
         <div className="inline" >
           <div className="Container" style={{"width":"100%","marginTop":"3%"}}>
               <div className="input-group pl-2 mt-4 " style={{"fontSize":"22px","paddingLeft":"15%"}}>
-                <input placeholder='Search...' type="text" onChange={e => setsearchvalue(e.target.value)}/>
-                <i className="btn shadow p-2 grey" style={{"backgroundColor":"#343a40","color":"white"}} onClick={Search} ><ImSearch/></i> 
+                <input placeholder='Search...' id="search1" type="text" onChange={e => Search(e.target.value)}/>
+                
                 <span  className="btn" style={{"backgroundColor":"#343a40","color":"white","marginLeft":"36%","width":"4%"}} onClick={()=>handleShow(null,null,null)}><BiUserPlus  /></span>
               </div> 
-              <div className="pl-2 mt-4 ml-2" style={{"width":"62%","marginLeft":"14.9%"}}>
               
-                <ul className="list-group" style={{"fontSize":"24px"}}>
-                {  playerdetails.map((data) => (
-                    <li className="list-group-item list-group-item-action white" key={data.name}> {data.name===null || data.name===undefined?"No data":data.name}
+              <div className="pl-2 mt-4 ml-2" style={{"width":"62%","marginLeft":"14.9%"}}>
+             
+                <ul className="list-group" style={{"fontSize":"24px"}} >
+                {   players? players.map((data)=>{ return(
+                    <li className="list-group-item list-group-item-action white" key={ data.name}> {data===null || data===undefined?"No data": data.name}
                       <span style={{"marginLeft":"81%","float":"right"}}><i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data._id,data.name,data.description)}><FaUserEdit/></i> &nbsp;
                       <i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data._id,null,null)} ><MdDelete/></i> </span>
                     </li>
-                      ))}
+                )}):''} 
                 </ul>
+             
+              </div> 
               
-              </div>  
+              
           </div>
                   <>
        
@@ -191,10 +215,10 @@ export default function SidebarPlayers() {
                                         <br/>
                                         
                                   
-                          <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' placeholder='Player Name' value={newname=== null? "Player Name":newname} id='playername' type='text' onChange={e => setnewname(e.target.value)}/><br/>
+                          <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' placeholder='Player Name' value={newname=== null? "":newname} id='playername' type='text' onChange={e => setnewname(e.target.value)}/><br/>
                           <div className="input-group mb-3">
-                          <textarea style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' value={newdesc===null?"Player Description":newdesc} placeholder='Player Description' id='playerdesc' onChange={e => setnewdesc(e.target.value)} required/>
-                                      <span className="">Max 300 words...</span>
+                          <textarea style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' value={newdesc===null?"":newdesc} placeholder='Player Description' id='playerdesc' onChange={e => setnewdesc(e.target.value)} required/>
+                                      <br/><span className="">Max 300 words...</span>
                                   </div>
                                   <br/>
                                   {inputerror === ''?null:<Alert message={inputerror} type='danger'/>}
@@ -222,7 +246,7 @@ export default function SidebarPlayers() {
         </>
         <>
         <Modal show={show2} onHide={handleClose} >
-          
+          <form onSubmit={Confirm}>
           <Modal.Header closeButton >
             <Modal.Title >Delete Player</Modal.Title>
           </Modal.Header>
@@ -230,13 +254,18 @@ export default function SidebarPlayers() {
               <h1 className='display-7' style={{'color':'white'}}>1<span style={{'color':'yellow'}}>N</span>E Esports</h1>
                               <br/>
                     <span style={{'fontSize':'18px','color':'white'}}>Are you sure you want to delete the player?</span>
+                    {inputerror === ''?null:<Alert message={inputerror} type='danger'/>}
             </Modal.Body>
             <Modal.Footer>
-              <button type="button" className="btn-close" onClick={()=>Confirm} data-bs-dismiss="modal"  aria-label="Confirm"></button>
+              <button type="submit" className="btn btn-primary" data-bs-dismiss="modal"  aria-label="Confirm">Confirm</button>
+
             </Modal.Footer>
+            </form>
           </Modal>
           </>
       </div>
+      
     )
-  }
-
+    
+  
+}

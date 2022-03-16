@@ -6,19 +6,19 @@ import SidebarRankings from './SidebarRankings'
 import SidebarTeams from './SidebarTeams'
 import SidebarPlayers from './SidebarPlayers'
 import SidebarComunityGameNight from './SidebarComunityGameNight'
-import PrivateRoute from '../PrivateRoute';
+
 export default function SidebarRouter() {
   return (
     <div>
       <Routes>
-      <Route path="/" element={<PrivateRoute/>}>
-        <Route path="/*" exact element={<SidebarEvents/>}/>
+      
+        <Route path="/" exact element={<SidebarEvents/>}/>
         <Route path="/events" exact element={<SidebarEvents/>}/>
         <Route path="/rankings" exact element={<SidebarRankings/>}/> 
         <Route path="/players" exact element={<SidebarPlayers/>}/> 
         <Route path="/teams" exact element={<SidebarTeams/>}/>  
         <Route path="/game-night" exact element={<SidebarComunityGameNight/>}/> 
-        </Route>
+        
       </Routes>
     </div>
   );

@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 
 
 const { MongoClient , ObjectId} = require('mongodb');
+const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority";
 exports.displayAll=function(req,res){
     
     const token = req.cookies.token1;
@@ -54,7 +55,7 @@ exports.addPlayer=function(req,res){
             if (err) throw err
             const name=req.body.name;
             const desc=req.body.desc;
-            if(!name.length > 100 && !desc.length > 300 && name!==null && desc!==null){
+            if(!name.length < 100 && !desc.length < 300 && name!==null && desc!==null){
                 const db = client.db('esports_1ne');
                 (async ()=>{
                     const tobeinserted={'name':req.body.name,'description':req.body.desc};
@@ -66,7 +67,7 @@ exports.addPlayer=function(req,res){
                 })();
             }
             else{
-                res.satus(402).send('Length exceed');
+                res.status(402).send('Length exceed');
             }
         });
 }
@@ -79,13 +80,15 @@ exports.delPlayer=function(req,res){
         const id=req.body.id;
         const db = client.db('esports_1ne');
         (async ()=>{
-            await  db.collection.findOneAndDelete(
-                find({ '_id': ObjectId(id)}),
-                {}
-                
-             )
+            db.collection('players').findOneAndDelete({ _id:  ObjectId(id)},function(err,object){
+                    if(object){
+                        return res.status(200).send("OK");
+                    }
+                    else{
+                        return res.status(401).send(err);
+                    }
+                });
         })();
-       
     });
 }
 exports.updatePlayer=function(req,res){
@@ -97,21 +100,22 @@ exports.updatePlayer=function(req,res){
         const id=req.body._id;
         const name=req.body.name;
         const desc=req.body.desc;
-        if(!name.length > 100 && !desc.length > 300 && name!==null && desc!==null){
+        if(!name.length < 100 && !desc.length < 300 && name!==null && desc!==null){
             const db = client.db('esports_1ne');
             (async ()=>{
-                await db.collection('players').updateOne(
-                    { '_id': ObjectId(id) },
-                    {
-                      $set: { 'name': name, 'description': desc },
-                      $currentDate: { lastModified: true }
+                 db.collection('players').updateOne({ '_id': ObjectId(id) },{$set: { 'name': name, 'description': desc },$currentDate: { lastModified: true }},function (err, object) {
+                    if(object){
+                        res.status(200).send("OK");
                     }
-                  );
+                    else{
+                        res.status(401).send(err);
+                    }
+                });
             })();      
 
         }
         else{
-            res.satus(402).send('Length exceed');
+            res.status(402).send('Length exceed');
         }
     });
    
@@ -128,10 +132,18 @@ exports.disPlayer=function(req,res){
         const db = client.db('esports_1ne');
 
         (async ()=>{
-            
-                const result = await db.collection('players').find({name: pName}).toArray();
-                
-            });
-            client.close();
-        })();
+                const result = await db.collection('players').aggregate( [
+                      { $match: { $search: { text:{name: pName } } } }
+                    ]).toArray();
+                if(result!==null){
+                    res.status(200).send(result);
+                }
+                else{
+                    const result=[{_id:'',name:'Not found',description:''}]
+                    res.status(200).send(result);
+                }
+                client.close();
+            })();
+           
+        });
 }
