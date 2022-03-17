@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useRef} from 'react';
 import '../../css/fonts1.css';
 import '../../css/Container.css';
 import {BiUserPlus} from 'react-icons/bi';
@@ -10,47 +10,48 @@ import Alert from '../Alert';
 //import Loadingspinner from '../Loadingspinner';
 export default function SidebarPlayers() {
   const [show, setShow] = useState(false);
-  
-  
   const [show2, setShow2] = useState(false);
-  
-  
-  
   const [newname,setnewname]=useState(null);
   const [newdesc,setnewdesc]=useState(null);
   const [newid,setnewid]=useState(null);
   const [inputerror,setinputerror]=useState('');
   const [players,setplayers]=useState('');
-  
+  const searchl=useRef(0);
   const [isfetched,setfetched]=useState(false);
   const  Search=(e) => {
       
-      if(e===''){fetch();}
-      else if(e.length>=2){
-      axios({
-        method: 'GET',
-        url: 'http://localhost:3000/admin/players/'+e,
-        withCredentials: true,
-        credentials: "include",
-      }).then((response) => {
-        if(response.status===200)
-            {
-              setplayers(response.data);
-            }
-      }, (error) => {
-          if(error.response.status===400){
-            setinputerror('Could not load');
+      if(e.length===0){fetch();}
+      else{
+        console.log(e.length)
+        const searchplayer=(e)=>{
+          if(searchl.current!==e.length){
+              searchl.current=e.length;
+              axios({
+                method: 'GET',
+                url: 'https://esports-1ne.herokuapp.com/admin/players/'+e,
+                withCredentials: true,
+              }).then((response) => {
+                if(response.status===200)
+                    {
+                      setplayers(response.data);
+                    }
+              }, (error) => {
+                  if(error.response.status===400){
+                    setinputerror('Could not load');
+                  }
+                  else{
+                    setinputerror(error.response.message);
+                  }
+            });
           }
-          else{
-            setinputerror(error.response.message);
-          }
-    });
-  }
+        }
+        setInterval(searchplayer(e),3000);
+    }
   }
  const fetch=()=>{
     axios({
         method: 'GET',
-        url: 'http://localhost:3000/admin/players/all',
+        url: 'https://esports-1ne.herokuapp.com/admin/players/all',
         withCredentials: true,
         credentials: "include",
       }).then((response) => {
@@ -78,7 +79,7 @@ export default function SidebarPlayers() {
     {
         axios({
             method: 'POST',
-            url: 'http://localhost:3000/admin/addplayer',
+            url: 'https://esports-1ne.herokuapp.com/admin/addplayer',
             data: {
                 'name' : newname,
                 'desc' : newdesc,
@@ -105,7 +106,7 @@ export default function SidebarPlayers() {
     else{
         axios({
             method: 'POST',
-            url: 'http://localhost:3000/admin/updateplayer',
+            url: 'https://esports-1ne.herokuapp.com/admin/updateplayer',
             data: {
                 '_id'  : newid,
                 'name' : newname,
@@ -160,7 +161,7 @@ const handleClose = () =>
     e.preventDefault();
     axios({
             method: 'DELETE',
-            url: 'http://localhost:3000/admin/delplayer',
+            url: 'https://esports-1ne.herokuapp.com/admin/delplayer',
             data: {
                 'id' : newid,
             },

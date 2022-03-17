@@ -22,11 +22,11 @@ app.use(bodyParser.json());
 
 
 const { MongoClient , ObjectId} = require('mongodb');
-const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority";
+const uri = process.env.mongo_url;
 exports.displayAll=function(req,res){
     
     const token = req.cookies.token1;
-    const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority";
+    
     if(token===null || token===undefined)
     return res.status(403).send(result);
     
@@ -125,17 +125,17 @@ exports.disPlayer=function(req,res){
     const token = req.cookies.token1;
      if(token===null || token===undefined)
     return res.status(403).send(result);
-    const pName=req.params.name;
+    const pName=req.params.name.toLowerCase();
     
     MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db('esports_1ne');
 
         (async ()=>{
-                const result = await db.collection('players').aggregate( [
-                      { $match: { $search: { text:{name: pName } } } }
-                    ]).toArray();
-                if(result!==null){
+                
+                const result = await db.collection('players').find({name:{  $regex: pName, $options: 'i' } }).toArray();
+                if(result){
+                    console.log(result);
                     res.status(200).send(result);
                 }
                 else{
