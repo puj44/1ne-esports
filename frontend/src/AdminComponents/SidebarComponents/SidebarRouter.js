@@ -11,12 +11,14 @@ export default function SidebarRouter() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<SidebarEvents/>}/>
-        <Route path="/events"  element={<SidebarEvents/>}/>
-        <Route path="/rankings" element={<SidebarRankings/>}/> 
-        <Route path="/players" element={<SidebarPlayers/>}/> 
-        <Route path="/teams" element={<SidebarTeams/>}/>  
-        <Route path="/game-night" element={<SidebarComunityGameNight/>}/> 
+      
+        <Route path="/" exact element={<SidebarEvents/>}/>
+        <Route path="/events" exact element={<SidebarEvents/>}/>
+        <Route path="/rankings" exact element={<SidebarRankings/>}/> 
+        <Route path="/players" exact element={<SidebarPlayers/>}/> 
+        <Route path="/teams" exact element={<SidebarTeams/>}/>  
+        <Route path="/game-night" exact element={<SidebarComunityGameNight/>}/> 
+        
       </Routes>
     </div>
   );

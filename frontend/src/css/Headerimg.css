@@ -1,10 +1,7 @@
-
 .logo{
     
     position:fixed;
-    z-index:1;
-    width:5%;
-    height:8%;
+    
 }
 
 .inlinetab{ 
@@ -18,9 +15,10 @@
     float:left;
     margin-top:0.3%;
     height:fit-content;
+    font-size:123%;
 }
 .fonts{
-    font-size:30px;
+    
     font-family:bourgeois;
     width:73%;
     float:left;

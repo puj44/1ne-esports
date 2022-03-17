@@ -77,4 +77,5 @@ exports.checkstatus=function(req, res) {
 }
 exports.signout = function(req, res) {
     res.clearCookie('token',{httpOnly:true, sameSite:'none',secure:true});
+    window.location="https://1ne-esports.netlify.app/admin";
 }

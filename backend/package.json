@@ -17,7 +17,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "jwtoken": "0.0.0",
-    "mongodb": "^3.7.3",
+    "mongodb": "^4.4.1",
     "mongoose": "^6.2.0",
     "multer": "^1.4.4",
     "netlify-lambda": "^2.0.15",
@@ -28,5 +28,8 @@
   "rules": {
     "no-console": "off",
     "no-unused-vars": "off"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^4.0.7"
   }
 }

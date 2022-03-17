@@ -1,4 +1,4 @@
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.jpg";
 import '../css/Headerimg.css';
 //import axios from 'axios';
 import '../fonts/style.css';
@@ -21,7 +21,7 @@ export default function Header(){
             <div className="position-relative">
             <div style={{'borderBottom':'3px solid #fff'}} className="fixed-top">
                         <Navbar bg="black" variant="dark" expand="lg" sticky="top"  >
-                        <a className='navbar-brand' href='/'><img src={logo} alt="logo" /></a>
+                        <a className='navbar-brand' href='/'><img src={logo}  style={{"width":"75%","height":"90%","marginTop":"0.2%"}} alt="logo" /></a>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav" >
                                 <Nav className="ms-auto fonts " >
@@ -53,4 +53,3 @@ export default function Header(){
     );
     }
 }
-
