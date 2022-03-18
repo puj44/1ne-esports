@@ -9,7 +9,7 @@ export default function PrivateRoute() {
     useEffect(()=>{
         axios({
             method: 'GET',
-            url:'http://localhost:3000/auth/getstatus',
+            url:'https://esports-1ne.herokuapp.com/auth/getstatus',
             withCredentials: true,
             credentials:"include"
         }).then((response)=>{
