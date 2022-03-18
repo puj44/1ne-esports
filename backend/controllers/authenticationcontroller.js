@@ -48,6 +48,7 @@ exports.authenticate=function(req, res) {
                     if( user.length > 0){
                         let token = jwt.sign({type:'admin'}, key,{expiresIn: '72h'});
                         res.cookie('token1', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,secure:true,sameSite:'none'});
+                        console.log("logged");
                         return res.status(200).send("logged");
                     }else{
                         return res.status(404).send('not found');
