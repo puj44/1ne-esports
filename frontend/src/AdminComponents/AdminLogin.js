@@ -19,7 +19,7 @@ export default function AdminLogin() {
             e.preventDefault();
             axios({
                 method: 'GET',
-                url: 'https://esports-1ne.herokuapp.com/auth/signin/'+logusername+'/'+logpassword,
+                url: 'https://esports-1ne.herokuapp.com/'+logusername+'/'+logpassword,
                 withCredentials: true,
               }).then((response) => {
                  if(response.status===200)

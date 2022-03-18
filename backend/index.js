@@ -25,4 +25,5 @@ const corsOptions = {
   app.set('trust proxy', 1);
   app.use("/auth",authRouter);
   app.use("/admin",adminRouter);
+  //app.listen(3000, 'localhost');
   app.listen(process.env.PORT || 5000, process.env.HOST || "::");
