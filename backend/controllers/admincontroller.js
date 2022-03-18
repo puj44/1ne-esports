@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
+const { MongoClient , ObjectId} = require('mongodb');
 
 const cookieParser = require('cookie-parser');
 
@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 
 
 
-const { MongoClient , ObjectId} = require('mongodb');
+
 const uri = process.env.mongo_url;
 exports.displayAll=function(req,res){
     
