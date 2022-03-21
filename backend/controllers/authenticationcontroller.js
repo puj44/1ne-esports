@@ -29,7 +29,8 @@ app.use(bodyParser.json());
 const { MongoClient } = require('mongodb');
 
 exports.authenticate=function(req, res) {
-    const uri = process.env.mongo_url;
+    //const uri = process.env.mongo_url;
+    const uri = 'mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority';
    
     MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
@@ -77,6 +78,12 @@ exports.checkstatus=function(req, res) {
     });
 }
 exports.signout = function(req, res) {
-    res.clearCookie('token',{httpOnly:true, sameSite:'none',secure:true});
-    window.location="https://1ne-esports.netlify.app/admin";
+    const token = req.cookies.token1;
+    if(token){
+        res.clearCookie('token',{httpOnly:true, sameSite:'none',secure:true});
+        return res.status(200).send("OK");
+    }
+    else{
+        return res.status(500).send(result);
+        }
 }

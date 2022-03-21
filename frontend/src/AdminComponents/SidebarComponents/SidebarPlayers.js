@@ -28,7 +28,7 @@ export default function SidebarPlayers() {
               searchl.current=e.length;
               axios({
                 method: 'GET',
-                url: 'https://esports-1ne.herokuapp.com/admin/players/'+e,
+                url: 'http://localhost:3000/admin/players/'+e,
                 withCredentials: true,
               }).then((response) => {
                 if(response.status===200)
@@ -51,7 +51,7 @@ export default function SidebarPlayers() {
  const fetch=()=>{
     axios({
         method: 'GET',
-        url: 'https://esports-1ne.herokuapp.com/admin/players/all',
+        url: 'http://localhost:3000/admin/players/all',
         withCredentials: true,
         credentials: "include",
       }).then((response) => {
@@ -79,7 +79,7 @@ export default function SidebarPlayers() {
     {
         axios({
             method: 'POST',
-            url: 'https://esports-1ne.herokuapp.com/admin/addplayer',
+            url: 'http://localhost:3000/admin/addplayer',
             data: {
                 'name' : newname,
                 'desc' : newdesc,
@@ -106,7 +106,7 @@ export default function SidebarPlayers() {
     else{
         axios({
             method: 'POST',
-            url: 'https://esports-1ne.herokuapp.com/admin/updateplayer',
+            url: 'http://localhost:3000/admin/updateplayer',
             data: {
                 '_id'  : newid,
                 'name' : newname,
@@ -161,7 +161,7 @@ const handleClose = () =>
     e.preventDefault();
     axios({
             method: 'DELETE',
-            url: 'https://esports-1ne.herokuapp.com/admin/delplayer',
+            url: 'http://localhost:3000/admin/delplayer',
             data: {
                 'id' : newid,
             },

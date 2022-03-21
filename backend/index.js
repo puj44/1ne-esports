@@ -20,10 +20,10 @@ const corsOptions = {
   }
   app.use(bodyParser.json());
   app.use(express.urlencoded({extended:false}));
- app.use(cors(corsOptions));
+  app.use(cors(corsOptions));
   app.use(cookieParser());
   app.set('trust proxy', 1);
   app.use("/auth",authRouter);
   app.use("/admin",adminRouter);
-  //app.listen(3000, 'localhost');
-  app.listen(process.env.PORT || 5000, process.env.HOST || '::');
+  app.listen(3000, 'localhost');
+  //app.listen(process.env.PORT || 5000, process.env.HOST || '::');

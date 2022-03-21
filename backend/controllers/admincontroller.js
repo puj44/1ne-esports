@@ -22,7 +22,8 @@ app.use(bodyParser.json());
 
 
 const { MongoClient , ObjectId} = require('mongodb');
-const uri = process.env.mongo_url;
+//const uri = process.env.mongo_url;
+const uri = 'mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority';
 exports.displayAll=function(req,res){
     
     const token = req.cookies.token1;

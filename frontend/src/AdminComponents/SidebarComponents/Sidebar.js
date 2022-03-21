@@ -7,6 +7,8 @@ import {RiCommunityLine} from "react-icons/ri"
 import {TiGroup} from "react-icons/ti"
 import {MdLogout} from "react-icons/md"
 import {Link} from 'react-router-dom';
+import Alert from '../Alert'
+import axios from 'axios';
 import '../../css/sidebar.css';
 import {
   Menu,
@@ -45,7 +47,21 @@ const SideNavigation = () => {
     setCollapsed(!collapsed);
   };
   const Logout=()=>{
-    window.location="https://esports-1ne.herokuapp.com/auth/signout";
+    axios({
+      method: 'GET',
+      url: 'http://localhost:3000/auth/signout',
+      withCredentials: true,
+      credentials: "include",
+    }).then((response) => {
+      if(response.status===200)
+          {
+            window.location="http://localhost:3001/admin";
+          }
+    }, (error) => {
+        if(error){
+          Alert("Couldn't Logout")
+        }
+  });
   }
   return (
     <ProSidebar style={styles.sideBarHeight} collapsed={collapsed}>
