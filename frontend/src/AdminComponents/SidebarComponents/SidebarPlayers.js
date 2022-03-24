@@ -11,13 +11,26 @@ import Alert from '../Alert';
 export default function SidebarPlayers() {
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
-  const [newname,setnewname]=useState(null);
-  const [newdesc,setnewdesc]=useState(null);
-  const [newid,setnewid]=useState(null);
   const [inputerror,setinputerror]=useState('');
+  
+  const [tn,settn]=useState('');
+  const [td,settd]=useState('');
+  let teamdet=[{},{},{},{}];
   const [players,setplayers]=useState('');
   const searchl=useRef(0);
-  const [isfetched,setfetched]=useState(false);
+  // const [isfetched,setfetched]=useState(false);
+  
+  const handleChange=(pname,pdesc,key)=>{
+    
+    if(pname!==null){
+      teamdet[key-1]={name:pname,desc:teamdet[key-1]['desc']};
+    }
+    else{
+      teamdet[key-1]={name:teamdet[key-1]['name'],desc:pdesc};
+    }
+    
+  }
+  
   const  Search=(e) => {
       
       if(e.length===0){fetch();}
@@ -28,7 +41,7 @@ export default function SidebarPlayers() {
               searchl.current=e.length;
               axios({
                 method: 'GET',
-                url: 'https://esports-1ne.herokuapp.com/admin/players/'+e,
+                url: 'http://localhost:3000/admin/players/'+e,
                 withCredentials: true,
               }).then((response) => {
                 if(response.status===200)
@@ -51,7 +64,7 @@ export default function SidebarPlayers() {
  const fetch=()=>{
     axios({
         method: 'GET',
-        url: 'https://esports-1ne.herokuapp.com/admin/players/all',
+        url: 'http://localhost:3000/admin/players/all',
         withCredentials: true,
         credentials: "include",
       }).then((response) => {
@@ -68,21 +81,23 @@ export default function SidebarPlayers() {
           }
     });
  
-    setfetched(true);
+    // setfetched(true);
   
   }
-  if(isfetched===false)
-  fetch();
+  // if(isfetched===false)
+  // fetch();
   const submitValue=(e)=>{
     e.preventDefault();
-    if(show===true && newid===null)
+    
+    if(show===true )
     {
         axios({
             method: 'POST',
-            url: 'https://esports-1ne.herokuapp.com/admin/addplayer',
+            url: 'http://localhost:3000/admin/addplayer',
             data: {
-                'name' : newname,
-                'desc' : newdesc,
+                'name':tn,
+                'desc':td,
+                'details' : teamdet
             },
             withCredentials: true,
             credentials: "include",
@@ -104,41 +119,41 @@ export default function SidebarPlayers() {
         });
     }
     else{
-        axios({
-            method: 'POST',
-            url: 'https://esports-1ne.herokuapp.com/admin/updateplayer',
-            data: {
-                '_id'  : newid,
-                'name' : newname,
-                'desc' : newdesc,
-            },
-            withCredentials: true,
-            credentials: "include",
-        }).then((response) => {
-            if(response.status===200){
-              handleClose();
-            }
+        // axios({
+        //     method: 'POST',
+        //     url: 'http://localhost:3000/admin/updateplayer',
+        //     data: {
+        //         '_id'  : newid,
+        //         'name' : newname,
+        //         'desc' : newdesc,
+        //     },
+        //     withCredentials: true,
+        //     credentials: "include",
+        // }).then((response) => {
+        //     if(response.status===200){
+        //       handleClose();
+        //     }
            
-        }, (error) => {
-                if(error.response!==undefined){
-                    if(error.response.status===400){
-                        setinputerror('Login!');
-                    }
-          }
-        });
+        // }, (error) => {
+        //         if(error.response!==undefined){
+        //             if(error.response.status===400){
+        //                 setinputerror('Login!');
+        //             }
+        //   }
+        // });
    
   } 
 }
 const handleShow = (id,name,desc) => {
   if(id!==null && name!==null && desc!==null){
-    setnewid(id);
-    setnewname(name);
-    setnewdesc(desc);
+    // setnewid(id);
+    // setnewname(name);
+    // setnewdesc(desc);
     setShow(true);
     
   }
   else if(id!==null){
-    setnewid(id);
+    // setnewid(id);
     setShow2(true);
     
   }
@@ -149,34 +164,36 @@ const handleShow = (id,name,desc) => {
 }
 const handleClose = () => 
 {
-  setnewid(null);
-  setnewname(null);
-  setnewdesc(null);
+  // setnewid(null);
+  // setnewname(null);
+  // setnewdesc(null);
   setShow(false);
   setShow2(false);
-  fetch();
+  // fetch();
   
 }
   const Confirm=(e)=>{
     e.preventDefault();
-    axios({
-            method: 'DELETE',
-            url: 'https://esports-1ne.herokuapp.com/admin/delplayer',
-            data: {
-                'id' : newid,
-            },
-            withCredentials: true,
-            credentials: "include",
-        }).then((response) => {
-          console.log(response);
-          if(response.status===200)
-                handleClose();
-        }, (error) => {
-                console.log(error);
-        });
+    // axios({
+    //         method: 'DELETE',
+    //         url: 'http://localhost:3000/admin/delplayer',
+    //         data: {
+    //             'id' : newid,
+    //         },
+    //         withCredentials: true,
+    //         credentials: "include",
+    //     }).then((response) => {
+    //       console.log(response);
+    //       if(response.status===200)
+    //             handleClose();
+    //     }, (error) => {
+    //             console.log(error);
+    //     });
       
   }
   
+ 
+    
   
   
     return (
@@ -209,38 +226,44 @@ const handleClose = () =>
         <Modal show={show} onHide={handleClose} >
           <form onSubmit={submitValue}>
               <Modal.Header closeButton>
-                <Modal.Title >{newid===null?"Add Player":"Edit Player"}</Modal.Title>
+                <Modal.Title >{"Add Team"}</Modal.Title>
               </Modal.Header>
+              
+                     
+                        
                     <Modal.Body style={{"backgroundColor":"black","fontSize":"22px"}}>
-                    <h1 className='display-7' style={{'color':'white'}}>1<span style={{'color':'yellow'}}>N</span>E Esports</h1>
-                                        <br/>
-                                        
-                                  
-                          <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' placeholder='Player Name' value={newname=== null? "":newname} id='playername' type='text' onChange={e => setnewname(e.target.value)}/><br/>
+                
+                   <h1 className='display-7' style={{'color':'white'}}>1<span style={{'color':'yellow'}}>N</span>E Esports</h1>
+                                   <br/>
+                                   <label style={{"color":"white","fontSize":"24px"}}>Team</label><br/>
+                          <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="name" placeholder="Team Name" onChange={e=>settn(e.target.value)}  type='text' /><br/>
                           <div className="input-group mb-3">
-                          <textarea style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' value={newdesc===null?"":newdesc} placeholder='Player Description' id='playerdesc' onChange={e => setnewdesc(e.target.value)} required/>
-                                      <br/><span className="">Max 300 words...</span>
-                                  </div>
-                                  <br/>
+                            <textarea style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="desc"  onChange={e=>settd(e.target.value)} placeholder="Team Description"  />
+                                        <br/><span className="">Max 300 words...</span>
+                          </div>
+
+                          <br/>
+                        { teamdet.map((data,index)=>  { return(
+                          
+                          <li key={index}><label style={{"color":"white","fontSize":"24px"}}>Player {index+1}</label>
+                          <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="name" placeholder="Player Name" name="name" onChange={(e)=>handleChange(e.target.value,null,index+1)}  type='text' /><br/>
+                          <div className="input-group mb-3">
+                            <textarea style={{"fontSize":"22px"}}  className='form-control shadow p-2 bg-body rounded' id="desc" name="desc" onChange={(e)=>handleChange(null,e.target.value,index+1)} placeholder="Player Description"  />
+                                        <br/><span className="">Max 300 words...</span>
+                          </div>  
+                                 <br/> <br/>
+                                 </li>
+                        )})}
                                   {inputerror === ''?null:<Alert message={inputerror} type='danger'/>}
-                                
-                    </Modal.Body>  
-        
+                        
+                      </Modal.Body>
               <Modal.Footer>
-                      {newid===null ?
-                                      <> 
-                                          <center>
-                                              <button tag='input' type='submit' className='btn btn-primary fs-4 w-auto h-auto'>Add</button>
-                                          </center>
+                             
+                          <center><button tag='input' type="submit" className='btn btn-primary fs-4 w-auto h-auto'>Submit</button></center>
                                           <br/>
-                                      </>
-                                      :
-                                      <>
-                                          <center>
-                                              <button tag='input' type='submit' className='btn btn-primary fs-4 w-auto h-auto'>Save</button>
-                                          </center>
-                                      </>
-                                  }
+                                      
+        
+                                  
             </Modal.Footer>
           </form>
         </Modal>

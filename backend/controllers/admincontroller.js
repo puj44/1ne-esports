@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 
 
 
-const uri = process.env.mongo_url;
+const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority";
 exports.displayAll=function(req,res){
     
     const token = req.cookies.token1;
@@ -50,20 +50,47 @@ exports.displayAll=function(req,res){
 exports.addPlayer=function(req,res){
     const token = req.cookies.token1;
     if(token===null || token===undefined)
-    return res.status(403).send(result);
+    return res.status(400).send(result);
         MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
             if (err) throw err
             const name=req.body.name;
             const desc=req.body.desc;
+            const team=req.body.details;
+            let pid=[];
+           
             if(!name.length < 100 && !desc.length < 300 && name!==null && desc!==null){
                 const db = client.db('esports_1ne');
                 (async ()=>{
-                    const tobeinserted={'name':req.body.name,'description':req.body.desc};
-                    db.collection('players').insertOne(tobeinserted,(err, object)=> {
+                    for(var i=0;i<team.length;i++){
+                        if(team[i]==null || team[i]==undefined || team[i]==''){}
+                        else{
+                           
+                            
+                            const tobeinserted1={'name':team[i]['name'],'description':team[i]['desc']};
+                            const result=await db.collection('players').insertOne(tobeinserted1);
+                            console.log(result);
+                                if(result){
+                                    pid.push(result.insertedId);
+                                    
+                                }
+                                else{
+                                    return res.status(403).send('err');
+                                }
+                        }
+                    }
+                    
+                    const tobeinserted2={'name':req.body.name,'description':req.body.desc,'Player1':pid[0],'Player2':pid[1],'Player3':pid[2],'Player4':pid[3]?pid[3]:null};
+                    db.collection('teams').insertOne(tobeinserted2,(err, object)=> {
                         if(object){
+
                             return res.status(200).send('OK!');            
                         }
+                        else{
+                            return res.status(403).send('err');
+                        }
                     });
+                
+                    
                 })();
             }
             else{
