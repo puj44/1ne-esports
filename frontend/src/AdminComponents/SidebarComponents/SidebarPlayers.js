@@ -193,7 +193,7 @@ const handleClose = () =>
              
                 <ul className="list-group" style={{"fontSize":"24px"}} >
                 {   players? players.map((data)=>{ return(
-                    <li className="list-group-item list-group-item-action white" key={ data.name}> {data===null || data===undefined?"No data": data.name}
+                    <li style={{"border": "1px solid black"}} className="list-group-item list-group-item-action white" key={ data.name}> {data===null || data===undefined?"No data": data.name}
                       <span style={{"marginLeft":"81%","float":"right"}}><i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data._id,data.name,data.description)}><FaUserEdit/></i> &nbsp;
                       <i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data._id,null,null)} ><MdDelete/></i> </span>
                     </li>
@@ -217,10 +217,10 @@ const handleClose = () =>
                                         
                                   
                           <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' placeholder='Player Name' value={newname=== null? "":newname} id='playername' type='text' onChange={e => setnewname(e.target.value)}/><br/>
-                          <div className="input-group mb-3">
+                          {/* <div className="input-group mb-3"> */}
                           <textarea style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' value={newdesc===null?"":newdesc} placeholder='Player Description' id='playerdesc' onChange={e => setnewdesc(e.target.value)} required/>
-                                      <br/><span className="">Max 300 words...</span>
-                                  </div>
+                          &nbsp;<span className="" style={{"color":"white","fontSize":"20px"}}>Max 300 words..</span>
+                                  {/* </div> */}
                                   <br/>
                                   {inputerror === ''?null:<Alert message={inputerror} type='danger'/>}
                                 
@@ -259,7 +259,6 @@ const handleClose = () =>
             </Modal.Body>
             <Modal.Footer>
               <button type="submit" className="btn btn-primary" data-bs-dismiss="modal"  aria-label="Confirm">Confirm</button>
-
             </Modal.Footer>
             </form>
           </Modal>
