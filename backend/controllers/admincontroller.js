@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config();
 
 
 const cookieParser = require('cookie-parser');
@@ -23,7 +24,7 @@ app.use(bodyParser.json());
 
 const { MongoClient , ObjectId} = require('mongodb');
 //const uri = process.env.mongo_url;
-const uri = 'mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority';
+const uri = process.env.REACT_APP_MONGODB_APIKEY;
 exports.displayAll=function(req,res){
     
     const token = req.cookies.token1;
