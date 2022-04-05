@@ -24,7 +24,7 @@ export default function AdminLogin() {
                 credentials:"include"
               }).then((response) => {
                  if(response.status===200)
-                    window.location='http://localhost:3001/admin/dashboard';
+                    window.location='https://1ne-esports.netlify.app/admin/dashboard';
               }, (error) => {
                 
                     if(error.response!==undefined){

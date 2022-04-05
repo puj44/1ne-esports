@@ -55,7 +55,7 @@ const SideNavigation = () => {
     }).then((response) => {
       if(response.status===200)
           {
-            window.location="http://localhost:3001/admin";
+            window.location="https://1ne-esports.netlify.app/admin";
           }
     }, (error) => {
         if(error){
