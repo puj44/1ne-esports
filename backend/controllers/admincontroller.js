@@ -140,20 +140,13 @@ exports.delPlayer=function(req,res){
             if(value===1){
                 let pid='';
                 ele=db.collection('teams'); // set collection to teams if id is of team
-                const result = await ele.find({'_id':ObjectId(id)}).toArray();
-                if(result){
-                    console.log(result);
-                }
-                else{
-                    console.log("not found");
-                    return res.status(400).send("oof");
-                }
+                const result = await ele.find({'_id':ObjectId(id)}).toArray(); // retrieve player id's
+                if(!result){return res.status(400).send("oof");}
 //-----------------------players deletion from team's database-----------------------------------------
                 let playerres=0;
                 
                 for(var j=1;j<=4;j++){
                     const pid=result[0]["Player"+j];
-                    console.log(pid);
                     if(pid!=null || pid!=undefined){
                          playerres= db.collection('players').findOneAndDelete({'_id':ObjectId(pid)}); // deletes players one by one
                     }

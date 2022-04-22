@@ -203,7 +203,6 @@ const handleClose = (ack) =>
             withCredentials: true,
             credentials: "include",
         }).then((response) => {
-          console.log(response);
           if(response.status===200)
                 handleClose(1);
           else if(response.status===400){
