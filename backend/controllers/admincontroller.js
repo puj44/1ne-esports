@@ -45,18 +45,19 @@ exports.displayAll=function(req,res){ //display all teams and its players
 //----------------------------------fetching players details from fetched player id's of teams database--------------------------------
                         for(var j=1;j<=4;j++){
                             const pid=result[i]['Player'+j]; 
-                            if(pid!=null || pid!=undefined){
-        
+                            if(pid!=null){
                                 const result2=await db.collection('players').find({'_id':ObjectId(pid)}).toArray();
-                                players.push({pid:result2[0]['_id'],pname:result2[0]['name'],pdesc:result2[0]['description']});
+                                if(result2){
+                                    players.push({pid:result2[0]['_id'],pname:result2[0]['name'],pdesc:result2[0]['description']});
+                                }
                             }
                         }
 //----------------------------------storing teams and players into an array {id:teamname,teamdesc,playerid,playername,playerdesc}
                         teams.push({id:result[i]['_id'],name:result[i]['name'],desc:result[i]['description'],players});
                         players=[];
                     }
-                    
                     if(teams.length>0){//send result
+                        client.close();
                         return res.status('200').send({teamsArray:teams});
                     }
                     else{
@@ -66,7 +67,7 @@ exports.displayAll=function(req,res){ //display all teams and its players
                 else{
                     return res.status(400).send("n");
                 }
-                client.close();
+                
             })();
             
         });
@@ -88,13 +89,12 @@ exports.addPlayer=function(req,res){
                 const db = client.db('esports_1ne');
                 (async ()=>{
                     for(var i=0;i<team.length;i++){ //adding players
-                        if(team[i]==null || team[i]==undefined || team[i]==''){
+                        if(team[i]==null && i!==3){
                             res.status(401).send(err);
                         }
                         else{
                             const tobeinserted1={'name':team[i]['pname'],'description':team[i]['pdesc']};//insert player details
                             const result=await db.collection('players').insertOne(tobeinserted1);
-                            console.log(result);
                                 if(result){
                                     pid.push(result.insertedId);
                                     
@@ -105,7 +105,7 @@ exports.addPlayer=function(req,res){
                         }
                     }
                     
-                    const tobeinserted2={'name':name,'description':desc,'Player1':pid[0],'Player2':pid[1],'Player3':pid[2],'Player4':pid[3]?pid[3]:null};
+                    const tobeinserted2={'name':name,'description':desc,'Player1':pid[0],'Player2':pid[1],'Player3':pid[2],'Player4':pid[3]};
                     db.collection('teams').insertOne(tobeinserted2,(err, object)=> {
                         if(object){
                             client.close();
@@ -131,19 +131,59 @@ exports.delPlayer=function(req,res){
     return res.status(403).send(result);
     MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
-        const id=req.body.id;
+        const id=req.body.id; // team or player id
+        const value=req.body.value; // check whether the id is of team or player
         const db = client.db('esports_1ne');
+//-------------------------------find players for deletion--------------------------------------------------------
         (async ()=>{
-            db.collection('players').findOneAndDelete({ _id:  ObjectId(id)},function(err,object){
-                    if(object){
-                        client.close();
-                        return res.status(200).send("OK");
+            let ele='';
+            if(value===1){
+                let pid='';
+                ele=db.collection('teams'); // set collection to teams if id is of team
+                const result = await ele.find({'_id':ObjectId(id)}).toArray();
+                if(result){
+                    console.log(result);
+                }
+                else{
+                    console.log("not found");
+                    return res.status(400).send("oof");
+                }
+//-----------------------players deletion from team's database-----------------------------------------
+                let playerres=0;
+                
+                for(var j=1;j<=4;j++){
+                    const pid=result[0]["Player"+j];
+                    console.log(pid);
+                    if(pid!=null || pid!=undefined){
+                         playerres= db.collection('players').findOneAndDelete({'_id':ObjectId(pid)}); // deletes players one by one
+                    }
+                }
+//-----------------------delete the player or team from database using id------------------------------
+                if(playerres){
+                    const teamdel = ele.findOneAndDelete({'_id':ObjectId(id)});
+                    if(teamdel){
+                        return res.status(200).send("deleted");
                     }
                     else{
-                        return res.status(401).send(err);
+                        return res.status(400).send("not found");
                     }
-                });
-                
+                }
+                else{
+                    return res.status(401).send(err);
+                }
+            }
+            else{
+                    ele=db.collection('players'); // set collection to players
+                    ele.updateOne({ '_id':  ObjectId(id)},{$set:{'name':null,'description':null}},function(err,object){ // delete player from players database
+                        if(object){
+                                client.close();
+                                return res.status(200).send("deleted");
+                            }
+                        else{
+                            return res.status(401).send(err);
+                        }
+                    });
+                } 
         })();
        
     });

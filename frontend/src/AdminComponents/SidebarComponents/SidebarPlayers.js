@@ -1,4 +1,4 @@
-import React,{useState,useRef} from 'react';
+import React,{useState,useRef, useEffect} from 'react';
 import '../../css/fonts1.css';
 import '../../css/Container.css';
 import {BiUserPlus} from 'react-icons/bi';
@@ -17,7 +17,7 @@ export default function SidebarPlayers() {
   const [td,settd]=useState('');
   //let teamdet=[{},{},{},{}];
   const [teamdet,setteamdet]=useState([{},{},{},{}]);
-  const [players,setplayers]=useState({});
+  const [newid,setid]=useState({});
   const [teams,setteams]=useState('');
   const searchl=useRef(0);
   const [isfetched,setfetched]=useState(false);
@@ -54,11 +54,11 @@ export default function SidebarPlayers() {
               }).then((response) => {
                 if(response.status===200)
                     {
-                      setplayers(response.data);
+                      setteamdet(response.data);
                     }
               }, (error) => {
                   if(error.response.status===400){
-                    setinputerror('Could not load');
+                    setinputerror('No data found');
                   }
                   else{
                     setinputerror(error.response.message);
@@ -71,36 +71,28 @@ export default function SidebarPlayers() {
   }
 
  const fetch= ()=>{
-   
-
-   
-    axios({
-        method: 'GET',
-        url: 'http://localhost:3000/admin/players/all',
-        withCredentials: true,
-        credentials: "include",
-      }).then((response) => {
-        if(response.status===200)
-            {
-              setteams(response.data.teamsArray);
+      axios({
+          method: 'GET',
+          url: 'http://localhost:3000/admin/players/all',
+          withCredentials: true,
+          credentials: "include",
+        }).then((response) => {
+          if(response.status===200)
+              {
+                setteams(response.data.teamsArray);
+                console.log(response.data.teamsArray);
+              }
+        }, (error) => {
+            if(error.response.status===400){
+              setteams('');
             }
-      }, (error) => {
-          if(error.response.status===403){
-            setinputerror('Could not load');
-          }
-          else{
-            setinputerror(error.response.message);
-          }
-    });
-    
-    
+            else{
+              setinputerror(error.response.message);
+            }
+      });
     setfetched(true);
+  }
   
-  }
-  if(isfetched===false)
-  {
-  fetch();
-  }
   const submitValue=(e)=>{
     e.preventDefault();
     
@@ -165,28 +157,20 @@ export default function SidebarPlayers() {
           }
   } 
 }
-const handleShow = (id,name,desc) => {
+const handleShow = (id,name,desc,value) => {
  
   if(id!==null && name!==null && desc!==null){
-    console.log(teams);
     setnewteam({tid:id,tname:name,tdesc:desc});
-    
-    
     Object.keys(teams).forEach((key) => {
       if(teams[key].id===id){
         setteamdet(teams[key].players);
       }
     });
-        
-
-      console.log(teamdet);
-      
     setShow(true);
   }
   else if(id!==null){
-    // setnewid(id);
+    setid({id:id,val:value});
     setShow2(true);
-    
   }
   else{
     setShow(true);
@@ -198,126 +182,116 @@ const handleClose = (ack) =>
   if(ack===1)
   {
     setShow2(false);
+    setShow(false);
   }
   else{
     setShow(false);
-    setShow2(false);
     setnewteam('');
     setteamdet([{},{},{},{}]);
   }
-  
-  
-  // fetch();
-  
+  setfetched(false);
 }
   const Confirm=(e)=>{
     e.preventDefault();
-    // axios({
-    //         method: 'DELETE',
-    //         url: 'http://localhost:3000/admin/delplayer',
-    //         data: {
-    //             'id' : newid,
-    //         },
-    //         withCredentials: true,
-    //         credentials: "include",
-    //     }).then((response) => {
-    //       console.log(response);
-    //       if(response.status===200)
-    //             handleClose();
-    //     }, (error) => {
-    //             console.log(error);
-    //     });
+    axios({
+            method: 'DELETE',
+            url: 'http://localhost:3000/admin/delplayer',
+            data: {
+                'id' : newid.id,
+                'value':newid.val
+            },
+            withCredentials: true,
+            credentials: "include",
+        }).then((response) => {
+          console.log(response);
+          if(response.status===200)
+                handleClose(1);
+          else if(response.status===400){
+                setinputerror("not found");
+          }
+          else{
+            setinputerror(response);
+          }
+        }, (error) => {
+          setinputerror(error);
+        });
       
   }
-  
- 
-    
-  
-  
+  if(isfetched===false)
+  {
+    fetch();
+  }
     return (
-      
+//-------------------------------------Displaying list of teams with edit and delete function-------------------------------------
         <div className="inline" >
           <div className="Container" style={{"width":"100%","marginTop":"3%"}}>
               <div className="input-group pl-2 mt-4 " style={{"fontSize":"22px","paddingLeft":"15%"}}>
                 <input placeholder='Search...'  id="search1" type="text" onChange={e => Search(e.target.value)}/> 
-                
-                <span  className="btn" style={{"backgroundColor":"#343a40","color":"white","marginLeft":"36%","width":"4%"}} onClick={()=>handleShow(null,null,null)}><BiUserPlus  /></span>
+                <span  className="btn" style={{"backgroundColor":"#343a40","color":"white","marginLeft":"36%","width":"4%"}} onClick={()=>handleShow(null,null,null,null)}><BiUserPlus  /></span>
               </div> 
               
               <div className="pl-2 mt-4 ml-2" style={{"width":"62%","marginLeft":"14.9%"}}>
-             
                 <ul className="list-group" style={{"fontSize":"24px"}} >
-                {   teams? teams.map((data,index)=>{ return(
-                    <li className="list-group-item list-group-item-action white"  key={index}> {data===null || data===undefined?"No data": data.name}
-                      <span style={{"marginLeft":"81%","float":"right"}}><i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data.id,data.name,data.desc)}><FaUserEdit/></i> &nbsp;
-                      <i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data.id,null,null)} ><MdDelete/></i> </span>
-                    </li>
-                )}):''} 
+                  {teams? teams.map((data,index)=>{ return(
+                      <li className="list-group-item list-group-item-action white"  key={index}> {data===null || data===undefined?"No data": data.name}
+                        <span style={{"marginLeft":"81%","float":"right"}}><i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data.id,data.name,data.desc,null)}><FaUserEdit/></i> &nbsp;
+                        <i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data.id,null,null,1)} ><MdDelete/></i> </span>
+                      </li>
+                  )}):'No data found'} 
                 </ul>
-             
               </div> 
-              
-              
           </div>
-                  <>
-       
+{/*-----------------------------------Add Or Edit Team and Players Details Modal-------------------------------------------------- */}
+        <>
         <Modal show={show} onHide={handleClose} >
           <form onSubmit={submitValue}>
               <Modal.Header closeButton>
                 <Modal.Title >{"Add/Edit Team"}</Modal.Title>
               </Modal.Header>
-              
-                     
-                        
-                    <Modal.Body style={{"backgroundColor":"black","fontSize":"22px"}}>
+              <Modal.Body style={{"backgroundColor":"black","fontSize":"22px"}}>
                 
-                   <h1 className='display-7' style={{'color':'white'}}>1<span style={{'color':'yellow'}}>N</span>E Esports</h1>
+                        <h1 className='display-7' style={{'color':'white'}}>1<span style={{'color':'yellow'}}>N</span>E Esports</h1>
                                    <br/>
                                    <label style={{"color":"white","fontSize":"24px"}}>Team</label><br/>
-                          <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' defaultValue={newteam===''?'':newteam.tname} id="name" placeholder="Team Name" onChange={e=>settn(e.target.value)}  type='text' /><br/>
-                          <div className="input-group mb-3">
-                            <textarea style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="desc" defaultValue={newteam===''?'':newteam.tdesc} onChange={e=>settd(e.target.value)} placeholder="Team Description"  />
-                                        <br/><span className="">Max 300 words...</span>
-                          </div>
+                                  <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' defaultValue={newteam===''?'':newteam.tname} id="name" placeholder="Team Name" onChange={e=>settn(e.target.value)}  type='text'/><br/>
+                                  <div className="input-group mb-3">
+                                    <textarea style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="desc" defaultValue={newteam===''?'':newteam.tdesc} onChange={e=>settd(e.target.value)} placeholder="Team Description"/> 
+                                                <br/><span className="">Max 300 words...</span>
+                                  </div>
 
                           <br/>
-                        { teamdet.map((data,index)=>  { return(
-                        
-                            <li key={index}>
-                              <label style={{"color":"white","fontSize":"24px"}}>Player {index+1}</label> {newteam===''?'':<span><i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(newteam?data.pid:null,null,null)} ><MdDelete/></i> </span>}
-                              <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="name" defaultValue={newteam!==''?data.pname!==''?data.pname:'':''} placeholder="Player Name" name="name" onChange={(e)=>handleChange(newteam!==''?data.pid:null,e.target.value,null,index+1)}  type='text' /><br/>
-                              <div className="input-group mb-3">
-                                <textarea style={{"fontSize":"22px"}}  className='form-control shadow p-2 bg-body rounded' id="desc" name="desc" defaultValue={newteam!==''?data.pdesc!==''?data.pdesc:'':''} onChange={(e)=>handleChange(newteam!==''?data.pid:null,null,e.target.value,index+1)} placeholder="Player Description"  />
-                                            <br/><span className="">Max 300 words...</span>
-                              </div>  
-                                  <br/> <br/>
-                            </li>
-                
+                        { teamdet.map((data,index)=>  { return( //------Displaying editable or empty fields for players and team with list.map() function-------------------------------------------------
+                                <li key={index}>
+                                    <label style={{"color":"white","fontSize":"24px"}}>Player {index+1}</label> {newteam===''?'':<span><i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white","marginBottom":"1%","height":"60%"}} onClick={()=>handleShow(newteam!==''?data.pid:null,null,null,null)} ><MdDelete/></i> </span>}
+                                    <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="name" defaultValue={newteam!==''?data.pname!==''?data.pname:'':''} placeholder="Player Name" name="name" onChange={(e)=>handleChange(newteam!==''?data.pid:null,e.target.value,null,index+1)}  type='text' /><br/>
+                                    <div className="input-group mb-3">
+                                      <textarea style={{"fontSize":"22px"}}  className='form-control shadow p-2 bg-body rounded' id="desc" name="desc" defaultValue={newteam!==''?data.pdesc!==''?data.pdesc:'':''} onChange={(e)=>handleChange(newteam!==''?data.pid:null,null,e.target.value,index+1)} placeholder="Player Description"  />
+                                                  <br/><span className="">Max 300 words...</span>
+                                    </div>  
+                                    <br/> <br/>
+                                </li>
                         )})}
-                                  {inputerror === ''?null:<Alert message={inputerror} type='danger'/>}
+                        {inputerror === ''?null:<Alert message={inputerror} type='danger'/>}
                         
-                      </Modal.Body>
-              <Modal.Footer>
-                             
+              </Modal.Body>
+              <Modal.Footer>    
                           <center><button tag='input' type="submit" className='btn btn-primary fs-4 w-auto h-auto'>Submit</button></center>
-                                          <br/>
-                                      
-        
-                                  
+                                          <br/>      
             </Modal.Footer>
           </form>
         </Modal>
         </>
+{/*-----------------------Delete player/team confirmation Modal------------------------------------------------------- */}
         <>
         <Modal show={show2} onHide={()=>handleClose(1)} >
           <form onSubmit={Confirm}>
           <Modal.Header closeButton >
-            <Modal.Title >Delete Player</Modal.Title>
+            <Modal.Title >Delete Team/Player</Modal.Title>
           </Modal.Header>
             <Modal.Body style={{"backgroundColor":"black","fontSize":"22px"}}>
               <h1 className='display-7' style={{'color':'white'}}>1<span style={{'color':'yellow'}}>N</span>E Esports</h1>
                               <br/>
-                    <span style={{'fontSize':'18px','color':'white'}}>Are you sure you want to delete the team/player?</span>
+                    <span style={{'fontSize':'18px','color':'white'}}>Are you sure you want to delete the {newid.value===1?"team":"player"}?</span>
                     {inputerror === ''?null:<Alert message={inputerror} type='danger'/>}
             </Modal.Body>
             <Modal.Footer>
@@ -326,7 +300,7 @@ const handleClose = (ack) =>
             </Modal.Footer>
             </form>
           </Modal>
-          </>
+        </>
       </div>
       
     )
