@@ -12,23 +12,31 @@ export default function SidebarPlayers() {
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
   const [inputerror,setinputerror]=useState('');
-  
+  const [newteam,setnewteam]=useState('');
   const [tn,settn]=useState('');
   const [td,settd]=useState('');
-  let teamdet=[{},{},{},{}];
-  const [players,setplayers]=useState('');
+  //let teamdet=[{},{},{},{}];
+  const [teamdet,setteamdet]=useState([{},{},{},{}]);
+  const [players,setplayers]=useState({});
+  const [teams,setteams]=useState('');
   const searchl=useRef(0);
-  // const [isfetched,setfetched]=useState(false);
-  
-  const handleChange=(pname,pdesc,key)=>{
-    
-    if(pname!==null){
-      teamdet[key-1]={name:pname,desc:teamdet[key-1]['desc']};
+  const [isfetched,setfetched]=useState(false);
+  const flag=useRef(0);
+  const handleChange=(pid,pname,pdesc,key)=>{
+    if(pid!==null && pname!==null){
+      teamdet[key-1]={pid:pid,pname:pname,pdesc:teamdet[key-1]['pdesc']};
+    }
+    else if(pid!==null && pdesc!==null){
+      teamdet[key-1]={pid:pid,pname:teamdet[key-1]['pname'],pdesc:pdesc};
+    }
+    else if(pname!==null){
+      teamdet[key-1]={pname:pname,pdesc:teamdet[key-1]['pdesc']};
     }
     else{
-      teamdet[key-1]={name:teamdet[key-1]['name'],desc:pdesc};
+      teamdet[key-1]={pname:teamdet[key-1]['pname'],pdesc:pdesc};
+        
     }
-    
+    flag.current=1;
   }
   
   const  Search=(e) => {
@@ -61,7 +69,11 @@ export default function SidebarPlayers() {
         setInterval(searchplayer(e),3000);
     }
   }
- const fetch=()=>{
+
+ const fetch= ()=>{
+   
+
+   
     axios({
         method: 'GET',
         url: 'http://localhost:3000/admin/players/all',
@@ -70,27 +82,31 @@ export default function SidebarPlayers() {
       }).then((response) => {
         if(response.status===200)
             {
-              setplayers(response.data);
+              setteams(response.data.teamsArray);
             }
       }, (error) => {
-          if(error.response.status===400){
+          if(error.response.status===403){
             setinputerror('Could not load');
           }
           else{
             setinputerror(error.response.message);
           }
     });
- 
-    // setfetched(true);
+    
+    
+    setfetched(true);
   
   }
-  // if(isfetched===false)
-  // fetch();
+  if(isfetched===false)
+  {
+  fetch();
+  }
   const submitValue=(e)=>{
     e.preventDefault();
     
-    if(show===true )
+    if(newteam==='')
     {
+      console.log(teamdet);
         axios({
             method: 'POST',
             url: 'http://localhost:3000/admin/addplayer',
@@ -119,38 +135,53 @@ export default function SidebarPlayers() {
         });
     }
     else{
-        // axios({
-        //     method: 'POST',
-        //     url: 'http://localhost:3000/admin/updateplayer',
-        //     data: {
-        //         '_id'  : newid,
-        //         'name' : newname,
-        //         'desc' : newdesc,
-        //     },
-        //     withCredentials: true,
-        //     credentials: "include",
-        // }).then((response) => {
-        //     if(response.status===200){
-        //       handleClose();
-        //     }
-           
-        // }, (error) => {
-        //         if(error.response!==undefined){
-        //             if(error.response.status===400){
-        //                 setinputerror('Login!');
-        //             }
-        //   }
-        // });
-   
+      console.log(teamdet);
+          if(flag.current===1){
+            setnewteam(newteam=>[newteam,{tname:tn,tdesc:td}]);
+              
+            axios({
+                method: 'POST',
+                url: 'http://localhost:3000/admin/updateplayer',
+                data: {
+                    'team':newteam,
+                    'players':teamdet
+                },
+                withCredentials: true,
+                credentials: "include",
+            }).then((response) => {
+                if(response.status===200){
+                  setnewteam(''); 
+                  handleClose();
+                }
+              
+            }, (error) => {
+                    if(error.response!==undefined){
+                        if(error.response.status===400){
+                            setinputerror('Login!');
+                        }
+              }
+            });
+            
+          }
   } 
 }
 const handleShow = (id,name,desc) => {
+ 
   if(id!==null && name!==null && desc!==null){
-    // setnewid(id);
-    // setnewname(name);
-    // setnewdesc(desc);
-    setShow(true);
+    console.log(teams);
+    setnewteam({tid:id,tname:name,tdesc:desc});
     
+    
+    Object.keys(teams).forEach((key) => {
+      if(teams[key].id===id){
+        setteamdet(teams[key].players);
+      }
+    });
+        
+
+      console.log(teamdet);
+      
+    setShow(true);
   }
   else if(id!==null){
     // setnewid(id);
@@ -162,13 +193,20 @@ const handleShow = (id,name,desc) => {
   }
     
 }
-const handleClose = () => 
+const handleClose = (ack) => 
 {
-  // setnewid(null);
-  // setnewname(null);
-  // setnewdesc(null);
-  setShow(false);
-  setShow2(false);
+  if(ack===1)
+  {
+    setShow2(false);
+  }
+  else{
+    setShow(false);
+    setShow2(false);
+    setnewteam('');
+    setteamdet([{},{},{},{}]);
+  }
+  
+  
   // fetch();
   
 }
@@ -201,7 +239,7 @@ const handleClose = () =>
         <div className="inline" >
           <div className="Container" style={{"width":"100%","marginTop":"3%"}}>
               <div className="input-group pl-2 mt-4 " style={{"fontSize":"22px","paddingLeft":"15%"}}>
-                <input placeholder='Search...' id="search1" type="text" onChange={e => Search(e.target.value)}/>
+                <input placeholder='Search...'  id="search1" type="text" onChange={e => Search(e.target.value)}/> 
                 
                 <span  className="btn" style={{"backgroundColor":"#343a40","color":"white","marginLeft":"36%","width":"4%"}} onClick={()=>handleShow(null,null,null)}><BiUserPlus  /></span>
               </div> 
@@ -209,10 +247,10 @@ const handleClose = () =>
               <div className="pl-2 mt-4 ml-2" style={{"width":"62%","marginLeft":"14.9%"}}>
              
                 <ul className="list-group" style={{"fontSize":"24px"}} >
-                {   players? players.map((data)=>{ return(
-                    <li className="list-group-item list-group-item-action white" key={ data.name}> {data===null || data===undefined?"No data": data.name}
-                      <span style={{"marginLeft":"81%","float":"right"}}><i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data._id,data.name,data.description)}><FaUserEdit/></i> &nbsp;
-                      <i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data._id,null,null)} ><MdDelete/></i> </span>
+                {   teams? teams.map((data,index)=>{ return(
+                    <li className="list-group-item list-group-item-action white"  key={index}> {data===null || data===undefined?"No data": data.name}
+                      <span style={{"marginLeft":"81%","float":"right"}}><i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data.id,data.name,data.desc)}><FaUserEdit/></i> &nbsp;
+                      <i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data.id,null,null)} ><MdDelete/></i> </span>
                     </li>
                 )}):''} 
                 </ul>
@@ -226,7 +264,7 @@ const handleClose = () =>
         <Modal show={show} onHide={handleClose} >
           <form onSubmit={submitValue}>
               <Modal.Header closeButton>
-                <Modal.Title >{"Add Team"}</Modal.Title>
+                <Modal.Title >{"Add/Edit Team"}</Modal.Title>
               </Modal.Header>
               
                      
@@ -236,23 +274,25 @@ const handleClose = () =>
                    <h1 className='display-7' style={{'color':'white'}}>1<span style={{'color':'yellow'}}>N</span>E Esports</h1>
                                    <br/>
                                    <label style={{"color":"white","fontSize":"24px"}}>Team</label><br/>
-                          <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="name" placeholder="Team Name" onChange={e=>settn(e.target.value)}  type='text' /><br/>
+                          <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' defaultValue={newteam===''?'':newteam.tname} id="name" placeholder="Team Name" onChange={e=>settn(e.target.value)}  type='text' /><br/>
                           <div className="input-group mb-3">
-                            <textarea style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="desc"  onChange={e=>settd(e.target.value)} placeholder="Team Description"  />
+                            <textarea style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="desc" defaultValue={newteam===''?'':newteam.tdesc} onChange={e=>settd(e.target.value)} placeholder="Team Description"  />
                                         <br/><span className="">Max 300 words...</span>
                           </div>
 
                           <br/>
                         { teamdet.map((data,index)=>  { return(
-                          
-                          <li key={index}><label style={{"color":"white","fontSize":"24px"}}>Player {index+1}</label>
-                          <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="name" placeholder="Player Name" name="name" onChange={(e)=>handleChange(e.target.value,null,index+1)}  type='text' /><br/>
-                          <div className="input-group mb-3">
-                            <textarea style={{"fontSize":"22px"}}  className='form-control shadow p-2 bg-body rounded' id="desc" name="desc" onChange={(e)=>handleChange(null,e.target.value,index+1)} placeholder="Player Description"  />
-                                        <br/><span className="">Max 300 words...</span>
-                          </div>  
-                                 <br/> <br/>
-                                 </li>
+                        
+                            <li key={index}>
+                              <label style={{"color":"white","fontSize":"24px"}}>Player {index+1}</label> {newteam===''?'':<span><i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(newteam?data.pid:null,null,null)} ><MdDelete/></i> </span>}
+                              <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="name" defaultValue={newteam!==''?data.pname!==''?data.pname:'':''} placeholder="Player Name" name="name" onChange={(e)=>handleChange(newteam!==''?data.pid:null,e.target.value,null,index+1)}  type='text' /><br/>
+                              <div className="input-group mb-3">
+                                <textarea style={{"fontSize":"22px"}}  className='form-control shadow p-2 bg-body rounded' id="desc" name="desc" defaultValue={newteam!==''?data.pdesc!==''?data.pdesc:'':''} onChange={(e)=>handleChange(newteam!==''?data.pid:null,null,e.target.value,index+1)} placeholder="Player Description"  />
+                                            <br/><span className="">Max 300 words...</span>
+                              </div>  
+                                  <br/> <br/>
+                            </li>
+                
                         )})}
                                   {inputerror === ''?null:<Alert message={inputerror} type='danger'/>}
                         
@@ -269,7 +309,7 @@ const handleClose = () =>
         </Modal>
         </>
         <>
-        <Modal show={show2} onHide={handleClose} >
+        <Modal show={show2} onHide={()=>handleClose(1)} >
           <form onSubmit={Confirm}>
           <Modal.Header closeButton >
             <Modal.Title >Delete Player</Modal.Title>
@@ -277,7 +317,7 @@ const handleClose = () =>
             <Modal.Body style={{"backgroundColor":"black","fontSize":"22px"}}>
               <h1 className='display-7' style={{'color':'white'}}>1<span style={{'color':'yellow'}}>N</span>E Esports</h1>
                               <br/>
-                    <span style={{'fontSize':'18px','color':'white'}}>Are you sure you want to delete the player?</span>
+                    <span style={{'fontSize':'18px','color':'white'}}>Are you sure you want to delete the team/player?</span>
                     {inputerror === ''?null:<Alert message={inputerror} type='danger'/>}
             </Modal.Body>
             <Modal.Footer>
