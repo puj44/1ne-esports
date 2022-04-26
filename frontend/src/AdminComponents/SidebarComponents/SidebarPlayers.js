@@ -54,7 +54,8 @@ export default function SidebarPlayers() {
               }).then((response) => {
                 if(response.status===200)
                     {
-                      setteamdet(response.data);
+                      setteams(response.data.teamsArray);
+                      
                     }
               }, (error) => {
                   if(error.response.status===400){
@@ -80,7 +81,6 @@ export default function SidebarPlayers() {
           if(response.status===200)
               {
                 setteams(response.data.teamsArray);
-                console.log(response.data.teamsArray);
               }
         }, (error) => {
             if(error.response.status===400){
@@ -127,7 +127,6 @@ export default function SidebarPlayers() {
         });
     }
     else{
-      console.log(teamdet);
           if(flag.current===1){
             setnewteam(newteam=>[newteam,{tname:tn,tdesc:td}]);
               

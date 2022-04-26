@@ -88,6 +88,7 @@ exports.addPlayer=function(req,res){
             if(name.length < 100 && desc.length < 300 && name!==null && desc!==null){
                 const db = client.db('esports_1ne');
                 (async ()=>{
+                    const teamid= new ObjectId();
                     for(var i=0;i<team.length;i++){ //adding players
                         if(team[i]==null && i!==3){
                             res.status(401).send(err);
@@ -105,7 +106,7 @@ exports.addPlayer=function(req,res){
                         }
                     }
                     
-                    const tobeinserted2={'name':name,'description':desc,'Player1':pid[0],'Player2':pid[1],'Player3':pid[2],'Player4':pid[3]};
+                    const tobeinserted2={'_id':teamid,'name':name,'description':desc,'Player1':pid[0],'Player2':pid[1],'Player3':pid[2],'Player4':pid[3]};
                     db.collection('teams').insertOne(tobeinserted2,(err, object)=> {
                         if(object){
                             client.close();
@@ -115,8 +116,6 @@ exports.addPlayer=function(req,res){
                             return res.status(403).send('err');
                         }
                     });
-                
-                    
                 })();
                 
             }
@@ -239,18 +238,34 @@ exports.disPlayer=function(req,res){
         const db = client.db('esports_1ne');
 
         (async ()=>{
-                
-                const result = await db.collection('players').find({name:{  $regex: pName, $options: 'i' } }).toArray();
-                if(result){
-                    console.log(result);
-                    res.status(200).send(result);
+//----------------------------------------------------searching the value in teams database---------------------------------
+                const result = await db.collection('teams').find({name:{  $regex: pName, $options: 'i' } }).toArray();
+                if(result.length!=0){
+                    let players=[];
+                    let teams=[];
+                    for(var i=0;i<result.length;i++){
+                        //----------------------------------fetching players details from fetched player id's of teams database once found--------------------------------
+                        for(var j=1;j<=4;j++){
+                            const pid=result[i]['Player'+j]; 
+                            if(pid!=null){
+                                const result2=await db.collection('players').find({'_id':ObjectId(pid)}).toArray();
+                                if(result2){
+                                    players.push({pid:result2[0]['_id'],pname:result2[0]['name'],pdesc:result2[0]['description']});
+                                }
+                            }
+                        }
+                        //----------------------------------storing teams and players into an array {id:teamname,teamdesc,playerid,playername,playerdesc}
+                        teams.push({id:result[i]['_id'],name:result[i]['name'],desc:result[i]['description'],players});
+                        players=[];
+                    }
+                    client.close();
+                    return res.status(200).send({teamsArray:teams});
                 }
                 else{
-                    const result=[{_id:'',name:'Not found',description:''}]
-                    res.status(200).send(result);
+                    const result=[{}];
+                    res.status(400).send(result);
                 }
-                
             })();
-            client.close();
+            
         });
 }
