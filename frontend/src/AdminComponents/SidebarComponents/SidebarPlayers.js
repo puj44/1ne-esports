@@ -158,7 +158,7 @@ export default function SidebarPlayers() {
 }
 const handleShow = (id,name,desc,value) => {
  
-  if(id!==null && name!==null && desc!==null){
+  if(id && name && desc){
     setnewteam({tid:id,tname:name,tdesc:desc});
     Object.keys(teams).forEach((key) => {
       if(teams[key].id===id){
@@ -167,7 +167,7 @@ const handleShow = (id,name,desc,value) => {
     });
     setShow(true);
   }
-  else if(id!==null){
+  else if(id){
     setid({id:id,val:value});
     setShow2(true);
   }
