@@ -48,7 +48,7 @@ exports.authenticate=function(req, res) {
                         console.log("logged");
                         return res.status(200).send("logged");
                     }else{
-                        return res.status(404).send('not found');
+                        return res.status(402).send('not found');
                     }
                 })
             }
