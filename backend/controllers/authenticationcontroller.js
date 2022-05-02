@@ -2,19 +2,13 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
-const jwt = require('jsonwebtoken');
+const { MongoClient , ObjectId} = require('mongodb');
 const cookieParser = require('cookie-parser');
-const bcrypt = require('bcryptjs');
-const { MongoClient } = require('mongodb');
-// get config consts
-const key='09f26e402586e2faa8da4c98a35f1b20d6b033c6097befa8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611';
 
-
-// access config const
 app.use(cookieParser);
 app.use(cors());
 app.use(bodyParser.json());
+require('dotenv').config();
 /**
  * @apiVersion 0.2.0
  * @api {post} /auth/signin signin or authenticate a user.
@@ -25,55 +19,233 @@ app.use(bodyParser.json());
  * @apiError UserNotFound   The <code>id</code> of the User was not found.
 */
 
-exports.authenticate=function(req, res) {
-    const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority";
-   
+const uri = process.env.mongo_url;
+
+exports.displayAll=function(req,res){ //display all teams and its players
+    const token = req.cookies.token1;
+    if(token===null || token===undefined)
+    return res.status(403).send(result);
     MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
-        const db = client.db("esports_1ne");
-        const username=req.params.username;
-        const password=req.params.password;
+        let teams=[];
+        let players=[];
+        const db = client.db('esports_1ne');
         (async ()=>{
-            const user =await  db.collection("admin").find({'username':username}).toArray();
-            if(user[0]){
-                bcrypt.compare(password,user[0]['password'],(err,hash_result)=>{
-                    if(err)
-                        return res.status(401).send(err);           
-                    if(hash_result===false){
-                        return res.status(401).send('Wrong password');
+                const result = await db.collection('teams').find({}).toArray();//teams fetch
+                if(result.length>0){
+                    for(var i=0;i<result.length;i++){
+//----------------------------------fetching players details from fetched player id's of teams database--------------------------------
+                        for(var j=1;j<=4;j++){
+                            const pid=result[i]['Player'+j]; 
+                            if(pid!=null){
+                                const result2=await db.collection('players').find({'_id':ObjectId(pid)}).toArray();
+                                if(result2){
+                                    players.push({pid:result2[0]['_id'],pname:result2[0]['name'],pdesc:result2[0]['description']});
+                                }
+                            }
+                        }
+//----------------------------------storing teams and players into an array {id:teamname,teamdesc,playerid,playername,playerdesc}
+                        teams.push({id:result[i]['_id'],name:result[i]['name'],desc:result[i]['description'],players});
+                        players=[];
                     }
-                    if( user.length > 0){
-                        let token = jwt.sign({type:'admin'}, key,{expiresIn: '72h'});
-                        res.cookie('token1', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,secure:true,sameSite:'none'});
-                        console.log("logged");
-                        return res.status(200).send("logged");
-                    }else{
-                        return res.status(404).send('not found');
+                    if(teams.length>0){//send result
+                        client.close();
+                        return res.status('200').send({teamsArray:teams});
                     }
-                })
+                    else{
+                        return res.status(403).send("no data");
+                    }
+                }
+                else{
+                    return res.status(404).send("no data");
+                }
+            })();
+        });
+}
+exports.addPlayer=function(req,res){
+    const token = req.cookies.token1;
+    if(token===null || token===undefined)
+    return res.status(403).send(result);
+        MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+            if (err) throw err
+            const name=req.body.name;
+            const desc=req.body.desc;
+            const team=req.body.details;
+            let pid=[];
+           //to add teams and players
+            if(name.length < 100 && desc.length < 300 && name!==null && desc!==null){
+                const db = client.db('esports_1ne');
+                (async ()=>{
+                    const teamid= new ObjectId();
+                    for(var i=0;i<team.length;i++){ //adding players
+                        if(team[i]==null && i!==3){
+                            res.status(401).send(err);
+                        }
+                        else{
+                            const toBeInserted={'name':team[i]['pname'],'description':team[i]['pdesc']};//insert player details
+                            const result=await db.collection('players').insertOne(toBeInserted);
+                                if(result){
+                                    pid.push(result.insertedId);
+                                    
+                                }
+                                else{
+                                    return res.status(402).send('err');
+                                }
+                        }
+                    }
+                    
+                    const toBeInserted={'_id':teamid,'name':name,'description':desc,'Player1':pid[0],'Player2':pid[1],'Player3':pid[2],'Player4':pid[3]};
+                    db.collection('teams').insertOne(toBeInserted,(err, object)=> {
+                        if(object){
+                            client.close();
+                            return res.status(200).send('OK!');            
+                        }
+                        else{
+                            return res.status(402).send('err');
+                        }
+                    });
+                })();
+                
             }
-          else{
-              return res.status(404).send('not found 1');
-          }
-          client.close();
+            else{
+                res.status(402).send('Length exceed');
+            }
+        });
+}
+exports.delPlayer=function(req,res){
+    const token = req.cookies.token1;
+    if(token===null || token===undefined)
+    return res.status(403).send(result);
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+        if (err) throw err
+        const id=req.body.id; // team or player id
+        const value=req.body.value; // check whether the id is of team or player
+        const db = client.db('esports_1ne');
+//-------------------------------find players for deletion--------------------------------------------------------
+        (async ()=>{
+            let ele='';
+            if(value===1){
+                let pid='';
+                ele=db.collection('teams'); // set collection to teams if id is of team
+                const result = await ele.find({'_id':ObjectId(id)}).toArray(); // retrieve player id's
+                if(!result){return res.status(400).send("not found");}
+//-----------------------players deletion from team's database-----------------------------------------
+                let playerres=0;
+                
+                for(var j=1;j<=4;j++){
+                    const pid=result[0]["Player"+j];
+                    if(pid){
+                         playerres= db.collection('players').findOneAndDelete({'_id':ObjectId(pid)}); // deletes players one by one
+                    }
+                }
+//-----------------------delete the player or team from database using id------------------------------
+                if(playerres){
+                    const teamdel = ele.findOneAndDelete({'_id':ObjectId(id)});
+                    if(teamdel){
+                        return res.status(200).send("deleted");
+                    }
+                    else{
+                        return res.status(404).send("not found");
+                    }
+                }
+                else{
+                    return res.status(402).send(err);
+                }
+            }
+            else{
+                    ele=db.collection('players'); // set collection to players
+                    ele.updateOne({ '_id':  ObjectId(id)},{$set:{'name':null,'description':null}},function(err,object){ // delete player from players database -> set null to the player for replacing the player in near future
+                        if(object){
+                                client.close();
+                                return res.status(200).send("deleted");
+                            }
+                        else{
+                            return res.status(402).send(err);
+                        }
+                    });
+                } 
         })();
-        
     });
 }
-exports.checkstatus=function(req, res) {
+//-------------------------edit team/player-----------------------------------------------------------
+exports.updatePlayer=function(req,res){
     const token = req.cookies.token1;
-    jwt.verify(token, key, (error,result)=>{ 
-        if(error){
-            return res.status(500).send(result);
+    if(token===null || token===undefined)
+    return res.status(403).send(result);
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+        if (err) throw err
+        const team=req.body.team; //fetch teams
+        const players=req.body.players; //fetch players
+        console.log(players);
+//----------------------------update team and player details-------------------------------------------
+        const {tname,tdesc}= team;
+        if(tname && tdesc){
+            const db = client.db('esports_1ne');
+            (async ()=>{
+//----------------------------update team details-----------------------------------------------------
+                  const teamres= await db.collection('teams').updateOne({'_id':ObjectId(team.tid)},{$set:{'name':team.tname,'description':team.tdesc},$currentDate:{ lastModified: true }});
+                  let playerres=0;
+                  if(teamres){
+                    for(var i=0;i<players.length;i++){
+//---------------------update player details---------------------------------------------------------
+                        console.log(players[i].pname);
+                        playerres= await db.collection('players').updateOne({ '_id': ObjectId(players[i].pid) },{$set: { 'name': players[i].pname, 'description': players[i].pdesc },$currentDate: { lastModified: true }});
+                    }
+                    if(playerres){ //send response if updated
+                        client.close();
+                        res.status(200).send("OK");
+                        
+                    }
+                    else{
+                        res.status(401).send(err);
+                    }
+                  } 
+                  else{
+                      res.status(401).send(err);
+                  }
+            })();         
         }
         else{
-                return res.status(200).send({
-                    title:'admin'
-                });
-            }
-    });
+            res.status(402).send('Length exceed');
+        }   
+    });  
 }
-exports.signout = function(req, res) {
-    res.clearCookie('token',{httpOnly:true, sameSite:'none',secure:true});
-    return res.status(200).send("ok");
+//---------------------------------------------------search specific team function----------------------------------------
+exports.disPlayer=function(req,res){
+    const token = req.cookies.token1;
+     if(token===null || token===undefined)
+    return res.status(403).send(result);
+    const pName=req.params.name.toLowerCase();
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+        if (err) throw err
+        const db = client.db('esports_1ne');
+        (async ()=>{
+//----------------------------------------------------searching the value in teams database---------------------------------
+                const result = await db.collection('teams').find({name:{  $regex: pName, $options: 'i' } }).toArray();
+                if(result.length!=0){
+                    let players=[];
+                    let teams=[];
+                    for(var i=0;i<result.length;i++){
+                        //----------------------------------fetching players details from fetched player id's of teams database once found--------------------------------
+                        for(var j=1;j<=4;j++){
+                            const pid=result[i]['Player'+j]; 
+                            if(pid){
+                                const result2=await db.collection('players').find({'_id':ObjectId(pid)}).toArray();
+                                if(result2){
+                                    players.push({pid:result2[0]['_id'],pname:result2[0]['name'],pdesc:result2[0]['description']});
+                                }
+                            }
+                        }
+                        //----------------------------------storing teams and players into an array {id:teamname,teamdesc,playerid,playername,playerdesc}
+                        teams.push({id:result[i]['_id'],name:result[i]['name'],desc:result[i]['description'],players});
+                        players=[];
+                    }
+                    client.close();
+                    return res.status(200).send({teamsArray:teams});
+                }
+                else{
+                    res.status(404).send("not found");
+                }
+            })();
+        }); 
 }
