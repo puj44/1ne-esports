@@ -17,27 +17,36 @@ export default function AdminLogin() {
           };
           const submitValueLog = (e) => {
             e.preventDefault();
-            axios({
-                method: 'POST',
-                url: 'http://localhost:3000/auth/signin/'+logusername+'/'+logpassword,
-                withCredentials: true,
-                credentials:"include"
-              }).then((response) => {
-                 if(response.status===200)
-                    window.location='http://localhost:3001/admin/dashboard';
-              }, (error) => {
-                
-                    if(error.response!==undefined){
-                        if(error.response.status===404){
-                            setloginerror('Username or password is wrong');
+            if(logusername.length>0 && logpassword.length>0){
+                axios({
+                    method: 'POST',
+                    url: 'http://localhost:3000/auth/signin/',
+                    data:{
+                        username:logusername,
+                        password:logpassword
+                    },
+                    withCredentials: true,
+                    credentials:"include"
+                }).then((response) => {
+                    if(response.status===200)
+                        window.location='http://localhost:3001/admin/dashboard';
+                }, (error) => {
+                    
+                        if(error.response!==undefined){
+                            if(error.response.status===404){
+                                setloginerror('Username or password is wrong');
+                            }
+                            if(error.response.status===401){
+                                setloginerror('Password is wrong');
+                            }
+                        }else{
+                            setloginerror('something went wrong');
                         }
-                        if(error.response.status===401){
-                            setloginerror('Password is wrong');
-                        }
-                    }else{
-                        setloginerror('something went wrong');
-                    }
-              });
+                });
+            }
+            else{
+                setloginerror("Enter valid values");
+            }
         }
     return(
         <div >

@@ -4,10 +4,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { MongoClient , ObjectId} = require('mongodb');
 const cookieParser = require('cookie-parser');
-require('dotenv').config();
+
 app.use(cookieParser);
 app.use(cors());
 app.use(bodyParser.json());
+require('dotenv').config();
 /**
  * @apiVersion 0.2.0
  * @api {post} /auth/signin signin or authenticate a user.
@@ -18,7 +19,7 @@ app.use(bodyParser.json());
  * @apiError UserNotFound   The <code>id</code> of the User was not found.
 */
 
-const uri = process.env.REACT_APP_MONGODB_API_KEY;
+const uri = process.env.mongo_url;
 
 exports.displayAll=function(req,res){ //display all teams and its players
     const token = req.cookies.token1;
@@ -32,7 +33,6 @@ exports.displayAll=function(req,res){ //display all teams and its players
         (async ()=>{
                 const result = await db.collection('teams').find({}).toArray();//teams fetch
                 if(result.length>0){
-                    
                     for(var i=0;i<result.length;i++){
 //----------------------------------fetching players details from fetched player id's of teams database--------------------------------
                         for(var j=1;j<=4;j++){
@@ -57,7 +57,7 @@ exports.displayAll=function(req,res){ //display all teams and its players
                     }
                 }
                 else{
-                    return res.status(400).send("n");
+                    return res.status(404).send("no data");
                 }
             })();
         });
@@ -89,7 +89,7 @@ exports.addPlayer=function(req,res){
                                     
                                 }
                                 else{
-                                    return res.status(403).send('err');
+                                    return res.status(402).send('err');
                                 }
                         }
                     }
@@ -101,7 +101,7 @@ exports.addPlayer=function(req,res){
                             return res.status(200).send('OK!');            
                         }
                         else{
-                            return res.status(403).send('err');
+                            return res.status(402).send('err');
                         }
                     });
                 })();
@@ -145,11 +145,11 @@ exports.delPlayer=function(req,res){
                         return res.status(200).send("deleted");
                     }
                     else{
-                        return res.status(400).send("not found");
+                        return res.status(404).send("not found");
                     }
                 }
                 else{
-                    return res.status(401).send(err);
+                    return res.status(402).send(err);
                 }
             }
             else{
@@ -160,7 +160,7 @@ exports.delPlayer=function(req,res){
                                 return res.status(200).send("deleted");
                             }
                         else{
-                            return res.status(401).send(err);
+                            return res.status(402).send(err);
                         }
                     });
                 } 
@@ -244,8 +244,7 @@ exports.disPlayer=function(req,res){
                     return res.status(200).send({teamsArray:teams});
                 }
                 else{
-                    const result=[{}];
-                    res.status(400).send(result);
+                    res.status(404).send("not found");
                 }
             })();
         }); 
