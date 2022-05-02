@@ -259,13 +259,13 @@ const handleClose = (ack) =>
 
                           <br/>
                         { teamdet.map((data,index)=>  { return( //------Displaying editable or empty fields for players and team with list.map() function-------------------------------------------------
-                                <li key={index}>
+                                <li key={index} type="none">
                                     <label style={{"color":"white","fontSize":"24px"}}>Player {index+1}</label> {newteam===''?'':<span><i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white","marginBottom":"1%","height":"60%"}} onClick={()=>handleShow(newteam!==''?data.pid:null,null,null,null)} ><MdDelete/></i> </span>}
                                     <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' id="name" defaultValue={newteam!==''?data.pname!==''?data.pname:'':''} placeholder="Player Name" name="name" onChange={(e)=>handleChange(newteam!==''?data.pid:null,e.target.value,null,index+1)}  type='text' /><br/>
                                     <div className="input-group mb-3">
                                       <textarea style={{"fontSize":"22px"}}  className='form-control shadow p-2 bg-body rounded' id="desc" name="desc" defaultValue={newteam!==''?data.pdesc!==''?data.pdesc:'':''} onChange={(e)=>handleChange(newteam!==''?data.pid:null,null,e.target.value,index+1)} placeholder="Player Description"  />
-                                                  <br/><span className="">Max 300 words...</span>
-                                    </div>  
+                                                  <br/>
+                                    </div>  <span style={{"color":'white'}}>Max 300 words...</span>
                                     <br/> <br/>
                                 </li>
                         )})}
@@ -300,8 +300,5 @@ const handleClose = (ack) =>
           </Modal>
         </>
       </div>
-      
     )
-    
-  
 }

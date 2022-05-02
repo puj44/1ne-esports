@@ -3,9 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { MongoClient , ObjectId} = require('mongodb');
-
 const cookieParser = require('cookie-parser');
-
+require('dotenv').config();
 app.use(cookieParser);
 app.use(cors());
 app.use(bodyParser.json());
@@ -19,25 +18,18 @@ app.use(bodyParser.json());
  * @apiError UserNotFound   The <code>id</code> of the User was not found.
 */
 
-
-
-
-const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority";
+const uri = process.env.REACT_APP_MONGODB_API_KEY;
 
 exports.displayAll=function(req,res){ //display all teams and its players
-    
     const token = req.cookies.token1;
-    
     if(token===null || token===undefined)
     return res.status(403).send(result);
-    
     MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         let teams=[];
         let players=[];
         const db = client.db('esports_1ne');
         (async ()=>{
-            
                 const result = await db.collection('teams').find({}).toArray();//teams fetch
                 if(result.length>0){
                     
@@ -67,23 +59,19 @@ exports.displayAll=function(req,res){ //display all teams and its players
                 else{
                     return res.status(400).send("n");
                 }
-                
             })();
-            
         });
-        
 }
 exports.addPlayer=function(req,res){
     const token = req.cookies.token1;
     if(token===null || token===undefined)
-    return res.status(400).send(result);
+    return res.status(403).send(result);
         MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
             if (err) throw err
             const name=req.body.name;
             const desc=req.body.desc;
             const team=req.body.details;
             let pid=[];
-
            //to add teams and players
             if(name.length < 100 && desc.length < 300 && name!==null && desc!==null){
                 const db = client.db('esports_1ne');
@@ -94,8 +82,8 @@ exports.addPlayer=function(req,res){
                             res.status(401).send(err);
                         }
                         else{
-                            const tobeinserted1={'name':team[i]['pname'],'description':team[i]['pdesc']};//insert player details
-                            const result=await db.collection('players').insertOne(tobeinserted1);
+                            const toBeInserted={'name':team[i]['pname'],'description':team[i]['pdesc']};//insert player details
+                            const result=await db.collection('players').insertOne(toBeInserted);
                                 if(result){
                                     pid.push(result.insertedId);
                                     
@@ -106,8 +94,8 @@ exports.addPlayer=function(req,res){
                         }
                     }
                     
-                    const tobeinserted2={'_id':teamid,'name':name,'description':desc,'Player1':pid[0],'Player2':pid[1],'Player3':pid[2],'Player4':pid[3]};
-                    db.collection('teams').insertOne(tobeinserted2,(err, object)=> {
+                    const toBeInserted={'_id':teamid,'name':name,'description':desc,'Player1':pid[0],'Player2':pid[1],'Player3':pid[2],'Player4':pid[3]};
+                    db.collection('teams').insertOne(toBeInserted,(err, object)=> {
                         if(object){
                             client.close();
                             return res.status(200).send('OK!');            
@@ -140,13 +128,13 @@ exports.delPlayer=function(req,res){
                 let pid='';
                 ele=db.collection('teams'); // set collection to teams if id is of team
                 const result = await ele.find({'_id':ObjectId(id)}).toArray(); // retrieve player id's
-                if(!result){return res.status(400).send("oof");}
+                if(!result){return res.status(400).send("not found");}
 //-----------------------players deletion from team's database-----------------------------------------
                 let playerres=0;
                 
                 for(var j=1;j<=4;j++){
                     const pid=result[0]["Player"+j];
-                    if(pid!=null || pid!=undefined){
+                    if(pid){
                          playerres= db.collection('players').findOneAndDelete({'_id':ObjectId(pid)}); // deletes players one by one
                     }
                 }
@@ -166,7 +154,7 @@ exports.delPlayer=function(req,res){
             }
             else{
                     ele=db.collection('players'); // set collection to players
-                    ele.updateOne({ '_id':  ObjectId(id)},{$set:{'name':null,'description':null}},function(err,object){ // delete player from players database
+                    ele.updateOne({ '_id':  ObjectId(id)},{$set:{'name':null,'description':null}},function(err,object){ // delete player from players database -> set null to the player for replacing the player in near future
                         if(object){
                                 client.close();
                                 return res.status(200).send("deleted");
@@ -177,7 +165,6 @@ exports.delPlayer=function(req,res){
                     });
                 } 
         })();
-       
     });
 }
 //-------------------------edit team/player-----------------------------------------------------------
@@ -191,7 +178,8 @@ exports.updatePlayer=function(req,res){
         const players=req.body.players; //fetch players
         console.log(players);
 //----------------------------update team and player details-------------------------------------------
-        if(team.tname!==null && team.tdesc!==null){
+        const {tname,tdesc}= team;
+        if(tname && tdesc){
             const db = client.db('esports_1ne');
             (async ()=>{
 //----------------------------update team details-----------------------------------------------------
@@ -215,28 +203,22 @@ exports.updatePlayer=function(req,res){
                   else{
                       res.status(401).send(err);
                   }
-                   
-            })();      
-            
+            })();         
         }
         else{
             res.status(402).send('Length exceed');
-        }
-        
-    });
-   
+        }   
+    });  
 }
-
+//---------------------------------------------------search specific team function----------------------------------------
 exports.disPlayer=function(req,res){
     const token = req.cookies.token1;
      if(token===null || token===undefined)
     return res.status(403).send(result);
     const pName=req.params.name.toLowerCase();
-    
     MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db('esports_1ne');
-
         (async ()=>{
 //----------------------------------------------------searching the value in teams database---------------------------------
                 const result = await db.collection('teams').find({name:{  $regex: pName, $options: 'i' } }).toArray();
@@ -247,7 +229,7 @@ exports.disPlayer=function(req,res){
                         //----------------------------------fetching players details from fetched player id's of teams database once found--------------------------------
                         for(var j=1;j<=4;j++){
                             const pid=result[i]['Player'+j]; 
-                            if(pid!=null){
+                            if(pid){
                                 const result2=await db.collection('players').find({'_id':ObjectId(pid)}).toArray();
                                 if(result2){
                                     players.push({pid:result2[0]['_id'],pname:result2[0]['name'],pdesc:result2[0]['description']});
@@ -266,6 +248,5 @@ exports.disPlayer=function(req,res){
                     res.status(400).send(result);
                 }
             })();
-            
-        });
+        }); 
 }

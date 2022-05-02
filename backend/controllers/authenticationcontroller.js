@@ -25,9 +25,6 @@ app.use(bodyParser.json());
  * @apiError UserNotFound   The <code>id</code> of the User was not found.
 */
 
-
-
-
 exports.authenticate=function(req, res) {
     const uri = "mongodb+srv://1ne-esports:1ne-esports@cluster0.sakf4.mongodb.net/esports_1ne?retryWrites=true&w=majority";
    

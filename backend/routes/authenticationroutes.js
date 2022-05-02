@@ -5,6 +5,6 @@ const verifyToken = require('./verifyToken');
 
 router.get("/signout",verifyToken,auth.signout);
 router.get("/getstatus",auth.checkstatus);
-router.get("/signin/:username/:password",auth.authenticate);
+router.post("/signin/:username/:password",auth.authenticate);
 
 module.exports= router;

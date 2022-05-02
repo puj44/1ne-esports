@@ -18,7 +18,7 @@ export default function AdminLogin() {
           const submitValueLog = (e) => {
             e.preventDefault();
             axios({
-                method: 'GET',
+                method: 'POST',
                 url: 'http://localhost:3000/auth/signin/'+logusername+'/'+logpassword,
                 withCredentials: true,
                 credentials:"include"
