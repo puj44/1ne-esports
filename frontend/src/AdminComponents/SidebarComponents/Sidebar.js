@@ -1,10 +1,11 @@
 import React from 'react';
 import { useState } from "react";
+import axios from 'axios';
 import { AiOutlineMenu } from "react-icons/ai";
 import { FaJedi, FaHeadset } from "react-icons/fa";
 import { BsFillCalendar2CheckFill } from "react-icons/bs";
 import {RiCommunityLine} from "react-icons/ri"
-import {TiGroup} from "react-icons/ti"
+
 import {MdLogout} from "react-icons/md"
 import {Link} from 'react-router-dom';
 import Alert from '../Alert'
@@ -49,6 +50,7 @@ const SideNavigation = () => {
   const Logout=()=>{
     axios({
       method: 'GET',
+<<<<<<< HEAD
       url: 'http://localhost:3000/auth/signout',
       withCredentials: true,
       credentials: "include",
@@ -62,6 +64,16 @@ const SideNavigation = () => {
           Alert("Couldn't Logout")
         }
   });
+=======
+      url: "http://localhost:3000/auth/signout",
+      withCredentials: true,
+      credentials:"include"
+    }).then((response) => {
+       if(response.status===200)
+          window.location='https://localhost:3001/admin';
+    });
+    
+>>>>>>> e789d7b13b6d0e54dff8ae6963379bf746772695
   }
   return (
     <ProSidebar style={styles.sideBarHeight} collapsed={collapsed}>
@@ -96,11 +108,7 @@ const SideNavigation = () => {
             <span style={{'color':'white'}}>Players</span>
           </Link>
         </MenuItem>
-        <MenuItem style={styles.menuitem}  icon={<TiGroup style={{'color':'white','height':'25px','width':'20px'}}/>}>
-          <Link to='teams'>
-            <span style={{'color':'white'}}>Teams</span>
-          </Link> 
-        </MenuItem>
+      
         <MenuItem style={styles.menuitem} icon={<RiCommunityLine  style={{'color':'white','height':'25px','width':'20px'}}/>}> 
           <Link to='game-night'> 
             <span style={{'color':'white'}}>Community Game Night</span>
