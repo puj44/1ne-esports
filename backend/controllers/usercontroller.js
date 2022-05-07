@@ -20,11 +20,26 @@ require('dotenv').config();
 */
 
 const uri = process.env.mongo_url;
-
+//--------------------------------------FETCH ALL PLAYERS INFORMATION------------------------------------------
 exports.showPlayers=function(req, res) {
-
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+        if (err) throw err
+        const db = client.db('esports_1ne'); //connect database
+        (async ()=>{
+            //fetch data from database
+            const playersres= await db.collection('players').find({}).toArray();
+            if(playersres.length>0){
+                const filtered=playersres.filter(d=> d.name!==null);
+                return res.status(200).send({playersArray:filtered});
+            }
+            else{
+                console.log("s");
+                return res.status(404).send("no data");
+            }
+        })();
+    });
 }
-
+//-------------------------------FETCH ALL TEAMS INFORMATION WITH PLAYERS------------------------------------------
 exports.showTeams=function(req, res) {
     
 }

@@ -4,6 +4,7 @@ const cors=require('cors');
 const cookieParser=require('cookie-parser');
 const authRouter = require('./routes/authenticationroutes');
 const adminRouter = require('./routes/adminroutes');
+const userRouter = require('./routes/userroutes');
 const bodyParser = require('body-parser');
 app.use(express.json());
 app.use(bodyParser.json());
@@ -25,5 +26,6 @@ const corsOptions = {
   app.set('trust proxy', 1);
   app.use("/auth",authRouter);
   app.use("/admin",adminRouter);
+  app.use("/user",userRouter);
   //app.listen(3000, 'localhost');
   app.listen(3000, "localhost");
