@@ -6,20 +6,15 @@ import {Link} from 'react-router-dom';
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav } from 'react-bootstrap';
-export default function Header(){
-
-    
-
- 
+export default function Header(){ 
     if(window.location.pathname.indexOf("admin") !== -1){ 
         return null;
     }
 
     else{
     return (
-        <div>
             <div className="position-relative">
-            <div style={{'borderBottom':'3px solid #fff'}} className="fixed-top">
+                <div style={{'borderBottom':'3px solid #fff'}} className="fixed-top">
                         <Navbar bg="black" variant="dark" expand="lg" sticky="top"  >
                         <a className='navbar-brand' href='/'><img src={logo}  style={{"width":"75%","height":"90%","marginTop":"0.2%"}} alt="logo" /></a>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -47,9 +42,8 @@ export default function Header(){
                             </Navbar.Collapse>
                         </Navbar>
                         
+                </div>
             </div>
-            </div>
-        </div>
     );
     }
 }
