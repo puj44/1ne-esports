@@ -1,6 +1,7 @@
-import {React,useEffect,useState,useRef} from 'react';
+import {React,useState,useRef} from 'react';
 import '../css/Boxmodel.css';
 import axios from 'axios';
+import '../css/BoxFlex.css';
 function PlayersBio() {
   
   const [players,setplayers]=useState('');
@@ -9,6 +10,7 @@ function PlayersBio() {
   const [pages,setPages] = useState('');
   const dropid=useRef([]);
   const boxElement=useRef([]);
+  const arrowProp=useRef([]);
   const buttonStyle={
     backgroundColor:"rgb(253,191,23,255)",
     color:"black",
@@ -28,6 +30,7 @@ function PlayersBio() {
           if(response.status===200)
               {
                 setplayers(response.data.playersArray);
+                setPages(Math.ceil(response.data.playersArray.length / 16));
               }
         }, (error) => {
             if(error.response.status===400){
@@ -68,8 +71,19 @@ function PlayersBio() {
 
   //group page numbers
   const getPageGroup = () => {
-    let start = Math.floor((currentPage - 1) / 4) * 4;
-    return new Array(3).fill().map((_, idx) => start + idx + 1);
+    let pageArray=[];
+    let start = Math.floor((currentPage - 1) / 4) * 4; 
+    let count=0;
+    for(var i = start+1;i<=pages;i++){
+        if(count===2){
+          break;
+        }  
+        else {
+          pageArray.push(i);
+        }
+        count++;
+    }
+    return pageArray;
   };
 
   //--------------------------------css manipulation dropdown function--------------------------------------
@@ -77,17 +91,22 @@ function PlayersBio() {
     if(dropid.current[idx].style.display==="none"){
       dropid.current[idx].style.display="block";
       boxElement.current[idx].style.borderWidth="4px";
-
+      boxElement.current[idx].style.boxShadow="rgba(208,189,141) 0px 15px 30px -12px inset, rgba(0, 0, 0, 0.3) 0px 9px 18px -18px inset";
+      arrowProp.current[idx].style.transform="rotate(-135deg)";
+      arrowProp.current[idx].style.webkitTransform="rotate(-135deg)";
+      arrowProp.current[idx].style.marginTop="13%";
     }
     else{
       dropid.current[idx].style.display="none";
       boxElement.current[idx].style.borderWidth="3px";
-      
+      boxElement.current[idx].style.boxShadow="0px 0px 0px 0px";
+      arrowProp.current[idx].style.transform="rotate(45deg)";
+      arrowProp.current[idx].style.webkitTransform="rotate(45deg)";
+      arrowProp.current[idx].style.marginTop="8%";
     }
   }
   if(isfetched===false){
     fetch();
-    setPages(Math.round(players.length / 16));
   }
 
   return (
@@ -98,7 +117,7 @@ function PlayersBio() {
             {players!==''? getPageData().map((data,idx)=>{return(
               <>
                 <label ref={(el) => (boxElement.current[idx] = el)} key={idx} className="listBox" >{data.name} &nbsp;
-                    <span onClick={()=>dropDown(idx)} className="arrow"></span><br></br>
+                    <span ref={(el=>{arrowProp.current[idx]=el})} onClick={()=>dropDown(idx)} className="arrow"></span><br></br>
                     <label key={idx}  ref={(el) => (dropid.current[idx] = el)} className="dropdown-box">Team Name: {data.teamName}<br></br>{data.description}</label>
                 </label>
                 
