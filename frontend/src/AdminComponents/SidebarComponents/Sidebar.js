@@ -8,8 +8,7 @@ import {RiCommunityLine} from "react-icons/ri"
 
 import {MdLogout} from "react-icons/md"
 import {Link} from 'react-router-dom';
-import Alert from '../Alert'
-import axios from 'axios';
+import Alert from '../Alert';
 import '../../css/sidebar.css';
 import {
   Menu,
@@ -50,21 +49,6 @@ const SideNavigation = () => {
   const Logout=()=>{
     axios({
       method: 'GET',
-<<<<<<< HEAD
-      url: 'http://localhost:3000/auth/signout',
-      withCredentials: true,
-      credentials: "include",
-    }).then((response) => {
-      if(response.status===200)
-          {
-            window.location="https://1ne-esports.netlify.app/admin";
-          }
-    }, (error) => {
-        if(error){
-          Alert("Couldn't Logout")
-        }
-  });
-=======
       url: "http://localhost:3000/auth/signout",
       withCredentials: true,
       credentials:"include"
@@ -73,7 +57,6 @@ const SideNavigation = () => {
           window.location='https://localhost:3001/admin';
     });
     
->>>>>>> e789d7b13b6d0e54dff8ae6963379bf746772695
   }
   return (
     <ProSidebar style={styles.sideBarHeight} collapsed={collapsed}>

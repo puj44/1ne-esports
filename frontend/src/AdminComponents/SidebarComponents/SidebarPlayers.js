@@ -70,18 +70,6 @@ export default function SidebarPlayers() {
         setInterval(searchplayer(e),3000);
     }
   }
-<<<<<<< HEAD
- const fetch=()=>{
-    axios({
-        method: 'GET',
-        url: 'http://localhost:3000/admin/players/all',
-        withCredentials: true,
-        credentials: "include",
-      }).then((response) => {
-        if(response.status===200)
-            {
-              setplayers(response.data);
-=======
 
  const fetch= ()=>{
       axios({
@@ -97,7 +85,6 @@ export default function SidebarPlayers() {
         }, (error) => {
             if(error.response.status===400){
               setteams('');
->>>>>>> e789d7b13b6d0e54dff8ae6963379bf746772695
             }
             else{
               setinputerror(error.response.message);
@@ -140,28 +127,6 @@ export default function SidebarPlayers() {
         });
     }
     else{
-<<<<<<< HEAD
-        axios({
-            method: 'POST',
-            url: 'http://localhost:3000/admin/updateplayer',
-            data: {
-                '_id'  : newid,
-                'name' : newname,
-                'desc' : newdesc,
-            },
-            withCredentials: true,
-            credentials: "include",
-        }).then((response) => {
-            if(response.status===200){
-              handleClose();
-            }
-           
-        }, (error) => {
-                if(error.response!==undefined){
-                    if(error.response.status===400){
-                        setinputerror('Login!');
-                    }
-=======
           if(flag.current===1){
             setnewteam(newteam=>[newteam,{tname:tn,tdesc:td}]);
               
@@ -188,7 +153,6 @@ export default function SidebarPlayers() {
               }
             });
             
->>>>>>> e789d7b13b6d0e54dff8ae6963379bf746772695
           }
   } 
 }
@@ -266,21 +230,12 @@ const handleClose = (ack) =>
               
               <div className="pl-2 mt-4 ml-2" style={{"width":"62%","marginLeft":"14.9%"}}>
                 <ul className="list-group" style={{"fontSize":"24px"}} >
-<<<<<<< HEAD
-                {   players? players.map((data)=>{ return(
-                    <li style={{"border": "1px solid black"}} className="list-group-item list-group-item-action white" key={ data.name}> {data===null || data===undefined?"No data": data.name}
-                      <span style={{"marginLeft":"81%","float":"right"}}><i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data._id,data.name,data.description)}><FaUserEdit/></i> &nbsp;
-                      <i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data._id,null,null)} ><MdDelete/></i> </span>
-                    </li>
-                )}):''} 
-=======
                   {teams? teams.map((data,index)=>{ return(
                       <li className="list-group-item list-group-item-action white"  key={index}> {data===null || data===undefined?"No data": data.name}
                         <span style={{"marginLeft":"81%","float":"right"}}><i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data.id,data.name,data.desc,null)}><FaUserEdit/></i> &nbsp;
                         <i className="btn  p-2" style={{"backgroundColor":"#343a40","color":"white"}} onClick={()=>handleShow(data.id,null,null,1)} ><MdDelete/></i> </span>
                       </li>
                   )}):'No data found'} 
->>>>>>> e789d7b13b6d0e54dff8ae6963379bf746772695
                 </ul>
               </div> 
           </div>
@@ -291,38 +246,6 @@ const handleClose = (ack) =>
               <Modal.Header closeButton>
                 <Modal.Title >{"Add/Edit Team"}</Modal.Title>
               </Modal.Header>
-<<<<<<< HEAD
-                    <Modal.Body style={{"backgroundColor":"black","fontSize":"22px"}}>
-                    <h1 className='display-7' style={{'color':'white'}}>1<span style={{'color':'yellow'}}>N</span>E Esports</h1>
-                                        <br/>
-                                        
-                                  
-                          <input style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' placeholder='Player Name' value={newname=== null? "":newname} id='playername' type='text' onChange={e => setnewname(e.target.value)}/><br/>
-                          {/* <div className="input-group mb-3"> */}
-                          <textarea style={{"fontSize":"22px"}} className='form-control shadow p-2 bg-body rounded' value={newdesc===null?"":newdesc} placeholder='Player Description' id='playerdesc' onChange={e => setnewdesc(e.target.value)} required/>
-                          &nbsp;<span className="" style={{"color":"white","fontSize":"20px"}}>Max 300 words..</span>
-                                  {/* </div> */}
-                                  <br/>
-                                  {inputerror === ''?null:<Alert message={inputerror} type='danger'/>}
-                                
-                    </Modal.Body>  
-        
-              <Modal.Footer>
-                      {newid===null ?
-                                      <> 
-                                          <center>
-                                              <button tag='input' type='submit' className='btn btn-primary fs-4 w-auto h-auto'>Add</button>
-                                          </center>
-                                          <br/>
-                                      </>
-                                      :
-                                      <>
-                                          <center>
-                                              <button tag='input' type='submit' className='btn btn-primary fs-4 w-auto h-auto'>Save</button>
-                                          </center>
-                                      </>
-                                  }
-=======
               <Modal.Body style={{"backgroundColor":"black","fontSize":"22px"}}>
                 
                         <h1 className='display-7' style={{'color':'white'}}>1<span style={{'color':'yellow'}}>N</span>E Esports</h1>
@@ -352,7 +275,6 @@ const handleClose = (ack) =>
               <Modal.Footer>    
                           <center><button tag='input' type="submit" className='btn btn-primary fs-4 w-auto h-auto'>Submit</button></center>
                                           <br/>      
->>>>>>> e789d7b13b6d0e54dff8ae6963379bf746772695
             </Modal.Footer>
           </form>
         </Modal>

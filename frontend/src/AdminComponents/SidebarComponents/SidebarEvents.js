@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useRef} from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from 'react-bootstrap/Modal'
@@ -34,8 +34,10 @@ const handleAddCGEvent=(e)=>{
     withCredentials: true,
     credentials: "include",
     }).then((response) => {
-      if(response.status===200)
+      if(response.status===200){
         handleClose();
+        fetch();
+      }
       },(error) => {
         if(error.response!==undefined){
           if(error.response.status===403){
@@ -49,8 +51,6 @@ const handleAddCGEvent=(e)=>{
           }       
         }
       });
-    setShow(false);
-    console.log(newEvent);
 }
 const fetch=()=>{
   axios({
@@ -137,14 +137,14 @@ if(isfetched===false){
 
       <div className="Calendar" style={{"marginTop":"2%","marginLeft":"15%"}}>
         <Calendar style={{"height":"50%"}}
-          onChange= {(date)=> popup(date)}
+          onClickDay= {(date)=> popup(date)}
           tileClassName={({date,view})=>Object.keys(allEvents).map((item)=>{ return(
             allEvents.find(x=>x.date===moment(date).format('DD-MM-YYYY'))?'highlight':''
           )})}
           defaultView='month'
         />
       </div>
-      <Modal class="popup" show={popUp} onHide={handlePopUpClose}>
+      <Modal className="popup" show={popUp} onHide={handlePopUpClose}>
         <Modal.Header closeButton >
         <Modal.Title ><p style={{"margin":"0.9%","width":"100%","fontSize":"28px"}}>Community Event "{title}" <br/>Date: {date} &nbsp; Time: {time}</p></Modal.Title>
         </Modal.Header>
