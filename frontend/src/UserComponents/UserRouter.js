@@ -1,5 +1,4 @@
 import React from 'react';
-// eslint-disable-next-line no-unused-vars
 import {Routes, Route } from 'react-router-dom';
 import Homepage from './Homepage';
 import Events from './Events';
