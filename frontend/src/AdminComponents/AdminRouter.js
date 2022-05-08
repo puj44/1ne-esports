@@ -7,11 +7,8 @@ export default function AdminRouter() {
   return (
   <div>
     <Routes>
-    
       <Route path="/" exact element={<AdminLogin/>}/>
-      
-        <Route  path='/dashboard/*' exact element={<AdminDashboard/>}/>
-        
+      <Route  path='/dashboard/*' exact element={<AdminDashboard/>}/>  
     </Routes>
   </div>
   );

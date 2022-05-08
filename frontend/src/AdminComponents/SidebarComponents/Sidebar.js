@@ -5,10 +5,9 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { FaJedi, FaHeadset } from "react-icons/fa";
 import { BsFillCalendar2CheckFill } from "react-icons/bs";
 import {RiCommunityLine} from "react-icons/ri"
-
 import {MdLogout} from "react-icons/md"
 import {Link} from 'react-router-dom';
-import '../../css/sidebar.css';
+import '../../css/Sidebar.css';
 import {
   Menu,
   MenuItem,
@@ -17,6 +16,7 @@ import {
   SidebarFooter,
 } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
+
 const SideNavigation = () => {
   const [collapsed, setCollapsed] = useState(false);
   // added styles 
@@ -55,7 +55,6 @@ const SideNavigation = () => {
        if(response.status===200)
           window.location='https://localhost:3001/admin';
     });
-    
   }
   return (
     <ProSidebar style={styles.sideBarHeight} collapsed={collapsed}>
@@ -90,7 +89,6 @@ const SideNavigation = () => {
             <span style={{'color':'white'}}>Players</span>
           </Link>
         </MenuItem>
-      
         <MenuItem style={styles.menuitem} icon={<RiCommunityLine  style={{'color':'white','height':'25px','width':'20px'}}/>}> 
           <Link to='game-night'> 
             <span style={{'color':'white'}}>Community Game Night</span>

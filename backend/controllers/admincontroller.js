@@ -249,3 +249,112 @@ exports.disPlayer=function(req,res){
             })();
         }); 
 }
+//-------------------------------------Adding Community Game Night Schedule Api--------------------------------
+exports.addCG=function(req,res){
+    const token = req.cookies.token1;
+     if(token===null || token===undefined)
+    return res.status(403).send(result);
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+        if (err) throw err
+        const title= req.body.title;
+        const date = new Date(req.body.date);
+        //getting date,month and year.
+        var dd = String(date.getDate()).padStart(2, '0');
+        var mm = String(date.getMonth() + 1).padStart(2, '0');
+        var yyyy = date.getFullYear();
+        if(title.length < 100){
+            const db = client.db('esports_1ne');
+            (async ()=>{
+                const toBeInserted={'title':title,'date':(dd+'-'+mm+'-'+yyyy)};
+                db.collection('game_night').insertOne(toBeInserted,(err, object)=> {
+                    if(object){
+                        client.close();
+                        return res.status(200).send('OK!');            
+                    }
+                });
+            })();
+        }
+        else{
+            res.status(402).send('Length exceed!');
+        }
+    });
+}
+//-------------------------------------fetching Community Game Night Schedule Api--------------------------------
+exports.displayCG=function(req,res){
+    const token = req.cookies.token1;
+     if(token===null || token===undefined)
+    return res.status(403).send(result);
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+        if (err) throw err
+            const db = client.db('esports_1ne');
+            (async ()=>{
+                const result = await db.collection('game_night').find({}).toArray();
+                if(result) {
+                    result.forEach((item)=>{
+                        delete item._id;
+                    })
+                    console.log(result);
+                    client.close();
+                    res.status(200).send({cgnResult:result});
+                }else {
+                    res.status(400).send('not found!');
+                }
+            })();
+        });
+}
+//-------------------------------------Adding Events Api----------------------------------------------------
+exports.addEvent=function(req,res){
+    const token = req.cookies.token1;
+     if(token===null || token===undefined)
+    return res.status(403).send(result);
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+        if (err) throw err
+        const title=req.body.title;
+        const date = new Date(req.body.date);
+        //getting date,month,year,hours,minute and second.
+        var dd = String(date.getDate()).padStart(2, '0');
+        var mm = String(date.getMonth() + 1).padStart(2, '0');
+        var yyyy = date.getFullYear();
+        var hrs = String(date.getHours()).padStart(2, '0');
+        var min= String(date.getMinutes()).padStart(2, '0');
+        var sec= String(date.getSeconds()).padStart(2, '0');
+        if(title.length < 100){
+            const db = client.db('esports_1ne');
+            (async ()=>{
+                const toBeInserted={'title':title,'date':(dd+'-'+mm+'-'+yyyy),'time':(hrs+':'+min+':'+sec)};
+                db.collection('events').insertOne(toBeInserted,(err, object)=> {
+                    if(object){
+                        client.close();
+                        return res.status(200).send('OK!');            
+                    }
+                });
+            })();
+        }
+        else{
+            res.status(402).send('Length exceed!');
+        }
+    });
+}
+//-------------------------------------Fetching Events Api----------------------------------------------------
+exports.displayEvent=function(req,res){
+    const token = req.cookies.token1;
+     if(token===null || token===undefined)
+    return res.status(403).send(result);
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+        if (err) throw err
+            const db = client.db('esports_1ne');
+            (async ()=>{
+                const result = await db.collection('events').find({}).toArray();
+                if(result) {
+                    result.forEach((item)=>{
+                        delete item._id;
+                    })
+                    console.log(result);
+                    client.close();
+                    res.status(200).send({eventResult:result});
+                }else {
+                    res.status(400).send('not found!');
+                }
+            })();
+        });
+}

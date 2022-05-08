@@ -21,11 +21,15 @@ const corsOptions = {
   }
   app.use(bodyParser.json());
   app.use(express.urlencoded({extended:false}));
- app.use(cors(corsOptions));
+  app.use(cors(corsOptions));
   app.use(cookieParser());
   app.set('trust proxy', 1);
   app.use("/auth",authRouter);
   app.use("/admin",adminRouter);
+<<<<<<< HEAD
   app.use("/user",userRouter);
   //app.listen(3000, 'localhost');
   app.listen(3000, "localhost");
+=======
+  app.listen(3000, "localhost");
+>>>>>>> 38c8a3a3c9667a406eb03b21f27b2d3495415d1c
