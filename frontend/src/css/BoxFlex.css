@@ -43,3 +43,19 @@
     position:relative;
     border:3px solid white;
 }
+.title{
+    display:flex;
+    justify-content:center;
+    background-color:rgb(253,191,23,255);
+    color:black;
+    font-size:24px;
+}
+.listBox{
+    background-color:rgb(196,196,196);
+    position:relative;
+    font-family:bourgeois;
+    color:black;
+    border:3px solid rgb(208,189,141);
+    font-size:24px;
+    border-radius:0px;
+}
