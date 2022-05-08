@@ -50,10 +50,10 @@ exports.displayAll=function(req,res){ //display all teams and its players
                     }
                     if(teams.length>0){//send result
                         client.close();
-                        return res.status('200').send({teamsArray:teams});
+                        return res.status(200).send({teamsArray:teams});
                     }
                     else{
-                        return res.status(403).send("no data");
+                        return res.status(404).send("no data");
                     }
                 }
                 else{
