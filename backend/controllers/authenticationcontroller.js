@@ -25,9 +25,8 @@ require('dotenv').config();
  * @apiError UserNotFound   The <code>id</code> of the User was not found.
 */
 const uri = process.env.mongo_url;
-
+//----------------------------------Admin Authentication Api------------------------------------------------ 
 exports.authenticate=function(req, res) {
-   
     MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db("esports_1ne");
@@ -60,6 +59,7 @@ exports.authenticate=function(req, res) {
         
     });
 }
+//----------------------------------Status Checking Api whether Admin or User------------------------------------------------ 
 exports.checkstatus=function(req, res) {
     const token = req.cookies.token1;
     jwt.verify(token, key, (error,result)=>{ 

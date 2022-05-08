@@ -4,7 +4,6 @@ function verifyToken(req, res, next) {
     const token = req.cookies.token1;
     if (!token)
       return res.status(403).send('No token provided.');
-      
     jwt.verify(token, key, function(err, decoded) {
       if (err)
         return res.status(500).send('Failed to authenticate token.');
