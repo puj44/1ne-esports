@@ -1,6 +1,5 @@
 import logo from "../assets/logo.jpg";
-import "../css/Headerimg.css";
-//import axios from 'axios';
+import "../css/HeaderImg.css";
 import "../fonts/style.css";
 import { Link } from "react-router-dom";
 import "../App.css";

@@ -1,6 +1,5 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-// import Sidebar from './Sidebar'
 import SidebarEvents from "./SidebarEvents";
 import SidebarRankings from "./SidebarRankings";
 import SidebarPlayers from "./SidebarPlayers";

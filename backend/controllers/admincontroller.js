@@ -73,7 +73,7 @@ exports.addPlayer=function(req,res){
             const team=req.body.details;
             let pid=[];
            //to add teams and players
-            if(name.length < 100 && desc.length < 300 && name!==null && desc!==null){
+            if(name.length < 100 && desc.length < 300 && name && desc){
                 const db = client.db('esports_1ne');
                 (async ()=>{
                     const teamid= new ObjectId();
@@ -82,7 +82,7 @@ exports.addPlayer=function(req,res){
                             res.status(401).send(err);
                         }
                         else{
-                            const toBeInserted={'name':team[i]['pname'],'description':team[i]['pdesc']};//insert player details
+                            const toBeInserted={'name':team[i]['pname'],'description':team[i]['pdesc'],teamName:name};//insert player details
                             const result=await db.collection('players').insertOne(toBeInserted);
                                 if(result){
                                     pid.push(result.insertedId);

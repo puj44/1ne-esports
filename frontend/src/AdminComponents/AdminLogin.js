@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Alert from "./Alert";
-import "../css/bgimg.css";
+import "../css/BgImg.css";
 const axios = require("axios");
 const eye = <FontAwesomeIcon icon={faEye} />;
 

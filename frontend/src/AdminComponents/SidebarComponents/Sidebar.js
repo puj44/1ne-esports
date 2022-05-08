@@ -7,7 +7,7 @@ import { BsFillCalendar2CheckFill } from "react-icons/bs";
 import {RiCommunityLine} from "react-icons/ri"
 import {MdLogout} from "react-icons/md"
 import {Link} from 'react-router-dom';
-import '../../css/sidebar.css';
+import '../../css/Sidebar.css';
 import {
   Menu,
   MenuItem,

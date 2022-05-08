@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import "../../css/fonts1.css";
+import React, { useState, useRef } from "react";
+import "../../css/Fonts.css";
 import "../../css/Container.css";
 import { BiUserPlus } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
