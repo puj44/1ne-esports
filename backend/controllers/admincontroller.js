@@ -249,6 +249,7 @@ exports.disPlayer=function(req,res){
             })();
         }); 
 }
+//-------------------------------------Adding Community Game Night Schedule Api--------------------------------
 exports.addCG=function(req,res){
     const token = req.cookies.token1;
      if(token===null || token===undefined)
@@ -257,13 +258,13 @@ exports.addCG=function(req,res){
         if (err) throw err
         const title= req.body.title;
         const date = new Date(req.body.date);
+        //getting date,month and year.
         var dd = String(date.getDate()).padStart(2, '0');
-        var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var mm = String(date.getMonth() + 1).padStart(2, '0');
         var yyyy = date.getFullYear();
         if(title.length < 100){
-            const db = client.db('esports_1ne'); //2022-04-11T0293021
+            const db = client.db('esports_1ne');
             (async ()=>{
-
                 const toBeInserted={'title':title,'date':(dd+'-'+mm+'-'+yyyy)};
                 db.collection('game_night').insertOne(toBeInserted,(err, object)=> {
                     if(object){
@@ -278,7 +279,7 @@ exports.addCG=function(req,res){
         }
     });
 }
-
+//-------------------------------------fetching Community Game Night Schedule Api--------------------------------
 exports.displayCG=function(req,res){
     const token = req.cookies.token1;
      if(token===null || token===undefined)
@@ -301,7 +302,7 @@ exports.displayCG=function(req,res){
             })();
         });
 }
-
+//-------------------------------------Adding Events Api----------------------------------------------------
 exports.addEvent=function(req,res){
     const token = req.cookies.token1;
      if(token===null || token===undefined)
@@ -310,6 +311,7 @@ exports.addEvent=function(req,res){
         if (err) throw err
         const title=req.body.title;
         const date = new Date(req.body.date);
+        //getting date,month,year,hours,minute and second.
         var dd = String(date.getDate()).padStart(2, '0');
         var mm = String(date.getMonth() + 1).padStart(2, '0');
         var yyyy = date.getFullYear();
@@ -333,7 +335,7 @@ exports.addEvent=function(req,res){
         }
     });
 }
-
+//-------------------------------------Fetching Events Api----------------------------------------------------
 exports.displayEvent=function(req,res){
     const token = req.cookies.token1;
      if(token===null || token===undefined)
