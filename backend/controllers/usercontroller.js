@@ -31,7 +31,6 @@ exports.showTeams=function(req, res) {
             if(playersres.length>0){
                 console.log(playersres);
                 const filtered=playersres.map((data,idx)=> {return {name:data.name,description:data.description}});
-                console.log(filtered);
                 return res.status(200).send({teamsArray:filtered});
             }
             else{
