@@ -15,6 +15,29 @@
         margin-top:23%;
         width:50%;
     }
+    .title-ranking{
+        margin-top:30%;
+        width:40%
+    }
+    .title-Calendar{
+        margin-top:30%;
+        width:40%
+    }
+    .Box-Calendar{
+        width:100%;
+        margin-top:15%;
+    }
+    .Calendar{
+        position: relative;
+        margin-top:4%; 
+        margin-bottom: 2%;
+        display:flex;
+        justify-content:center;
+    }
+    .cal{
+        border:3px solid rgb(208,189,141);
+        width:100%;
+    }
 }
 @media only screen and (min-width:600px){
     .Box{
@@ -38,9 +61,24 @@
         width:30%;
         height:60%;
     }
+    .Calendar{
+        position: relative;
+        margin-top:4%; 
+        margin-bottom: 2%;
+        display:flex;
+        justify-content:center;
+    }
+    .cal{
+        border:3px solid rgb(208,189,141);
+        width:100%;
+    }
     .title-Calendar{
         margin-top:30%;
         width:40%
+    }
+    .title-ranking{
+        margin-top:10%;
+        width:30%;
     }
 }
 .Box{
@@ -100,7 +138,7 @@
     background-color:black;
     border-radius: 15px;
     color:white;
-    font-size:24px;
+    font-size:25px;
     margin-top:25%;
     width:40%;
 }
