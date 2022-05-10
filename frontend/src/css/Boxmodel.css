@@ -1,3 +1,84 @@
+@media only screen and (max-width: 600px){
+  .Box{
+      width:130%;
+      margin-top:15%;
+  }
+  .listBox{
+      font-family:bourgeois;
+      padding:0.6%;
+      font-size:24px;
+      width:40%;
+      margin-top:3%;
+      margin-left:4%;
+  } 
+  .title{
+      margin-top:23%;
+      width:50%;        
+  }
+}
+@media only screen and (min-width:600px){
+  .Box{
+      position:relative;
+      width:90%;
+      height:50em;
+  }
+  .title{
+      margin-top:6%;
+      width:30%;        
+  }
+  .listBox{
+      font-family:bourgeois;
+      margin-left:7%; 
+      margin-top:3%;
+      width:17%;
+      color:black;
+      padding:0.6%;
+      
+  } 
+}
+.Box{
+  padding:1%;
+  display:inline-block;
+  margin-left:5%;
+  margin-top:1%;
+  background-color: rgb(14,14,14);
+  position:relative;
+  border:3px solid white;
+  
+}
+.title{
+  display:flex;
+  justify-content:center;
+  background-color:rgb(253,191,23,255);
+  color:black;
+  font-size:24px;         
+}
+.listBox{
+  background-color:rgb(196,196,196);
+  position:relative;
+  font-family:bourgeois;
+  color:black;
+  border:3px solid rgb(208,189,141);
+  font-size:24px;
+  border-radius:0px;
+    
+} 
+.player-box{
+  background-color:rgb(253,191,23);
+  color:black;
+  display:none;
+  position:fixed;
+  margin-top:3.71%;
+  z-index:3;
+  width:69%;
+  height:28%;
+  max-height:30%;
+  margin-left:0.95%;
+  padding-left:0.7%;
+  padding-right:0.4%;
+  padding-bottom:0.4%; 
+  
+}
 .button{
     background-color:rgb(253,191,23,255);
     color:black;
@@ -5,7 +86,7 @@
     border:0px;
     width:10%;
     margin:1%;
-    position:relative
+    position:relative;
 }
 
 .arrow{
@@ -15,16 +96,10 @@
     padding:3px;
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
-    
     box-shadow: rgba(240, 46, 170, 0.4) 0px 2px, rgba(240, 46, 170, 0.3) 3px 3px, rgba(240, 46, 170, 0.2) 2px 3px, rgba(240, 46, 170, 0.1) 4px 3px, rgba(240, 46, 170, 0.05) 2px 3px;
     float:right;
-    margin-top:8%;  
+    margin-top:6%;  
 }
-/* .arrow:active{
-    
-    
-    
-} */
 
   .dropdown-box {
     background-color:rgb(253,191,23);
@@ -34,11 +109,12 @@
     position:fixed;
     z-index:2;
     margin-top:0.9%;
-    width: 30%;
-    padding-left:0.7%; 
-    padding-right:0.4%; 
-    justify-content: center;    
+    width: 30%; 
+    padding-top:0px;
     border:3px solid rgb(196,196,196);
+    padding-right:1%;
+    padding-bottom:0.7%;
+
   }
   
 .active{

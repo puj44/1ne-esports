@@ -21,25 +21,63 @@ require('dotenv').config();
 
 const uri = process.env.mongo_url;
 //--------------------------------------FETCH ALL PLAYERS INFORMATION------------------------------------------
-exports.showPlayers=function(req, res) {
+exports.showTeams=function(req, res) {
     MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db('esports_1ne'); //connect database
         (async ()=>{
             //fetch data from database
-            const playersres= await db.collection('players').find({}).toArray();
+            const playersres= await db.collection('teams').find({}).toArray();
             if(playersres.length>0){
-                const filtered=playersres.filter(d=> d.name!==null);
-                return res.status(200).send({playersArray:filtered});
+                console.log(playersres);
+                const filtered=playersres.map((data,idx)=> {return {name:data.name,description:data.description}});
+                console.log(filtered);
+                return res.status(200).send({teamsArray:filtered});
             }
             else{
-                console.log("s");
                 return res.status(404).send("no data");
             }
         })();
     });
 }
 //-------------------------------FETCH ALL TEAMS INFORMATION WITH PLAYERS------------------------------------------
-exports.showTeams=function(req, res) {
-    
+exports.showPlayers=function(req, res) {
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+        if (err) throw err
+        const db = client.db('esports_1ne'); //connect database
+        let teams=[];
+        let players=[];
+        (async ()=>{
+            //fetch data from database
+            const result = await db.collection('teams').find({}).toArray();//teams fetch
+                if(result.length>0){
+                    for(var i=0;i<result.length;i++){
+//----------------------------------fetching players details from fetched player id's of teams database--------------------------------
+                        for(var j=1;j<=4;j++){
+                            const pid=result[i]['Player'+j]; 
+                            if(pid!=null){
+                                const result2=await db.collection('players').find({'_id':ObjectId(pid)}).toArray();
+                                if(result2){
+                                    players.push({pid:result2[0]['_id'],pname:result2[0]['name'],pdesc:result2[0]['description']});
+                                }
+                            }
+                        }
+//----------------------------------storing teams and players into an array {id:teamname,teamdesc,playerid,playername,playerdesc}
+                        const filtered=players.filter(d=> d.pname!==null);
+                        teams.push({id:result[i]['_id'],name:result[i]['name'],filtered});
+                        players=[];
+                    }
+                    if(teams.length>0){//send result
+                        client.close();
+                        return res.status(200).send({teamsArray:teams});
+                    }
+                    else{
+                        return res.status(404).send("no data");
+                    }
+                }
+                else{
+                    return res.status(404).send("no data");
+                }
+        })();
+    });
 }

@@ -1,16 +1,20 @@
-import {React,useState,useRef} from 'react';
+import React,{useState,useRef} from 'react';
 import '../css/Boxmodel.css';
 import axios from 'axios';
-import '../css/BoxFlex.css';
-function PlayersBio() {
-  
-  const [players,setplayers]=useState('');
+
+function TeamBio() {
+  const [teams,setTeams]=useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [isfetched,setfetched]=useState(false);
+  const [isfetched,setFetched]=useState(false);
   const [pages,setPages] = useState('');
   const dropid=useRef([]);
+  const dropid2=useRef([]);
   const boxElement=useRef([]);
   const arrowProp=useRef([]);
+  const arrowProp2=useRef([]);
+  const childElement=useRef([]);
+  let listStack=[];
+  let count=4;
   const buttonStyle={
     backgroundColor:"rgb(253,191,23,255)",
     color:"black",
@@ -19,30 +23,29 @@ function PlayersBio() {
     width:"5%",
     margin:"1%"
   };
-  //-------------------------fetch players function-------------------
+
   const fetch=()=>{
-        axios({
-          method: 'GET',
-          url: 'http://localhost:3000/user/players/display',
-          withCredentials: true,
-          credentials: "include",
-        }).then((response) => {
-          if(response.status===200)
-              {
-                setplayers(response.data.playersArray);
-                setPages(Math.ceil(response.data.playersArray.length / 16));
-              }
-        }, (error) => {
-            if(error.response.status===400){
-              setplayers('');
+      axios({
+        method: 'GET',
+        url: 'http://localhost:3000/user/players/display',
+        withCredentials: true,
+        credentials: "include",
+      }).then((response) => {
+        if(response.status===200)
+            {
+              setTeams(response.data.teamsArray);
+              setPages(Math.ceil(response.data.teamsArray.length / 16));
             }
-            else{
-              setplayers('');
-            }
-      });
-      setfetched(true);
-    }
-  
+      }, (error) => {
+          if(error.response.status===400){
+            setTeams('');
+          }
+          else{
+            setTeams('');
+          }
+    });
+    setFetched(true);
+  }
   //--------------------------------next/prev page functions------------------------------------------------
   //next page
   const nextPage=()=>{
@@ -60,7 +63,7 @@ function PlayersBio() {
     
     const startIndex = currentPage * 16 - 16;
     const endIndex = startIndex + 16;
-    return players.slice(startIndex, endIndex);
+    return teams.slice(startIndex, endIndex);
   };
 
   //change to specific page
@@ -86,23 +89,75 @@ function PlayersBio() {
     return pageArray;
   };
 
+  const getPlayersData=(id)=>{
+    let playersArray=[];
+    Object.keys(teams).forEach((key) => {
+      if (teams[key].id === id) {
+        playersArray=teams[key].filtered;
+      }
+    });
+    return playersArray;
+  }
+  const arrowChange=(idx,ar)=>{
+    let arrow=arrowProp2.current[idx];
+    if(ar===1){
+        arrow=arrowProp.current[idx];
+    }
+    arrow.style.transform="rotate(-135deg)";
+    arrow.style.webkitTransform="rotate(-135deg)";
+    arrow.style.marginTop="9%";
+    
+  }
+  const arrowReset=(idx,ar)=>{
+    let arrow=arrowProp2.current[idx];
+    if(ar===1){
+        arrow=arrowProp.current[idx];
+    }
+    arrow.style.transform="rotate(45deg)";
+    arrow.style.webkitTransform="rotate(45deg)";
+    arrow.style.marginTop="6%";
+  }
   //--------------------------------css manipulation dropdown function--------------------------------------
   const dropDown=(idx)=>{
     if(dropid.current[idx].style.display==="none"){
-      dropid.current[idx].style.display="block";
+      dropid.current[idx].style.display="inline-block";
       boxElement.current[idx].style.borderWidth="4px";
       boxElement.current[idx].style.boxShadow="rgba(208,189,141) 0px 15px 30px -12px inset, rgba(0, 0, 0, 0.3) 0px 9px 18px -18px inset";
-      arrowProp.current[idx].style.transform="rotate(-135deg)";
-      arrowProp.current[idx].style.webkitTransform="rotate(-135deg)";
-      arrowProp.current[idx].style.marginTop="13%";
+      arrowChange(idx,1);
     }
     else{
+      
       dropid.current[idx].style.display="none";
       boxElement.current[idx].style.borderWidth="3px";
       boxElement.current[idx].style.boxShadow="0px 0px 0px 0px";
-      arrowProp.current[idx].style.transform="rotate(45deg)";
-      arrowProp.current[idx].style.webkitTransform="rotate(45deg)";
-      arrowProp.current[idx].style.marginTop="8%";
+      arrowReset(idx,1);
+    }
+  }
+  const secondDropDown=(idx,idx2)=>{
+    
+    if(dropid2.current[idx].style.display==="none"){
+      listStack.push(idx);
+      dropid2.current[idx].style.display="inline-block";
+      dropid2.current[idx].style.zIndex=count;
+      dropid.current[idx2].style.height="36.80%";
+      childElement.current[idx].style.border="3px solid rgb(232,193,86)";
+      childElement.current[idx].style.boxShadow="rgba(232,193,86,255) 0px 15px 30px -12px inset, rgba(0, 0, 0, 0.3) 0px 9px 18px -18px inset";
+      count++;
+      console.log(count);
+      arrowChange(idx,2);
+    }
+    else{
+      
+      listStack.pop(idx);
+      dropid2.current[idx].style.display="none";
+      childElement.current[idx].style.borderWidth="2px";
+      childElement.current[idx].style.border="2px solid white";
+      childElement.current[idx].style.boxShadow="0px 0px 0px 0px";
+      if(listStack.length<=0){
+        dropid.current[idx2].style.height="9%";
+        count=4;
+      }
+      arrowReset(idx,2);
     }
   }
   if(isfetched===false){
@@ -112,22 +167,37 @@ function PlayersBio() {
   return (
     <div className="Box">
       <div className="row">
-          <center><div className="title">APAC Players Biography</div></center>
+        <center><div className="title">APAC Players Biography</div></center>
           <div className="col-md-12"  style={{"justifyContent": "center"}}>
-            {players!==''? getPageData().map((data,idx)=>{return(
+            {/*TEAMS LOOP*/}
+            {teams!==''? getPageData().map((data,idx)=>{return(
               <>
-                <label ref={(el) => (boxElement.current[idx] = el)} key={idx} className="listBox" >{data.name} &nbsp;
+                <label ref={(el) => (boxElement.current[idx] = el)} key={idx}  className="listBox" >{data.name} &nbsp;
                     <span ref={(el=>{arrowProp.current[idx]=el})} onClick={()=>dropDown(idx)} className="arrow"></span><br></br>
-                    <label key={idx}  ref={(el) => (dropid.current[idx] = el)} className="dropdown-box">Team Name: {data.teamName}<br></br>{data.description}</label>
+                    <label   ref={(el) => (dropid.current[idx] = el)} style={{"width":"70%","border":"3px solid rgb(253,191,23)","backgroundColor":"rgb(196,196,196)"}} className="dropdown-box">
+                      {/* //PLAYERS LOOP DISPLAY */}
+                      <div class="row" >
+                      {teams!==''? getPlayersData(data.id).map((pl)=>{return(
+                        <>
+                          <label key={pl.pid} ref={(el) => (childElement.current[pl.pid] = el)} style={{"border":"2px solid white","width":"14%","height":"10%","marginTop":"1%"}} className="listBox" >{pl.pname} &nbsp;
+                            <span ref={(el=>{arrowProp2.current[pl.pid]=el})} onClick={()=>secondDropDown(pl.pid,idx)} className="arrow"></span><br></br>
+                          </label><br></br>
+                          <label ref={(el) => (dropid2.current[pl.pid] = el)} className="player-box">{pl.pdesc}</label>
+                        </>
+                      )}):''}
+                      {/*//END */}
+                      </div>
+                    </label>
                 </label>
                 
               </>
             )}):''}
+            {/*TEAMS LOOP END*/}
           </div>
           <div className="col-md-12" style={{"position": "relative","marginTop":"2%"}}>
               <center>
                 <button onClick={prevPage} className={`button ${currentPage === 1 ? 'disabled' : ''}`}>Prev</button>
-                {players!==''?getPageGroup().map((item, index) => (
+                {teams!==''?getPageGroup().map((item, index) => (
                   <button
                     style={buttonStyle}
                     key={index}
@@ -142,7 +212,7 @@ function PlayersBio() {
           </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default PlayersBio;
+export default TeamBio;
