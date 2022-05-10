@@ -7,7 +7,7 @@ import axios from "axios";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
-import "../../css/GameNight.css";
+import "../../css/Events-GameNight.css";
 
 export default function SidebarEvents() {
   const [inputerror, setinputerror] = useState("");
@@ -15,13 +15,13 @@ export default function SidebarEvents() {
   const [allEvents, setallEvents] = useState("");
   const [isfetched, setfetched] = useState(false);
   const [newEvent, setnewEvent] = useState("");
-  const [popUp, setPopUp] = useState(false);
+  const [highlight, sethighlight] = useState("");
   const [title, settitle] = useState("");
   const [date, setdate] = useState("");
   const [time, settime] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handlePopUpClose = () => setPopUp(false);
+  const handlePopUpClose = () => sethighlight(false);
   const handleAddCGEvent = (e) => {
     e.preventDefault();
     axios({
@@ -84,7 +84,7 @@ export default function SidebarEvents() {
         settitle(allEvents[element].title);
         setdate(allEvents[element].date);
         settime(allEvents[element].time);
-        setPopUp(true);
+        sethighlight(true);
       }
     });
   };
@@ -177,7 +177,7 @@ export default function SidebarEvents() {
           defaultView="month"
         />
       </div>
-      <Modal className="popup" show={popUp} onHide={handlePopUpClose}>
+      <Modal className="popup" show={highlight} onHide={handlePopUpClose}>
         <Modal.Header closeButton>
           <Modal.Title>
             <p style={{ margin: "0.9%", width: "100%", fontSize: "28px" }}>

@@ -22,7 +22,7 @@
         width:80%;
     }
     .title{
-        margin-top:6%;
+        margin-top:10%;
         width:30%;
     }
     .listBox{
@@ -33,6 +33,15 @@
         color:black;
         padding:0.6%;
     } 
+    .Box-Calendar{
+        position:relative;
+        width:30%;
+        height:60%;
+    }
+    .title-Calendar{
+        margin-top:30%;
+        width:40%
+    }
 }
 .Box{
     padding:1%;
@@ -59,3 +68,40 @@
     font-size:24px;
     border-radius:0px;
 }
+.Calendar{
+    position: relative;
+    margin-top:2%; 
+    margin-bottom: 2%;
+    display:flex;
+    justify-content:center;
+}
+.cal{
+    border:3px solid rgb(208,189,141);
+    width:100%;
+}
+.Box-Calendar{
+    padding:2%;
+    display:inline-block;
+    margin-top:1%;
+    background-color: rgb(14,14,14);
+    position:relative;
+    border:3px solid white;
+}
+.title-Calendar{
+    display:flex;
+    justify-content:center;
+    background-color:rgb(253,191,23,255);
+    color:black;
+    font-size:25px;
+}
+.title-ranking{
+    display:flex;
+    justify-content:center;
+    background-color:black;
+    border-radius: 15px;
+    color:white;
+    font-size:24px;
+    margin-top:25%;
+    width:40%;
+}
+
