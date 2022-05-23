@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser);
 app.use(cors());
 app.use(bodyParser.json());
-require('dotenv').config();
+
 /**
  * @apiVersion 0.2.0
  * @api {post} /auth/signin signin or authenticate a user.
