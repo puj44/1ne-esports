@@ -215,13 +215,13 @@ export default function SidebarPlayers() {
     );
   };
   if (isfetched === false) {
-    <Loadingspinner/>
     fetch();
   }
   
   return (
     //-------------------------------------Displaying list of teams with edit and delete function-------------------------------------
     <div className="inline">
+      
       <div className="Container" style={{ width: "100%", marginTop: "3%" }}>
         <div
           className="input-group pl-2 mt-4 "
@@ -251,6 +251,7 @@ export default function SidebarPlayers() {
           className="pl-2 mt-4 ml-2"
           style={{ width: "62%", marginLeft: "14.9%" }}
         >
+          {isfetched===false?<Loadingspinner/>:
           <ul className="list-group" style={{ fontSize: "24px" }}>
             {teams
               ? teams.map((data, index) => {
@@ -287,6 +288,7 @@ export default function SidebarPlayers() {
                 })
               : "No data found"}
           </ul>
+        } 
         </div>
       </div>
       {/*-----------------------------------Add Or Edit Team and Players Details Modal-------------------------------------------------- */}
