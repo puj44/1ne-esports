@@ -20,7 +20,7 @@ export default function AdminLogin() {
     if (logusername.length > 0 && logpassword.length > 0) {
       axios({
         method: "POST",
-        url: "http://localhost:3000/auth/signin/",
+        url: "https://esports-1ne.vercel.app/auth/signin/",
         data: {
           username: logusername,
           password: logpassword,
@@ -30,7 +30,7 @@ export default function AdminLogin() {
       }).then(
         (response) => {
           if (response.status === 200)
-            window.location = "http://localhost:3001/admin/dashboard";
+            window.location = "https://1ne-esports.vercel.app/admin/dashboard";
         },
         (error) => {
           if (error.response !== undefined) {

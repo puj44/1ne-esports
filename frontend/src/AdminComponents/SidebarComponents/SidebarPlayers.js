@@ -53,7 +53,7 @@ export default function SidebarPlayers() {
           searchl.current = e.length;
           axios({
             method: "GET",
-            url: "http://localhost:3000/admin/players/" + e,
+            url: "https://esports-1ne.vercel.app/admin/players/" + e,
             withCredentials: true,
           }).then(
             (response) => {
@@ -78,7 +78,7 @@ export default function SidebarPlayers() {
   const fetch = () => {
     axios({
       method: "GET",
-      url: "http://localhost:3000/admin/players/all",
+      url: "https://esports-1ne.vercel.app/admin/players/all",
       withCredentials: true,
       credentials: "include",
     }).then(
@@ -105,7 +105,7 @@ export default function SidebarPlayers() {
       console.log(teamdet);
       axios({
         method: "POST",
-        url: "http://localhost:3000/admin/addplayer",
+        url: "https://esports-1ne.vercel.app/admin/addplayer",
         data: {
           name: tn,
           desc: td,
@@ -137,7 +137,7 @@ export default function SidebarPlayers() {
 
         axios({
           method: "POST",
-          url: "http://localhost:3000/admin/updateplayer",
+          url: "https://esports-1ne.vercel.app/admin/updateplayer",
           data: {
             team: newteam,
             players: teamdet,

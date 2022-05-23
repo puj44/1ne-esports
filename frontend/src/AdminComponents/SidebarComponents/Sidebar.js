@@ -48,12 +48,12 @@ const SideNavigation = () => {
   const Logout=()=>{
     axios({
       method: 'GET',
-      url: "http://localhost:3000/auth/signout",
+      url: "https://esports-1ne.vercel.app/auth/signout",
       withCredentials: true,
       credentials:"include"
     }).then((response) => {
        if(response.status===200)
-          window.location='https://localhost:3001/admin';
+          window.location='https://1ne-esports.vercel.app/admin';
     });
   }
   return (

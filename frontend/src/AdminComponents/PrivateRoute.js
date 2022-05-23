@@ -8,7 +8,7 @@ export default function PrivateRoute() {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:3000/auth/getstatus",
+      url: "https://esports-1ne.vercel.app/auth/getstatus",
       withCredentials: true,
       credentials: "include",
     })
