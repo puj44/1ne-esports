@@ -48,7 +48,7 @@ const SideNavigation = () => {
   const Logout=()=>{
     axios({
       method: 'GET',
-      url: "https://esports-1ne.vercel.app/auth/signout",
+      url: "https://esports-1ne.herokuapp.com/auth/signout",
       withCredentials: true,
       credentials:"include"
     }).then((response) => {

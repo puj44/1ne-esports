@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 const corsOptions = {
     origin: [
-      "https://esports-1ne.vercel.app",
+      "https://esports-1ne.herokuapp.com",
       "https://1ne-esports.vercel.app",
     ],
     credentials: true,
@@ -24,4 +24,4 @@ const corsOptions = {
   app.use("/admin",adminRouter);
   app.use("/user",userRouter);
   app.listen(process.env.PORT || 5000, process.env.HOST || '::');
-  module.exports = app;
+  

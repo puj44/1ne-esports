@@ -22,7 +22,7 @@ function PlayersBio() {
   const fetch=()=>{
         axios({
           method: 'GET',
-          url: 'https://esports-1ne.vercel.app/user/teams/display',
+          url: 'https://esports-1ne.herokuapp.com/user/teams/display',
           withCredentials: true,
           credentials: "include",
         }).then((response) => {

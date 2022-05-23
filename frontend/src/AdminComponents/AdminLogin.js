@@ -20,7 +20,7 @@ export default function AdminLogin() {
     if (logusername.length > 0 && logpassword.length > 0) {
       axios({
         method: "POST",
-        url: "https://esports-1ne.vercel.app/auth/signin/",
+        url: "https://esports-1ne.herokuapp.com/auth/signin/",
         data: {
           username: logusername,
           password: logpassword,

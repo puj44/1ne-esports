@@ -24,8 +24,8 @@ app.use(bodyParser.json());
  * @apiError Wrong password The provided password was wrong.
  * @apiError UserNotFound   The <code>id</code> of the User was not found.
 */
-console.log(process.env);
-const uri = process.env?.mongo_url;
+
+const uri = process.env.mongo_url;
 //----------------------------------Admin Authentication Api------------------------------------------------ 
 exports.authenticate=function(req, res) {
     MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {

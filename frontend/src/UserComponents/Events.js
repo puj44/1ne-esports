@@ -19,7 +19,7 @@ export default function Events(){
   const fetch = () => {
     axios({
       method: "GET",
-      url: "https://esports-1ne.vercel.app/user/events/display",
+      url: "https://esports-1ne.herokuapp.com/user/events/display",
       withCredentials: true,
       credentials: "include",
     }).then(
