@@ -26,7 +26,7 @@ export default function SidebarEvents() {
     e.preventDefault();
     axios({
       method: "POST",
-      url: "http://localhost:3000/admin/add/event",
+      url: "https://esports-1ne.vercel.app/admin/add/event",
       data: {
         title: newEvent.title,
         date: newEvent.date,
@@ -58,7 +58,7 @@ export default function SidebarEvents() {
   const fetch = () => {
     axios({
       method: "GET",
-      url: "http://localhost:3000/admin/event/all",
+      url: "https://esports-1ne.vercel.app/admin/event/all",
       withCredentials: true,
       credentials: "include",
     }).then(

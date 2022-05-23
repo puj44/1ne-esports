@@ -26,7 +26,7 @@ export default function SidebarComunityGameNight() {
     e.preventDefault();
     axios({
       method: "POST",
-      url: "http://localhost:3000/admin/add/CG",
+      url: "https://esports-1ne.vercel.app/admin/add/CG",
       data: {
         title: newCGN.title,
         date: newCGN.date,
@@ -59,7 +59,7 @@ export default function SidebarComunityGameNight() {
     <Loadingspinner />;
     axios({
       method: "get",
-      url: "http://localhost:3000/admin/CG/all",
+      url: "https://esports-1ne.vercel.app/admin/CG/all",
       withCredentials: true,
       credentials: "include",
     }).then(
