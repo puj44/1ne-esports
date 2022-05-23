@@ -80,3 +80,47 @@ exports.showPlayers=function(req, res) {
         })();
     });
 }
+//----------------------------------fetch all Events to display in calendar-----------------------------------
+exports.showEvents=function(req,res){
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+        if (err) throw err
+            const db = client.db('esports_1ne');
+            (async ()=>{
+                //-------------query for fetching all events---------------------
+                const result = await db.collection('events').find({}).toArray();
+                if(result) {
+                    //----deleting id item from response----
+                    result.forEach((item)=>{
+                        delete item._id;
+                    })
+                    client.close();
+                    //---sending response to user side---
+                    res.status(200).send({eventResult:result});
+                }else {
+                    res.status(400).send('not found!');
+                }
+            })();
+        });
+}
+//----------------------------------fetch all Game Night Schedule's to display in calendar-----------------------------------
+exports.showCG=function(req,res){
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function (err, client) {
+        if (err) throw err
+            const db = client.db('esports_1ne');
+            (async ()=>{
+                //-------------query for fetching all Schedules---------------------
+                const result = await db.collection('game_night').find({}).toArray();
+                if(result) {
+                    //----deleting id item from response----
+                    result.forEach((item)=>{
+                        delete item._id;
+                    })
+                    client.close();
+                    //---sending response to user side---
+                    res.status(200).send({cgnResult:result});
+                }else {
+                    res.status(400).send('not found!');
+                }
+            })();
+        });
+}
