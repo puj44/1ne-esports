@@ -19,7 +19,7 @@ export default function Events(){
   const fetch = () => {
     axios({
       method: "GET",
-      url: "http://localhost:3000/user/events/display",
+      url: "https://esports-1ne.vercel.app/user/events/display",
       withCredentials: true,
       credentials: "include",
     }).then(

@@ -18,7 +18,7 @@ export default function Community(){
   const fetch = () => {
     axios({
       method: "get",
-      url: "http://localhost:3000/admin/CG/all",
+      url: "https://esports-1ne.vercel.app/admin/CG/all",
       withCredentials: true,
       credentials: "include",
     }).then(
