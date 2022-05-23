@@ -7,7 +7,7 @@ import { FaUserEdit } from "react-icons/fa";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Alert from "../Alert";
-//import Loadingspinner from '../Loadingspinner';
+import Loadingspinner from '../Loadingspinner';
 export default function SidebarPlayers() {
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
@@ -215,8 +215,10 @@ export default function SidebarPlayers() {
     );
   };
   if (isfetched === false) {
+    <Loadingspinner/>
     fetch();
   }
+  
   return (
     //-------------------------------------Displaying list of teams with edit and delete function-------------------------------------
     <div className="inline">
