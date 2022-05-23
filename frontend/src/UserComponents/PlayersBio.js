@@ -27,7 +27,7 @@ function TeamBio() {
   const fetch=()=>{
       axios({
         method: 'GET',
-        url: 'http://localhost:3000/user/players/display',
+        url: 'https://esports-1ne.vercel.app/user/players/display',
         withCredentials: true,
         credentials: "include",
       }).then((response) => {
