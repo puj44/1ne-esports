@@ -193,7 +193,7 @@ export default function SidebarPlayers() {
     e.preventDefault();
     axios({
       method: "DELETE",
-      url: "http://localhost:3000/admin/delplayer",
+      url: "https://esports-1ne.vercel.app/admin/delplayer",
       data: {
         id: newid.id,
         value: newid.val,
