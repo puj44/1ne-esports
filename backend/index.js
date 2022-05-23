@@ -24,3 +24,4 @@ const corsOptions = {
   app.use("/admin",adminRouter);
   app.use("/user",userRouter);
   app.listen(process.env.PORT || 5000, process.env.HOST || '::');
+  module.exports = app;
