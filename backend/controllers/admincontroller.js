@@ -18,8 +18,8 @@ app.use(bodyParser.json());
  * @apiError Wrong password The provided password was wrong.
  * @apiError UserNotFound   The <code>id</code> of the User was not found.
 */
-
-const uri = process.env.mongo_url;
+console.log(process.env);
+const uri = process.env?.mongo_url;
 
 exports.displayAll=function(req,res){ //display all teams and its players
     const token = req.cookies.token1;
