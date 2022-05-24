@@ -206,8 +206,9 @@ function TeamBio() {
                         <>
                           <div key={pl.pid} ref={(el) => (childElement.current[pl.pid] = el)} style={{"border":"2px solid white","width":"14%","height":"10%","marginTop":"1%"}} className="listBox" >{pl.pname} &nbsp;
                             <span ref={(el=>{arrowProp2.current[pl.pid]=el})} onClick={()=>secondDropDown(pl.pid,idx)} className="arrow"></span><br></br>
+                            <div ref={(el) => (dropid2.current[pl.pid] = el)} style={{"display":"none"}} className="player-box">{pl.pdesc}</div>
                           </div><br></br>
-                          <div ref={(el) => (dropid2.current[pl.pid] = el)} style={{"display":"none"}} className="player-box">{pl.pdesc}</div>
+                          
                         </>
                       )}):''}
                       {/*//END */}

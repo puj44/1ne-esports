@@ -62,7 +62,6 @@
   border:3px solid rgb(208,189,141);
   font-size:24px;
   border-radius:0px;
-    
 } 
 .player-box{
   background-color:rgb(253,191,23);
@@ -76,8 +75,8 @@
   margin-left:0.95%;
   padding-left:0.7%;
   padding-right:0.4%;
-  padding-bottom:0.4%; 
-  
+  padding-bottom:0.4%;
+  overflow: hidden; 
 }
 .button{
     background-color:rgb(253,191,23,255);
@@ -115,9 +114,11 @@
     border:3px solid rgb(196,196,196);
     padding-right:1%;
     padding-bottom:0.7%;
-
+    overflow-x: hidden;
   }
-  
+  body{
+    overflow: hidden;
+  }
 .active{
     pointer-events: none;
     background-color: white;
