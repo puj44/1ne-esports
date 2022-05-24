@@ -128,6 +128,7 @@ function TeamBio() {
       dropid.current[idx].style.display="none";
       boxElement.current[idx].style.borderWidth="3px";
       boxElement.current[idx].style.boxShadow="0px 0px 0px 0px";
+      dropid.current[idx].style.height="9%";
     }
   }
   //--------------------------------player dropdown function------------------------------------------------
@@ -199,16 +200,15 @@ function TeamBio() {
               <>
                 <label ref={(el) => (boxElement.current[idx] = el)} key={data.id}  className="listBox" >{data.name} &nbsp;
                     <span ref={(el=>{arrowProp.current[idx]=el})} onClick={()=>dropDown(idx)} className="arrow"></span><br></br>
-                    <label   ref={(el) => (dropid.current[idx] = el)} style={{"width":"70%","border":"3px solid rgb(253,191,23)","backgroundColor":"rgb(196,196,196)","display":"none"}} className="dropdown-box">
+                    <label   ref={(el) => (dropid.current[idx] = el)} style={{"width":"80%","border":"3px solid rgb(253,191,23)","backgroundColor":"rgb(196,196,196)","display":"none"}} className="dropdown-box">
                       {/* //PLAYERS LOOP DISPLAY */}
                       <div className="row" >
                       {teams!==''? getPlayersData(data.id).map((pl)=>{return(
                         <>
                           <div key={pl.pid} ref={(el) => (childElement.current[pl.pid] = el)} style={{"border":"2px solid white","width":"14%","height":"10%","marginTop":"1%"}} className="listBox" >{pl.pname} &nbsp;
                             <span ref={(el=>{arrowProp2.current[pl.pid]=el})} onClick={()=>secondDropDown(pl.pid,idx)} className="arrow"></span><br></br>
-                            <div ref={(el) => (dropid2.current[pl.pid] = el)} style={{"display":"none"}} className="player-box">{pl.pdesc}</div>
                           </div><br></br>
-                          
+                          <div  ref={(el) => (dropid2.current[pl.pid] = el)} style={{"display":"none"}} className="player-box">{pl.pdesc}</div>
                         </>
                       )}):''}
                       {/*//END */}

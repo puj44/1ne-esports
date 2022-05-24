@@ -100,7 +100,6 @@ function PlayersBio() {
     if(val===0){
       arrowValue=arrowUp;
     }
-    console.log(arrowValue);
     arrowProp.current[idx].style.transform=arrowValue.transform;
     arrowProp.current[idx].style.webkitTransform=arrowValue.webkitTransform;
     arrowProp.current[idx].style.marginTop=arrowValue.marginTop;

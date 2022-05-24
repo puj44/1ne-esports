@@ -1,3 +1,4 @@
+
 @media only screen and (max-width: 600px){
   .Box{
       width:130%;
@@ -67,9 +68,9 @@
   background-color:rgb(253,191,23);
   color:black;
   position:fixed;
-  margin-top:3.71%;
+  margin-top:4.3%;
   z-index:3;
-  width:69%;
+  width:79.3%;
   height:28%;
   max-height:30%;
   margin-left:0.95%;
@@ -77,6 +78,8 @@
   padding-right:0.4%;
   padding-bottom:0.4%;
   overflow: hidden; 
+  aspect-ratio: 16/9;
+  
 }
 .button{
     background-color:rgb(253,191,23,255);
@@ -98,8 +101,8 @@
     z-index:1;
     -webkit-transform: rotate(45deg);
     box-shadow: rgba(240, 46, 170, 0.4) 0px 2px, rgba(240, 46, 170, 0.3) 3px 3px, rgba(240, 46, 170, 0.2) 2px 3px, rgba(240, 46, 170, 0.1) 4px 3px, rgba(240, 46, 170, 0.05) 2px 3px;
-    float:right;
-    margin-top:6%;  
+    margin-top:6%; 
+    float:right; 
 }
 
   .dropdown-box {
@@ -109,16 +112,15 @@
     position:fixed;
     z-index:2;
     margin-top:0.9%;
-    width: 30%; 
+    width:fit-content; 
     padding-top:0px;
     border:3px solid rgb(196,196,196);
     padding-right:1%;
     padding-bottom:0.7%;
-    overflow-x: hidden;
+    left:11.5%;
+    
   }
-  body{
-    overflow: hidden;
-  }
+
 .active{
     pointer-events: none;
     background-color: white;
