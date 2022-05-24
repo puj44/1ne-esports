@@ -251,7 +251,7 @@ export default function SidebarPlayers() {
           className="pl-2 mt-4 ml-2"
           style={{ width: "62%", marginLeft: "14.9%" }}
         >
-          {isfetched===false?<Loadingspinner/>:
+          {isfetched===false?<div><Loadingspinner/></div>:
           <ul className="list-group" style={{ fontSize: "24px" }}>
             {teams
               ? teams.map((data, index) => {
