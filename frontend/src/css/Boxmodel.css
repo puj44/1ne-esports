@@ -2,7 +2,6 @@
   .Box{
       width:130%;
       margin-top:15%;
-      padding:1%;
   }
   .listBox{
       font-family:bourgeois;
@@ -20,7 +19,8 @@
 @media only screen and (min-width:600px){
   .Box{
       position:relative;
-      aspect-ratio: 16/9;
+      width:90%;
+      height:50em;
   }
   .title{
       margin-top:8%;
@@ -37,6 +37,7 @@
   } 
 }
 .Box{
+  padding:1%;
   display:inline-block;
   margin-left:5%;
   margin-top:1%;
