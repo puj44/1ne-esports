@@ -13,8 +13,8 @@ function TeamBio() {
   const arrowProp=useRef([]);
   const arrowProp2=useRef([]);
   const childElement=useRef([]);
-  let listStack=[];
-  let count=4;
+  let teamStack=[];
+  let playerStack=[];
   const buttonStyle={
     backgroundColor:"rgb(253,191,23,255)",
     color:"black",
@@ -24,7 +24,7 @@ function TeamBio() {
     margin:"1%"
   };
 
-  const fetch=()=>{
+  function fetch(){
       axios({
         method: 'GET',
         url: 'https://esports-1ne.herokuapp.com/user/players/display',
@@ -117,47 +117,76 @@ function TeamBio() {
     arrow.style.webkitTransform="rotate(45deg)";
     arrow.style.marginTop="6%";
   }
-  //--------------------------------css manipulation dropdown function--------------------------------------
-  const dropDown=(idx)=>{
-    if(dropid.current[idx].style.display==="none"){
+  //--------------------------------team dropdown functions-------------------------------------------------
+  function teamDropDown(val,idx){
+    if(val===0){
       dropid.current[idx].style.display="inline-block";
       boxElement.current[idx].style.borderWidth="4px";
       boxElement.current[idx].style.boxShadow="rgba(208,189,141) 0px 15px 30px -12px inset, rgba(0, 0, 0, 0.3) 0px 9px 18px -18px inset";
-      arrowChange(idx,1);
     }
-    else{
-      
+    else if(val===1){
       dropid.current[idx].style.display="none";
       boxElement.current[idx].style.borderWidth="3px";
       boxElement.current[idx].style.boxShadow="0px 0px 0px 0px";
+    }
+  }
+  //--------------------------------player dropdown function------------------------------------------------
+  function playerDropDown(val,idx,idx2){
+    if(val===0){
+      dropid2.current[idx].style.display="inline-block";
+      dropid.current[idx2].style.height="36.80%";
+      childElement.current[idx].style.border="3px solid rgb(232,193,86)";
+      childElement.current[idx].style.boxShadow="rgba(232,193,86,255) 0px 15px 30px -12px inset, rgba(0, 0, 0, 0.3) 0px 9px 18px -18px inset";
+    }
+    else if(val===1){
+      dropid2.current[idx].style.display="none";
+      childElement.current[idx].style.borderWidth="2px";
+      childElement.current[idx].style.border="2px solid white";
+      childElement.current[idx].style.boxShadow="0px 0px 0px 0px";
+      dropid.current[idx2].style.height="9%";
+    }
+  }
+  //--------------------------------css manipulation dropdown function--------------------------------------
+  const dropDown=(idx)=>{
+    if(dropid.current[idx].style.display==="none"){
+      if(teamStack.length>0){
+        console.log("tl");
+        if(playerStack.length>0){
+          console.log("pl");
+          playerDropDown(1,playerStack[0].prevIdx,idx);
+          arrowReset(playerStack[0].prevIdx,2);
+          playerStack=[];
+        }
+        teamDropDown(1,teamStack[0].prevIdx);
+        arrowReset(teamStack[0].prevIdx,1);
+        teamStack=[];
+      }
+      teamDropDown(0,idx);
+      arrowChange(idx,1);
+      teamStack.push({prevIdx:idx});
+    }
+    else if(dropid.current[idx].style.display==="inline-block"){
+      teamDropDown(1,idx);
       arrowReset(idx,1);
+      teamStack=[];
     }
   }
   const secondDropDown=(idx,idx2)=>{
     
     if(dropid2.current[idx].style.display==="none"){
-      listStack.push(idx);
-      dropid2.current[idx].style.display="inline-block";
-      dropid2.current[idx].style.zIndex=count;
-      dropid.current[idx2].style.height="36.80%";
-      childElement.current[idx].style.border="3px solid rgb(232,193,86)";
-      childElement.current[idx].style.boxShadow="rgba(232,193,86,255) 0px 15px 30px -12px inset, rgba(0, 0, 0, 0.3) 0px 9px 18px -18px inset";
-      count++;
-      console.log(count);
-      arrowChange(idx,2);
-    }
-    else{
-      
-      listStack.pop(idx);
-      dropid2.current[idx].style.display="none";
-      childElement.current[idx].style.borderWidth="2px";
-      childElement.current[idx].style.border="2px solid white";
-      childElement.current[idx].style.boxShadow="0px 0px 0px 0px";
-      if(listStack.length<=0){
-        dropid.current[idx2].style.height="9%";
-        count=4;
+      if(playerStack.length>0){
+        playerDropDown(1,playerStack[0].prevIdx,idx2);
+        arrowReset(playerStack[0].prevIdx,2);
+        playerStack=[];
       }
+      playerDropDown(0,idx,idx2);
+      arrowChange(idx,2);
+      playerStack.push({prevIdx:idx});
+    }
+    else if(dropid2.current[idx].style.display==="inline-block"){
+      playerDropDown(1,idx,idx2);
       arrowReset(idx,2);
+      playerStack=[];
     }
   }
   if(isfetched===false){
@@ -172,17 +201,17 @@ function TeamBio() {
             {/*TEAMS LOOP*/}
             {teams!==''? getPageData().map((data,idx)=>{return(
               <>
-                <label ref={(el) => (boxElement.current[idx] = el)} key={idx}  className="listBox" >{data.name} &nbsp;
+                <label ref={(el) => (boxElement.current[idx] = el)} key={data.id}  className="listBox" >{data.name} &nbsp;
                     <span ref={(el=>{arrowProp.current[idx]=el})} onClick={()=>dropDown(idx)} className="arrow"></span><br></br>
-                    <label   ref={(el) => (dropid.current[idx] = el)} style={{"width":"70%","border":"3px solid rgb(253,191,23)","backgroundColor":"rgb(196,196,196)"}} className="dropdown-box">
+                    <label   ref={(el) => (dropid.current[idx] = el)} style={{"width":"70%","border":"3px solid rgb(253,191,23)","backgroundColor":"rgb(196,196,196)","display":"none"}} className="dropdown-box">
                       {/* //PLAYERS LOOP DISPLAY */}
-                      <div class="row" >
+                      <div className="row" >
                       {teams!==''? getPlayersData(data.id).map((pl)=>{return(
                         <>
-                          <label key={pl.pid} ref={(el) => (childElement.current[pl.pid] = el)} style={{"border":"2px solid white","width":"14%","height":"10%","marginTop":"1%"}} className="listBox" >{pl.pname} &nbsp;
+                          <div key={pl.pid} ref={(el) => (childElement.current[pl.pid] = el)} style={{"border":"2px solid white","width":"14%","height":"10%","marginTop":"1%"}} className="listBox" >{pl.pname} &nbsp;
                             <span ref={(el=>{arrowProp2.current[pl.pid]=el})} onClick={()=>secondDropDown(pl.pid,idx)} className="arrow"></span><br></br>
-                          </label><br></br>
-                          <label ref={(el) => (dropid2.current[pl.pid] = el)} className="player-box">{pl.pdesc}</label>
+                          </div><br></br>
+                          <div ref={(el) => (dropid2.current[pl.pid] = el)} style={{"display":"none"}} className="player-box">{pl.pdesc}</div>
                         </>
                       )}):''}
                       {/*//END */}

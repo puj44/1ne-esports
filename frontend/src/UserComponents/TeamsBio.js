@@ -2,14 +2,6 @@ import {React,useState,useRef} from 'react';
 import '../css/Boxmodel.css';
 import axios from 'axios';
 function PlayersBio() {
-  
-  const [players,setplayers]=useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isfetched,setfetched]=useState(false);
-  const [pages,setPages] = useState('');
-  const dropid=useRef([]);
-  const boxElement=useRef([]);
-  const arrowProp=useRef([]);
   const buttonStyle={
     backgroundColor:"rgb(253,191,23,255)",
     color:"black",
@@ -18,6 +10,24 @@ function PlayersBio() {
     width:"5%",
     margin:"1%"
   };
+  const arrowDropDown={
+    transform:"rotate(-135deg)",
+    webkitTransform:"rotate(-135deg)",
+    marginTop:"9%"
+  };
+  const arrowUp={
+    transform:"rotate(45deg)",
+    webkitTransform:"rotate(45deg)",
+    marginTop:"6%"
+  }
+  const [players,setplayers]=useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isfetched,setfetched]=useState(false);
+  const [pages,setPages] = useState('');
+  const dropid=useRef([]);
+  const boxElement=useRef([]);
+  const arrowProp=useRef([]);
+  let listPrev=[];
   //-------------------------fetch teams function-------------------
   const fetch=()=>{
         axios({
@@ -84,24 +94,50 @@ function PlayersBio() {
     }
     return pageArray;
   };
-
-  //--------------------------------css manipulation dropdown function--------------------------------------
-  const dropDown=(idx)=>{
-    if(dropid.current[idx].style.display==="none"){
+  function arrowChange(val,idx){
+    let arrowValue=arrowDropDown;
+    if(val===0){
+      arrowValue=arrowUp;
+    }
+    console.log(arrowValue);
+    arrowProp.current[idx].style.transform=arrowValue.transform;
+    arrowProp.current[idx].style.webkitTransform=arrowValue.webkitTransform;
+    arrowProp.current[idx].style.marginTop=arrowValue.marginTop;
+  }
+  //---------------box drop down
+  function boxChange(val,idx){
+    if(val===1){
       dropid.current[idx].style.display="block";
       boxElement.current[idx].style.borderWidth="4px";
       boxElement.current[idx].style.boxShadow="rgba(208,189,141) 0px 15px 30px -12px inset, rgba(0, 0, 0, 0.3) 0px 9px 18px -18px inset";
-      arrowProp.current[idx].style.transform="rotate(-135deg)";
-      arrowProp.current[idx].style.webkitTransform="rotate(-135deg)";
-      arrowProp.current[idx].style.marginTop="9%";
     }
-    else{
+    else if(val===0){
       dropid.current[idx].style.display="none";
       boxElement.current[idx].style.borderWidth="3px";
       boxElement.current[idx].style.boxShadow="0px 0px 0px 0px";
-      arrowProp.current[idx].style.transform="rotate(45deg)";
-      arrowProp.current[idx].style.webkitTransform="rotate(45deg)";
-      arrowProp.current[idx].style.marginTop="6%";
+    }
+  }
+  
+  //--------------------------------css manipulation dropdown function--------------------------------------
+  const dropDown=(idx)=>{
+    if(dropid.current[idx].style.display==="none"){
+      if(listPrev.length>0){
+        boxChange(0,listPrev[0].prevIdx);
+        arrowChange(0,listPrev[0].prevIdx);
+        listPrev=[];
+      }
+      boxChange(1,idx);
+      arrowChange(1,idx);
+      listPrev.push({prevIdx:idx});
+    }
+    else if(dropid.current[idx].style.display==="block"){
+      if(listPrev.length>0){
+        boxChange(0,listPrev[0].prevIdx);
+        arrowChange(0,listPrev[0].prevIdx);
+        listPrev=[];
+      }
+      boxChange(0,idx);
+      arrowChange(0,idx);
     }
   }
   if(isfetched===false){
@@ -115,9 +151,9 @@ function PlayersBio() {
           <div className="col-md-12"  style={{"justifyContent": "center"}}>
             {players!==''? getPageData().map((data,idx)=>{return(
               <>
-                <label ref={(el) => (boxElement.current[idx] = el)} key={idx} className="listBox" >{data.name} &nbsp;
+                <label ref={(el) => (boxElement.current[idx] = el)} key={data.id} className="listBox" >{data.name} &nbsp;
                     <span ref={(el=>{arrowProp.current[idx]=el})} onClick={()=>dropDown(idx)} className="arrow"></span><br></br>
-                    <label key={idx}  ref={(el) => (dropid.current[idx] = el)} style={{"paddingLeft":"1%"}} className="dropdown-box">{data.description}</label>
+                    <label key={idx}  ref={(el) => (dropid.current[idx] = el)} style={{"paddingLeft":"1%","display":"none"}} className="dropdown-box">{data.description}</label>
                 </label>
                 
               </>

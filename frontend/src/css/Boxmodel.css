@@ -20,6 +20,7 @@
   .Box{
       position:relative;
       width:90%;
+      max-width:100%;
       height:50em;
   }
   .title{
@@ -66,7 +67,6 @@
 .player-box{
   background-color:rgb(253,191,23);
   color:black;
-  display:none;
   position:fixed;
   margin-top:3.71%;
   z-index:3;
@@ -95,6 +95,8 @@
     display:inline-block;
     padding:3px;
     transform: rotate(45deg);
+    position:relative;
+    z-index:1;
     -webkit-transform: rotate(45deg);
     box-shadow: rgba(240, 46, 170, 0.4) 0px 2px, rgba(240, 46, 170, 0.3) 3px 3px, rgba(240, 46, 170, 0.2) 2px 3px, rgba(240, 46, 170, 0.1) 4px 3px, rgba(240, 46, 170, 0.05) 2px 3px;
     float:right;
@@ -104,7 +106,6 @@
   .dropdown-box {
     background-color:rgb(253,191,23);
     color:black;
-    display:none;
     font-size:24px;
     position:fixed;
     z-index:2;
