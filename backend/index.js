@@ -12,6 +12,7 @@ const corsOptions = {
     origin: [
       "https://esports-1ne.herokuapp.com",
       "https://1ne-esports.vercel.app",
+      "http://localhost:3000"
     ],
     credentials: true,
   }
