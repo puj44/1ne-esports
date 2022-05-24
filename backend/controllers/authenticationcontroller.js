@@ -75,6 +75,6 @@ exports.checkstatus=function(req, res) {
     });
 }
 exports.signout = function(req, res) {
-    res.clearCookie('token',{httpOnly:true, sameSite:'none',secure:true});
+    res.clearCookie('token1',{httpOnly:true, sameSite:'none',secure:true});
     return res.status(200).send("ok");
 }
