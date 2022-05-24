@@ -1,7 +1,7 @@
 import React,{useState,useRef} from 'react';
 import '../css/Boxmodel.css';
 import axios from 'axios';
-
+import Loadingspinner from "./Loadingspinner";
 function TeamBio() {
   const [teams,setTeams]=useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -150,9 +150,7 @@ function TeamBio() {
   const dropDown=(idx)=>{
     if(dropid.current[idx].style.display==="none"){
       if(teamStack.length>0){
-        console.log("tl");
         if(playerStack.length>0){
-          console.log("pl");
           playerDropDown(1,playerStack[0].prevIdx,idx);
           arrowReset(playerStack[0].prevIdx,2);
           playerStack=[];
@@ -172,7 +170,6 @@ function TeamBio() {
     }
   }
   const secondDropDown=(idx,idx2)=>{
-    
     if(dropid2.current[idx].style.display==="none"){
       if(playerStack.length>0){
         playerDropDown(1,playerStack[0].prevIdx,idx2);
@@ -192,11 +189,10 @@ function TeamBio() {
   if(isfetched===false){
     fetch();
   }
-
   return (
     <div className="Box">
       <div className="row">
-        <center><div className="title">APAC Players Biography</div></center>
+        <center>{teams===''?<Loadingspinner/>:<div className="title">APAC Players Biography</div>}</center>
           <div className="col-md-12"  style={{"justifyContent": "center"}}>
             {/*TEAMS LOOP*/}
             {teams!==''? getPageData().map((data,idx)=>{return(

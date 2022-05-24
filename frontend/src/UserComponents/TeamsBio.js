@@ -1,6 +1,7 @@
 import {React,useState,useRef} from 'react';
 import '../css/Boxmodel.css';
 import axios from 'axios';
+import Loadingspinner from './Loadingspinner';
 function PlayersBio() {
   const buttonStyle={
     backgroundColor:"rgb(253,191,23,255)",
@@ -147,7 +148,7 @@ function PlayersBio() {
   return (
     <div className="Box">
       <div className="row">
-          <center><div className="title">APAC Teams Biography</div></center>
+      <center>{players===''?<Loadingspinner/>:<div className="title">APAC Teams Biography</div>}</center>
           <div className="col-md-12"  style={{"justifyContent": "center"}}>
             {players!==''? getPageData().map((data,idx)=>{return(
               <>
@@ -161,18 +162,18 @@ function PlayersBio() {
           </div>
           <div className="col-md-12" style={{"position": "relative","marginTop":"2%"}}>
               <center>
-                <button onClick={prevPage} className={`button ${currentPage === 1 ? 'disabled' : ''}`}>Prev</button>
-                {players!==''?getPageGroup().map((item, index) => (
-                  <button
-                    style={buttonStyle}
-                    key={index}
-                    onClick={changePage}
-                    className={`${currentPage === item ? 'active' : null}`}
-                  >
-                    <span>{item}</span>
-                  </button>
-                )):''}
-                <button onClick={nextPage} className={`button ${currentPage === pages ? 'disabled' : ''}`}>Next</button>
+                  <button onClick={prevPage} className={`button ${currentPage === 1 ? 'disabled' : ''}`}>Prev</button>
+                    {players!==''?getPageGroup().map((item, index) => (
+                      <button
+                        style={buttonStyle}
+                        key={index}
+                        onClick={changePage}
+                        className={`${currentPage === item ? 'active' : null}`}
+                      >
+                        <span>{item}</span>
+                      </button>
+                    )):''}
+                  <button onClick={nextPage} className={`button ${currentPage === pages ? 'disabled' : ''}`}>Next</button>
               </center>
           </div>
       </div>
